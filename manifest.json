@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "toolpkg_id": "com.iris.calendar",
+  "version": "1.2.0",
+  "author": "Irislan0723",
+  "display_name": {
+    "zh": "拾月日历",
+    "en": "Shiyue Calendar"
+  },
+  "description": {
+    "zh": "心情记录与经期追踪日历插件，支持双人心情记录和经期预测",
+    "en": "Mood tracking and period calendar plugin with dual mood recording and period prediction"
+  },
+  "main": "main.js",
+  "subpackages": [
+    {
+      "id": "iris_calendar",
+      "entry": "packages/iris_calendar.js",
+      "enabled_by_default": true,
+      "display_name": {
+        "zh": "拾月日历工具",
+        "en": "Shiyue Calendar Tools"
+      },
+      "description": {
+        "zh": "提供心情记录、经期标记和日历数据查询工具",
+        "en": "Mood recording, period marking and calendar data query tools"
+      }
+    }
+  ],
+  "resources": []
+}
