@@ -136,7 +136,7 @@ async function record_mood(params) {
   };
   await writeJson(MOOD_FILE, data);
   const moodLabel = MOOD_LABELS[mood];
-  const roleLabel = role === "user" ? "用户" : "Claude";
+  const roleLabel = role === "user" ? "用户" : "AI";
   return {
     success: true,
     message: `已记录 ${roleLabel} 在 ${date} 的心情：${moodLabel}${note ? "，备注：" + note : ""}`
