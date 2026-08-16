@@ -1,63 +1,68 @@
 /// <reference path="../../../../types/index.d.ts" />
 
-// ========== 数据路径（不可修改）==========
-const DATA_DIR = "/storage/emulated/0/Download/Operit/plugins/iris_calendar/data";
-const MOOD_FILE = DATA_DIR + "/mood_data.json";
-const PERIOD_FILE = DATA_DIR + "/period_data.json";
-const SETTINGS_FILE = DATA_DIR + "/settings.json";
-const SICK_FILE = DATA_DIR + "/sick_data.json";
-const PIN_FILE = DATA_DIR + "/pin_data.json";
-const PERIOD_DETAIL_FILE = DATA_DIR + "/period_detail_data.json";
+// ========== 数据路径 ==========
+var DATA_DIR = "/storage/emulated/0/Download/Operit/plugins/iris_calendar/data";
+var MOOD_FILE = DATA_DIR + "/mood_data.json";
+var PERIOD_FILE = DATA_DIR + "/period_data.json";
+var SETTINGS_FILE = DATA_DIR + "/settings.json";
+var SICK_FILE = DATA_DIR + "/sick_data.json";
+var PERIOD_DETAIL_FILE = DATA_DIR + "/period_detail_data.json";
+var SCHEDULE_FILE = DATA_DIR + "/schedule_data.json";
+var THEME_FILE = DATA_DIR + "/theme_data.json";
 
-// ========== 心情定义（9种心情）==========
-const MOOD_TYPES = ["happy", "loved", "calm", "tired", "sad", "anxious", "angry", "miss_you", "excited"];
-const MOOD_LABELS = {
-  happy: "开心", loved: "被爱", calm: "平静", tired: "疲惫", sad: "难过",
+// ========== 心情定义（8种）==========
+var MOOD_TYPES = ["happy", "calm", "tired", "sad", "anxious", "angry", "miss_you", "excited"];
+var MOOD_LABELS = {
+  happy: "开心", calm: "平静", tired: "疲惫", sad: "难过",
   anxious: "焦虑", angry: "生气", miss_you: "想你", excited: "兴奋"
 };
-const MOOD_COLORS = {
-  happy: "#FFD700", loved: "#F2AABA", calm: "#87CEEB", tired: "#A0A0A0", sad: "#6495ED",
+var MOOD_COLORS = {
+  happy: "#FFD700", calm: "#87CEEB", tired: "#A0A0A0", sad: "#6495ED",
   anxious: "#FFA500", angry: "#FF4444", miss_you: "#FF69B4", excited: "#FF6347"
 };
 
-// ========== 心情图标 URL（不可修改）==========
-const BASE_URL = "https://ndkdgiohgnelvkxgdkjk.supabase.co/storage/v1/object/public/xinqing";
-const MOOD_ICONS_USER = {
-  happy: BASE_URL + "/happy_circle.png",
-  loved: BASE_URL + "/miss_you_circle.png",
-  calm: BASE_URL + "/calm_circle.png",
-  tired: BASE_URL + "/tired_circle.png",
-  sad: BASE_URL + "/sad_circle.png",
-  anxious: BASE_URL + "/anxious_circle.png",
-  angry: BASE_URL + "/angry_circle.png",
-  miss_you: BASE_URL + "/miss_you_circle.png",
-  excited: BASE_URL + "/excited_circle.png"
+// ========== 心情图标 URL ==========
+var BASE_URL = "https://ndkdgiohgnelvkxgdkjk.supabase.co/storage/v1/object/public/xinqing";
+var MOOD_ICONS_USER = {
+  happy: BASE_URL + "/happy_circle.png", calm: BASE_URL + "/calm_circle.png",
+  tired: BASE_URL + "/tired_circle.png", sad: BASE_URL + "/sad_circle.png",
+  anxious: BASE_URL + "/anxious_circle.png", angry: BASE_URL + "/angry_circle.png",
+  miss_you: BASE_URL + "/miss_you_circle.png", excited: BASE_URL + "/excited_circle.png"
 };
-const MOOD_ICONS_AI = {
-  happy: BASE_URL + "/happy_square.png",
-  loved: BASE_URL + "/miss_you_square.png",
-  calm: BASE_URL + "/calm_square.png",
-  tired: BASE_URL + "/tired_square.png",
-  sad: BASE_URL + "/sad_square.png",
-  anxious: BASE_URL + "/anxious_square.png",
-  angry: BASE_URL + "/angry_square.png",
-  miss_you: BASE_URL + "/miss_you_square.png",
-  excited: BASE_URL + "/excited_square.png"
+var MOOD_ICONS_AI = {
+  happy: BASE_URL + "/happy_square.png", calm: BASE_URL + "/calm_square.png",
+  tired: BASE_URL + "/tired_square.png", sad: BASE_URL + "/sad_square.png",
+  anxious: BASE_URL + "/anxious_square.png", angry: BASE_URL + "/angry_square.png",
+  miss_you: BASE_URL + "/miss_you_square.png", excited: BASE_URL + "/excited_square.png"
 };
 
 // ========== 经期详情定义 ==========
-const FLOW_LABELS = { light: "少量", medium: "中等", heavy: "大量" };
-const FLOW_COLORS = { light: "#FFB74D", medium: "#FF9800", heavy: "#E65100" };
-const COLOR_LABELS = { bright_red: "鲜红", dark_red: "暗红", brown: "褐色", pink: "粉色" };
-const COLOR_HEX = { bright_red: "#FF1744", dark_red: "#B71C1C", brown: "#795548", pink: "#F48FB1" };
-const PAIN_LABELS = ["无痛", "轻微", "中等", "较强", "剧痛"];
-const SYMPTOM_TYPES = ["cramps", "backache", "headache", "bloating", "fatigue", "mood_swing", "breast_pain", "acne"];
-const SYMPTOM_LABELS = {
-  cramps: "痉挛", backache: "腰痛", headache: "头痛", bloating: "腹胀",
-  fatigue: "疲劳", mood_swing: "情绪波动", breast_pain: "胸痛", acne: "痘痘"
+var FLOW_LABELS = { light: "少量", medium: "中等", heavy: "较多" };
+var FLOW_COLORS = { light: "#FFB74D", medium: "#FF9800", heavy: "#E65100" };
+var COLOR_LABELS = { bright_red: "鲜红", dark_red: "暗红", brown: "褐色", pink: "粉色" };
+var COLOR_HEX = { bright_red: "#FF1744", dark_red: "#B71C1C", brown: "#795548", pink: "#F48FB1" };
+var PAIN_LABELS = ["无痛", "轻微", "中等", "较重", "严重"];
+var SYMPTOM_TYPES = ["cramps", "backache", "headache", "bloating", "fatigue", "mood_swing", "breast_pain", "acne"];
+var SYMPTOM_LABELS = {
+  cramps: "痛经", backache: "腰痛", headache: "头痛", bloating: "腹胀",
+  fatigue: "疲劳", mood_swing: "情绪波动", breast_pain: "胸胀", acne: "长痘"
 };
 
-// ========== 异步数据读写（使用 Tools.Files）==========
+// ========== 经期阶段色（莫兰迪，不随主题变化）==========
+var PH = {
+  men: "#D4A0A0", menBg: "#F2DCDC",
+  fol: "#7BA8CC", folBg: "#DCE8F0",
+  ovu: "#8BBF90", ovuBg: "#DCF0DE",
+  lut: "#C8B080", lutBg: "#F0E8D8"
+};
+
+// ========== 主题 ==========
+var THEMES = {
+  mint_choco: { name: "薄荷生巧", bg: "#EBF6F7", pri: "#705854", sec: "#A49E99", acc: "#C1E6E4", priL: "#EDE5E3" },
+  blue_ice:   { name: "雾蓝冰美式", bg: "#F0F0E9", pri: "#2D3E59", sec: "#869BC0", acc: "#C7D9F3", priL: "#E0E5EE" }
+};
+
+// ========== 异步数据读写 ==========
 async function readJsonAsync(path) {
   try {
     var r = await Tools.Files.exists(path);
@@ -65,11 +70,8 @@ async function readJsonAsync(path) {
     var f = await Tools.Files.read(path);
     if (!f || !f.content) return null;
     return JSON.parse(String(f.content));
-  } catch (e) {
-    return null;
-  }
+  } catch (e) { return null; }
 }
-
 async function writeJsonAsync(path, data) {
   await Tools.Files.mkdir(DATA_DIR, true);
   await Tools.Files.write(path, JSON.stringify(data, null, 2));
@@ -77,44 +79,9 @@ async function writeJsonAsync(path, data) {
 
 // ========== 日历计算 ==========
 function getDaysInMonth(y, m) { return new Date(y, m, 0).getDate(); }
-
 function getFirstDayOfWeek(y, m) {
   var d = new Date(y, m - 1, 1).getDay();
   return d === 0 ? 6 : d - 1;
-}
-
-function computePeriodInfo(year, month, periodData, settings) {
-  var firstDay = new Date(year, month - 1, 1);
-  var lastDay = new Date(year, month, 0);
-  var actual = [], predicted = [], ovulation = [];
-
-  for (var idx = 0; idx < periodData.periods.length; idx++) {
-    var p = periodData.periods[idx];
-    var s = new Date(p.start_date);
-    var e = p.end_date ? new Date(p.end_date) : new Date(s.getTime() + (settings.period_length - 1) * 86400000);
-    for (var d = new Date(s); d <= e && d <= lastDay; d.setDate(d.getDate() + 1)) {
-      if (d >= firstDay) actual.push(d.getDate());
-    }
-  }
-
-  var completed = [];
-  for (var j = periodData.periods.length - 1; j >= 0; j--) {
-    if (periodData.periods[j].end_date) { completed.push(periodData.periods[j]); break; }
-  }
-  if (completed.length > 0) {
-    var lc = completed[0];
-    var ls = new Date(lc.start_date);
-    for (var i = 1; i <= 6; i++) {
-      var ps = new Date(ls.getTime() + settings.cycle_length * i * 86400000);
-      var pe = new Date(ps.getTime() + (settings.period_length - 1) * 86400000);
-      var ov = new Date(ps.getTime() + (settings.cycle_length - 14) * 86400000);
-      for (var dd = new Date(ps); dd <= pe && dd <= lastDay; dd.setDate(dd.getDate() + 1)) {
-        if (dd >= firstDay && actual.indexOf(dd.getDate()) === -1) predicted.push(dd.getDate());
-      }
-      if (ov >= firstDay && ov <= lastDay) ovulation.push(ov.getDate());
-    }
-  }
-  return { actual: actual, predicted: predicted, ovulation: ovulation };
 }
 
 // ==================== Screen ====================
@@ -125,81 +92,78 @@ function Screen(ctx) {
   var TY = now.getFullYear(), TM = now.getMonth() + 1, TD = now.getDate();
 
   // ======= State =======
-  var yearState = ctx.useState("y", TY);
-  var year = yearState[0], setYear = yearState[1];
-  var monthState = ctx.useState("m", TM);
-  var month = monthState[0], setMonth = monthState[1];
-  var tabState = ctx.useState("tab", 0);
-  var tab = tabState[0], setTab = tabState[1];
-  var selDayState = ctx.useState("sd", 0);
-  var selDay = selDayState[0], setSelDay = selDayState[1];
-  var popupState = ctx.useState("pop", "");
-  var popup = popupState[0], setPopup = popupState[1];
-  var recMoodState = ctx.useState("rm", "");
-  var recMood = recMoodState[0], setRecMood = recMoodState[1];
-  var recNoteState = ctx.useState("rn", "");
-  var recNote = recNoteState[0], setRecNote = recNoteState[1];
-  var pYearState = ctx.useState("py", TY);
-  var pYear = pYearState[0], setPYear = pYearState[1];
-  var sCycleState = ctx.useState("sc", 28);
-  var sCycle = sCycleState[0], setSCycle = sCycleState[1];
-  var sPeriodState = ctx.useState("sp", 5);
-  var sPeriod = sPeriodState[0], setSPeriod = sPeriodState[1];
+  var yearState = ctx.useState("y", TY), year = yearState[0], setYear = yearState[1];
+  var monthState = ctx.useState("m", TM), month = monthState[0], setMonth = monthState[1];
+  var tabState = ctx.useState("tab", 0), tab = tabState[0], setTab = tabState[1];
+  var selDayState = ctx.useState("sd", 0), selDay = selDayState[0], setSelDay = selDayState[1];
+  var popupState = ctx.useState("pop", ""), popup = popupState[0], setPopup = popupState[1];
+  var recMoodState = ctx.useState("rm", ""), recMood = recMoodState[0], setRecMood = recMoodState[1];
+  var recNoteState = ctx.useState("rn", ""), recNote = recNoteState[0], setRecNote = recNoteState[1];
+  var pYearState = ctx.useState("py", TY), pYear = pYearState[0], setPYear = pYearState[1];
+  var sCycleState = ctx.useState("sc", 28), sCycle = sCycleState[0], setSCycle = sCycleState[1];
+  var sPeriodState = ctx.useState("sp", 5), sPeriod = sPeriodState[0], setSPeriod = sPeriodState[1];
 
-  // 数据 State
-  var moodsState = ctx.useState("moods", { records: {} });
-  var moods = moodsState[0], setMoods = moodsState[1];
+  // Data state
+  var moodsState = ctx.useState("moods", { records: {} }), moods = moodsState[0], setMoods = moodsState[1];
   var periodsState = ctx.useState("periods", { periods: [], settings: { cycle_length: 28, period_length: 5 } });
   var periods = periodsState[0], setPeriods = periodsState[1];
   var settState = ctx.useState("sett", { cycle_length: 28, period_length: 5, anniversaries: [] });
   var sett = settState[0], setSett = settState[1];
-  var dataLoadedState = ctx.useState("dl", false);
-  var dataLoaded = dataLoadedState[0], setDataLoaded = dataLoadedState[1];
+  var sickState = ctx.useState("sick", { records: {} }), sickData = sickState[0], setSickData = sickState[1];
+  var pdtState = ctx.useState("pdt", { records: {} }), pdtData = pdtState[0], setPdtData = pdtState[1];
+  var schedState = ctx.useState("sched", { events: {} }), schedData = schedState[0], setSchedData = schedState[1];
+  var dataLoadedState = ctx.useState("dl", false), dataLoaded = dataLoadedState[0], setDataLoaded = dataLoadedState[1];
 
-  // 新增数据 State
-  var sickState = ctx.useState("sick", { records: {} });
-  var sickData = sickState[0], setSickData = sickState[1];
-  var pinState = ctx.useState("pin", { records: {} });
-  var pinData = pinState[0], setPinData = pinState[1];
-  var pdtState = ctx.useState("pdt", { records: {} });
-  var pdtData = pdtState[0], setPdtData = pdtState[1];
+  // Theme state
+  var themeIdState = ctx.useState("thm", "mint_choco"), themeId = themeIdState[0], setThemeId = themeIdState[1];
+  var customThState = ctx.useState("cthm", []), customThemes = customThState[0], setCustomThemes = customThState[1];
 
-  // 新增弹窗 State
-  var sickNoteState = ctx.useState("skn", "");
-  var sickNote = sickNoteState[0], setSickNote = sickNoteState[1];
-  var pinNoteState = ctx.useState("pnn", "");
-  var pinNote = pinNoteState[0], setPinNote = pinNoteState[1];
-  var pdFlowState = ctx.useState("pdf", "");
-  var pdFlow = pdFlowState[0], setPdFlow = pdFlowState[1];
-  var pdColorState = ctx.useState("pdc", "");
-  var pdColor = pdColorState[0], setPdColor = pdColorState[1];
-  var pdPainState = ctx.useState("pdp", -1);
-  var pdPain = pdPainState[0], setPdPain = pdPainState[1];
-  var pdSympState = ctx.useState("pds", "");
-  var pdSymp = pdSympState[0], setPdSymp = pdSympState[1];
-  var pdNoteState = ctx.useState("pdn", "");
-  var pdNoteVal = pdNoteState[0], setPdNoteVal = pdNoteState[1];
+  // Sick form
+  var sickNoteState = ctx.useState("skn", ""), sickNote = sickNoteState[0], setSickNote = sickNoteState[1];
 
-  // ======= 计算 =======
-  var dim = getDaysInMonth(year, month);
-  var off = getFirstDayOfWeek(year, month);
-  var pi = computePeriodInfo(year, month, periods, sett);
-  var ms = year + "-" + String(month).padStart(2, "0");
+  // Period detail form
+  var pdFlowState = ctx.useState("pdf", ""), pdFlow = pdFlowState[0], setPdFlow = pdFlowState[1];
+  var pdColorState = ctx.useState("pdc", ""), pdColor = pdColorState[0], setPdColor = pdColorState[1];
+  var pdPainState = ctx.useState("pdp", -1), pdPain = pdPainState[0], setPdPain = pdPainState[1];
+  var pdSympState = ctx.useState("pds", ""), pdSymp = pdSympState[0], setPdSymp = pdSympState[1];
+  var pdNoteState = ctx.useState("pdn", ""), pdNoteVal = pdNoteState[0], setPdNoteVal = pdNoteState[1];
 
-  // ======= 配色 =======
+  // Schedule form
+  var schTitleState = ctx.useState("sct", ""), schTitle = schTitleState[0], setSchTitle = schTitleState[1];
+  var schStState = ctx.useState("scst", ""), schSt = schStState[0], setSchSt = schStState[1];
+  var schEtState = ctx.useState("scet", ""), schEt = schEtState[0], setSchEt = schEtState[1];
+  var schLocState = ctx.useState("scl", ""), schLoc = schLocState[0], setSchLoc = schLocState[1];
+  var schNoteState = ctx.useState("scn", ""), schNote = schNoteState[0], setSchNote = schNoteState[1];
+
+  // Custom theme form
+  var ctNameState = ctx.useState("ctn", ""), ctName = ctNameState[0], setCtName = ctNameState[1];
+  var ctBgState = ctx.useState("ctb", "#EBF6F7"), ctBg = ctBgState[0], setCtBg = ctBgState[1];
+  var ctPriState = ctx.useState("ctp", "#705854"), ctPri = ctPriState[0], setCtPri = ctPriState[1];
+  var ctSecState = ctx.useState("cts", "#A49E99"), ctSec = ctSecState[0], setCtSec = ctSecState[1];
+  var ctAccState = ctx.useState("cta", "#C1E6E4"), ctAcc = ctAccState[0], setCtAcc = ctAccState[1];
+
+  // ======= Theme colors =======
+  var themeData = THEMES[themeId];
+  if (!themeData) {
+    for (var ti = 0; ti < customThemes.length; ti++) {
+      if (customThemes[ti].id === themeId) { themeData = customThemes[ti]; break; }
+    }
+  }
+  if (!themeData) themeData = THEMES.mint_choco;
+
   var C = {
-    bg: "#FFF8F4", card: "#FFFFFF", pri: "#D4837D", priL: "#F5E0DC",
-    txt: "#3C3C3C", sec: "#999999", light: "#CCCCCC", white: "#FFFFFF",
-    today: "#D4837D", todayBg: "#FFF0ED",
-    period: "#FF8A80", periodBg: "#FFEBEE",
-    pred: "#FFCC80", predBg: "#FFF8E1",
-    ovu: "#81C784", ovuBg: "#E8F5E9",
-    brd: "#F0E8E4", dim: "#EEEBE8",
-    overlay: "#66000000",
-    ann: "#E91E63"
+    bg: themeData.bg, card: "#FFFFFF", pri: themeData.pri,
+    priL: themeData.priL || themeData.acc, sec: themeData.sec, acc: themeData.acc,
+    txt: "#3C3C3C", light: "#CCCCCC", white: "#FFFFFF",
+    brd: "#EEEBE8", dim: "#EEEBE8", overlay: "#66000000"
   };
 
-  // ======= 经期阶段计算 =======
+  // ======= Calendar math =======
+  var dim = getDaysInMonth(year, month);
+  var off = getFirstDayOfWeek(year, month);
+  var ms = year + "-" + String(month).padStart(2, "0");
+
+  // ======= 经期阶段 =======
   function getPhase(dateStr) {
     if (!periods.periods || periods.periods.length === 0) return null;
     for (var idx = 0; idx < periods.periods.length; idx++) {
@@ -210,24 +174,22 @@ function Screen(ctx) {
         endStr = new Date(st.getTime() + (sett.period_length - 1) * 86400000).toISOString().split("T")[0];
       }
       if (dateStr >= p.start_date && dateStr <= endStr) {
-        return { phase: "menstrual", label: "经期中", color: "#D4A0A0" };
+        return { phase: "menstrual", label: "经期", color: PH.men, bg: PH.menBg };
       }
     }
     var lastP = null;
     for (var j = periods.periods.length - 1; j >= 0; j--) {
-      if (periods.periods[j].end_date && periods.periods[j].start_date <= dateStr) {
-        lastP = periods.periods[j]; break;
-      }
+      if (periods.periods[j].start_date <= dateStr) { lastP = periods.periods[j]; break; }
     }
     if (!lastP) return null;
     var lastMs = new Date(lastP.start_date).getTime();
     var dateMs = new Date(dateStr).getTime();
     var daySince = Math.floor((dateMs - lastMs) / 86400000);
     var cycDay = ((daySince % sett.cycle_length) + sett.cycle_length) % sett.cycle_length;
-    if (cycDay < sett.period_length) return { phase: "menstrual", label: "经期", color: "#D4A0A0" };
-    if (cycDay < sett.cycle_length - 14) return { phase: "follicular", label: "卵泡期", color: "#7BA8CC" };
-    if (cycDay < sett.cycle_length - 14 + 3) return { phase: "ovulation", label: "排卵期", color: "#8BBF90" };
-    return { phase: "luteal", label: "黄体期", color: "#C8B080" };
+    if (cycDay < sett.period_length) return { phase: "menstrual", label: "经期", color: PH.men, bg: PH.menBg };
+    if (cycDay < sett.cycle_length - 14) return { phase: "follicular", label: "卵泡期", color: PH.fol, bg: PH.folBg };
+    if (cycDay < sett.cycle_length - 14 + 3) return { phase: "ovulation", label: "排卵期", color: PH.ovu, bg: PH.ovuBg };
+    return { phase: "luteal", label: "黄体期", color: PH.lut, bg: PH.lutBg };
   }
 
   // ======= 纪念日检查 =======
@@ -240,41 +202,43 @@ function Screen(ctx) {
     return null;
   }
 
-  // ======= 异步数据加载 =======
+  // ======= 数据加载 =======
   async function loadAllData() {
     try { var m = await readJsonAsync(MOOD_FILE); if (m) setMoods(m); } catch (e) {}
     try { var p = await readJsonAsync(PERIOD_FILE); if (p) setPeriods(p); } catch (e) {}
     try { var s = await readJsonAsync(SETTINGS_FILE); if (s) setSett(s); } catch (e) {}
     try { var sk = await readJsonAsync(SICK_FILE); if (sk) setSickData(sk); } catch (e) {}
-    try { var pn = await readJsonAsync(PIN_FILE); if (pn) setPinData(pn); } catch (e) {}
     try { var pd = await readJsonAsync(PERIOD_DETAIL_FILE); if (pd) setPdtData(pd); } catch (e) {}
+    try { var sc = await readJsonAsync(SCHEDULE_FILE); if (sc) setSchedData(sc); } catch (e) {}
+    try {
+      var th = await readJsonAsync(THEME_FILE);
+      if (th) {
+        if (th.current) setThemeId(th.current);
+        if (th.custom) setCustomThemes(th.custom);
+      }
+    } catch (e) {}
     setDataLoaded(true);
   }
 
-  // ======= 操作 =======
+  // ======= 基础操作 =======
   function close() {
-    setPopup(""); setRecMood(""); setRecNote("");
-    setSickNote(""); setPinNote("");
+    setPopup(""); setRecMood(""); setRecNote(""); setSickNote("");
     setPdFlow(""); setPdColor(""); setPdPain(-1); setPdSymp(""); setPdNoteVal("");
+    setSchTitle(""); setSchSt(""); setSchEt(""); setSchLoc(""); setSchNote("");
   }
-
   function prev() {
-    if (month === 1) { setYear(year - 1); setMonth(12); }
-    else { setMonth(month - 1); }
+    if (month === 1) { setYear(year - 1); setMonth(12); } else setMonth(month - 1);
     close();
   }
-
   function next() {
-    if (month === 12) { setYear(year + 1); setMonth(1); }
-    else { setMonth(month + 1); }
+    if (month === 12) { setYear(year + 1); setMonth(1); } else setMonth(month + 1);
     close();
   }
-
   function goToday() { setYear(TY); setMonth(TM); close(); }
   function tapDay(d) { setSelDay(d); setPopup("detail"); }
   function jumpTo(y, m) { setYear(y); setMonth(m); close(); }
 
-  // ======= 保存/删除 心情 =======
+  // ======= 心情操作 =======
   async function saveMood(mood) {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
@@ -282,29 +246,20 @@ function Screen(ctx) {
     if (!d.records) d.records = {};
     if (!d.records[ds]) d.records[ds] = {};
     d.records[ds].user = { mood: mood, note: recNote || "", timestamp: Date.now() };
-    try {
-      await writeJsonAsync(MOOD_FILE, d);
-      setMoods(d);
-      ctx.showToast("已保存");
-    } catch (e) { ctx.showToast("保存失败"); }
+    try { await writeJsonAsync(MOOD_FILE, d); setMoods(d); ctx.showToast("已保存"); } catch (e) { ctx.showToast("保存失败"); }
     close();
   }
-
   async function deleteMoodAsync() {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
     var d = JSON.parse(JSON.stringify(moods));
-    if (!d.records || !d.records[ds]) { ctx.showToast("该日期没有心情记录"); return; }
+    if (!d.records || !d.records[ds]) { ctx.showToast("没有心情记录"); return; }
     delete d.records[ds];
-    try {
-      await writeJsonAsync(MOOD_FILE, d);
-      setMoods(d);
-      ctx.showToast("已删除心情记录");
-    } catch (e) { ctx.showToast("删除失败"); }
+    try { await writeJsonAsync(MOOD_FILE, d); setMoods(d); ctx.showToast("已删除"); } catch (e) { ctx.showToast("删除失败"); }
     close();
   }
 
-  // ======= 保存/删除 经期 =======
+  // ======= 经期操作 =======
   async function savePeriodMark(action) {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
@@ -312,21 +267,19 @@ function Screen(ctx) {
     if (!d.periods) d.periods = [];
     if (action === "start") {
       var last = d.periods.length > 0 ? d.periods[d.periods.length - 1] : null;
-      if (last && !last.end_date) { ctx.showToast("请先标记上次经期结束"); return; }
+      if (last && !last.end_date) { ctx.showToast("请先标记上次结束"); return; }
       d.periods.push({ start_date: ds, end_date: null });
     } else {
       var last2 = d.periods.length > 0 ? d.periods[d.periods.length - 1] : null;
-      if (!last2 || last2.end_date) { ctx.showToast("请先标记经期开始"); return; }
+      if (!last2 || last2.end_date) { ctx.showToast("请先标记开始"); return; }
       last2.end_date = ds;
     }
     try {
-      await writeJsonAsync(PERIOD_FILE, d);
-      setPeriods(d);
-      ctx.showToast(action === "start" ? "已标记经期开始" : "已标记经期结束");
+      await writeJsonAsync(PERIOD_FILE, d); setPeriods(d);
+      ctx.showToast(action === "start" ? "已标记开始" : "已标记结束");
     } catch (e) { ctx.showToast("保存失败"); }
     close();
   }
-
   async function deletePeriodAsync() {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
@@ -334,79 +287,34 @@ function Screen(ctx) {
     var found = false;
     for (var i = d.periods.length - 1; i >= 0; i--) {
       var p = d.periods[i];
-      var endDate = p.end_date || "9999-12-31";
-      if (ds >= p.start_date && ds <= endDate) { d.periods.splice(i, 1); found = true; break; }
+      if (ds >= p.start_date && ds <= (p.end_date || "9999-12-31")) { d.periods.splice(i, 1); found = true; break; }
     }
-    if (!found) { ctx.showToast("该日期没有经期记录"); return; }
-    try {
-      await writeJsonAsync(PERIOD_FILE, d);
-      setPeriods(d);
-      ctx.showToast("已删除经期记录");
-    } catch (e) { ctx.showToast("删除失败"); }
+    if (!found) { ctx.showToast("没有经期记录"); return; }
+    try { await writeJsonAsync(PERIOD_FILE, d); setPeriods(d); ctx.showToast("已删除"); } catch (e) { ctx.showToast("删除失败"); }
     close();
   }
 
-  // ======= 保存/删除 生病 =======
+  // ======= 生病操作 =======
   async function saveSick() {
-    if (!selDay) return;
-    if (!sickNote || !sickNote.trim()) { ctx.showToast("请填写症状描述"); return; }
+    if (!selDay || !sickNote || !sickNote.trim()) { ctx.showToast("请填写症状"); return; }
     var ds = ms + "-" + String(selDay).padStart(2, "0");
     var d = JSON.parse(JSON.stringify(sickData));
     if (!d.records) d.records = {};
     d.records[ds] = { note: sickNote.trim(), timestamp: Date.now() };
-    try {
-      await writeJsonAsync(SICK_FILE, d);
-      setSickData(d);
-      ctx.showToast("已记录生病信息");
-    } catch (e) { ctx.showToast("保存失败"); }
+    try { await writeJsonAsync(SICK_FILE, d); setSickData(d); ctx.showToast("已记录"); } catch (e) { ctx.showToast("保存失败"); }
     close();
   }
-
   async function deleteSickAsync() {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
     var d = JSON.parse(JSON.stringify(sickData));
     if (!d.records || !d.records[ds]) { ctx.showToast("没有生病记录"); return; }
     delete d.records[ds];
-    try {
-      await writeJsonAsync(SICK_FILE, d);
-      setSickData(d);
-      ctx.showToast("已删除生病记录");
-    } catch (e) { ctx.showToast("删除失败"); }
+    try { await writeJsonAsync(SICK_FILE, d); setSickData(d); ctx.showToast("已删除"); } catch (e) { ctx.showToast("删除失败"); }
     close();
   }
 
-  // ======= 保存/删除 备注 =======
-  async function savePin() {
-    if (!selDay) return;
-    if (!pinNote || !pinNote.trim()) { ctx.showToast("请填写备注内容"); return; }
-    var ds = ms + "-" + String(selDay).padStart(2, "0");
-    var d = JSON.parse(JSON.stringify(pinData));
-    if (!d.records) d.records = {};
-    d.records[ds] = { note: pinNote.trim(), timestamp: Date.now() };
-    try {
-      await writeJsonAsync(PIN_FILE, d);
-      setPinData(d);
-      ctx.showToast("已添加备注");
-    } catch (e) { ctx.showToast("保存失败"); }
-    close();
-  }
-
-  async function deletePinAsync() {
-    if (!selDay) return;
-    var ds = ms + "-" + String(selDay).padStart(2, "0");
-    var d = JSON.parse(JSON.stringify(pinData));
-    if (!d.records || !d.records[ds]) { ctx.showToast("没有备注"); return; }
-    delete d.records[ds];
-    try {
-      await writeJsonAsync(PIN_FILE, d);
-      setPinData(d);
-      ctx.showToast("已删除备注");
-    } catch (e) { ctx.showToast("删除失败"); }
-    close();
-  }
-
-  // ======= 保存/删除 经期详情 =======
+  // ======= 经期详情操作 =======
   async function savePeriodDetail() {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
@@ -414,70 +322,96 @@ function Screen(ctx) {
     if (!d.records) d.records = {};
     var sympArr = pdSymp ? pdSymp.split(",").filter(function(x) { return x.length > 0; }) : [];
     d.records[ds] = {
-      flow: pdFlow || null,
-      color: pdColor || null,
-      pain: pdPain >= 0 ? pdPain : null,
-      symptoms: sympArr,
-      note: pdNoteVal || "",
-      timestamp: Date.now()
+      flow: pdFlow || null, color: pdColor || null, pain: pdPain >= 0 ? pdPain : null,
+      symptoms: sympArr, note: pdNoteVal || "", timestamp: Date.now()
     };
-    try {
-      await writeJsonAsync(PERIOD_DETAIL_FILE, d);
-      setPdtData(d);
-      ctx.showToast("已保存经期详情");
-    } catch (e) { ctx.showToast("保存失败"); }
+    try { await writeJsonAsync(PERIOD_DETAIL_FILE, d); setPdtData(d); ctx.showToast("已保存详情"); } catch (e) { ctx.showToast("保存失败"); }
     close();
   }
-
   async function deletePdtAsync() {
     if (!selDay) return;
     var ds = ms + "-" + String(selDay).padStart(2, "0");
     var d = JSON.parse(JSON.stringify(pdtData));
-    if (!d.records || !d.records[ds]) { ctx.showToast("没有经期详情记录"); return; }
+    if (!d.records || !d.records[ds]) { ctx.showToast("没有经期详情"); return; }
     delete d.records[ds];
-    try {
-      await writeJsonAsync(PERIOD_DETAIL_FILE, d);
-      setPdtData(d);
-      ctx.showToast("已删除经期详情");
-    } catch (e) { ctx.showToast("删除失败"); }
+    try { await writeJsonAsync(PERIOD_DETAIL_FILE, d); setPdtData(d); ctx.showToast("已删除"); } catch (e) { ctx.showToast("删除失败"); }
     close();
   }
-
   function openPdPopup() {
     var ds = ms + "-" + String(selDay).padStart(2, "0");
-    var existing = pdtData.records && pdtData.records[ds];
-    if (existing) {
-      setPdFlow(existing.flow || "");
-      setPdColor(existing.color || "");
-      setPdPain(existing.pain !== null && existing.pain !== undefined ? existing.pain : -1);
-      setPdSymp(existing.symptoms ? existing.symptoms.join(",") : "");
-      setPdNoteVal(existing.note || "");
-    } else {
-      setPdFlow(""); setPdColor(""); setPdPain(-1); setPdSymp(""); setPdNoteVal("");
-    }
+    var ex = pdtData.records && pdtData.records[ds];
+    if (ex) {
+      setPdFlow(ex.flow || ""); setPdColor(ex.color || "");
+      setPdPain(ex.pain !== null && ex.pain !== undefined ? ex.pain : -1);
+      setPdSymp(ex.symptoms ? ex.symptoms.join(",") : ""); setPdNoteVal(ex.note || "");
+    } else { setPdFlow(""); setPdColor(""); setPdPain(-1); setPdSymp(""); setPdNoteVal(""); }
     setPopup("periodDetail");
   }
 
-  // ======= 周期设置 =======
+  // ======= 日程操作 =======
+  async function saveSchedule() {
+    if (!selDay || !schTitle || !schTitle.trim()) { ctx.showToast("请填写标题"); return; }
+    var ds = ms + "-" + String(selDay).padStart(2, "0");
+    var d = JSON.parse(JSON.stringify(schedData));
+    if (!d.events) d.events = {};
+    if (!d.events[ds]) d.events[ds] = [];
+    d.events[ds].push({
+      id: String(Date.now()), title: schTitle.trim(),
+      start_time: schSt || "", end_time: schEt || "",
+      location: schLoc || "", note: schNote || "", timestamp: Date.now()
+    });
+    try { await writeJsonAsync(SCHEDULE_FILE, d); setSchedData(d); ctx.showToast("已添加日程"); } catch (e) { ctx.showToast("保存失败"); }
+    close();
+  }
+  async function deleteScheduleByIdx(ds, idx) {
+    var d = JSON.parse(JSON.stringify(schedData));
+    if (!d.events || !d.events[ds]) return;
+    d.events[ds].splice(idx, 1);
+    if (d.events[ds].length === 0) delete d.events[ds];
+    try { await writeJsonAsync(SCHEDULE_FILE, d); setSchedData(d); ctx.showToast("已删除日程"); } catch (e) { ctx.showToast("删除失败"); }
+  }
+
+  // ======= 设置操作 =======
   async function saveSettingsFn() {
     var s = JSON.parse(JSON.stringify(sett));
-    s.cycle_length = sCycle;
-    s.period_length = sPeriod;
+    s.cycle_length = sCycle; s.period_length = sPeriod;
     try {
-      await writeJsonAsync(SETTINGS_FILE, s);
-      setSett(s);
+      await writeJsonAsync(SETTINGS_FILE, s); setSett(s);
       var pd = JSON.parse(JSON.stringify(periods));
       pd.settings = { cycle_length: sCycle, period_length: sPeriod };
-      await writeJsonAsync(PERIOD_FILE, pd);
-      setPeriods(pd);
+      await writeJsonAsync(PERIOD_FILE, pd); setPeriods(pd);
       ctx.showToast("设置已保存");
     } catch (e) { ctx.showToast("保存失败"); }
     close();
   }
 
+  // ======= 主题操作 =======
+  async function applyTheme(id) {
+    setThemeId(id);
+    try {
+      var td = { current: id, custom: customThemes };
+      await writeJsonAsync(THEME_FILE, td);
+      ctx.showToast("已切换主题");
+    } catch (e) {}
+  }
+  async function saveCustomTheme() {
+    if (!ctName || !ctName.trim()) { ctx.showToast("请输入主题名称"); return; }
+    var id = "custom_" + Date.now();
+    var nt = { id: id, name: ctName.trim(), bg: ctBg, pri: ctPri, sec: ctSec, acc: ctAcc, priL: ctAcc };
+    var list = JSON.parse(JSON.stringify(customThemes));
+    list.push(nt);
+    setCustomThemes(list);
+    setThemeId(id);
+    try {
+      await writeJsonAsync(THEME_FILE, { current: id, custom: list });
+      ctx.showToast("已保存主题");
+    } catch (e) { ctx.showToast("保存失败"); }
+  }
+
   // ==================== UI 组件 ====================
 
-  // ---- Tab 切换栏 ----
+  // ---- Tab 栏 ----
+  var TAB_LABELS = ["心情", "经期", "日程", "设置"];
   function mkTab(label, idx) {
     var on = tab === idx;
     return UI.Box({
@@ -485,19 +419,19 @@ function Screen(ctx) {
       modifier: Modifier.weight(1)
         .background(on ? C.pri : "transparent", { type: "pill" })
         .clickable(function() { setTab(idx); close(); })
-    }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "tbi" + idx },
-      UI.Text({ text: label, fontSize: 14, fontWeight: on ? "bold" : "normal", color: on ? C.white : C.sec, key: "tbt" + idx })
+    }, UI.Box({ padding: { top: 9, bottom: 9 }, key: "tbi" + idx },
+      UI.Text({ text: label, fontSize: 13, fontWeight: on ? "bold" : "normal", color: on ? C.white : C.sec, key: "tbt" + idx })
     ));
   }
-
+  var tabBarItems = [];
+  for (var tbi = 0; tbi < TAB_LABELS.length; tbi++) tabBarItems.push(mkTab(TAB_LABELS[tbi], tbi));
   var tabBar = UI.Card({
     containerColor: C.priL, shape: { type: "pill" }, elevation: 0,
     fillMaxWidth: true, padding: 3, key: "tabbar"
-  }, UI.Row({ fillMaxWidth: true }, [mkTab("心情", 0), mkTab("经期", 1)]));
+  }, UI.Row({ fillMaxWidth: true }, tabBarItems));
 
   // ---- 月份导航 ----
   var mNames = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
-
   var monthHeader = UI.Row({
     fillMaxWidth: true, horizontalArrangement: "spaceBetween",
     verticalAlignment: "center", padding: { top: 4, bottom: 4 }, key: "mhdr"
@@ -533,106 +467,81 @@ function Screen(ctx) {
   function buildGrid() {
     var cells = [];
     var cellH = tab === 0 ? 76 : 50;
-
     for (var i = 0; i < off; i++) {
       cells.push(UI.Box({ key: "e" + i, modifier: Modifier.weight(1), height: cellH }));
     }
-
     for (var day = 1; day <= dim; day++) {
       var ds = ms + "-" + String(day).padStart(2, "0");
       var rec = moods.records[ds];
       var isToday = year === TY && month === TM && day === TD;
       var isSel = selDay === day && popup !== "";
-      var isPer = pi.actual.indexOf(day) !== -1;
-      var isPred = pi.predicted.indexOf(day) !== -1;
-      var isOvu = pi.ovulation.indexOf(day) !== -1;
       var annInfo = getAnnForDay(day);
+      var phaseInfo = tab === 1 ? getPhase(ds) : null;
+      var hasEvents = tab === 2 && schedData.events && schedData.events[ds] && schedData.events[ds].length > 0;
 
       var parts = [];
 
-      // 日期数字（纪念日高亮）
+      // 日期数字
       if (isToday) {
         parts.push(UI.Box({
           key: "td" + day, width: 22, height: 22, contentAlignment: "center",
-          modifier: Modifier.background(C.today, { type: "circle" })
+          modifier: Modifier.background(C.pri, { type: "circle" })
         }, UI.Text({ text: String(day), fontSize: 11, color: C.white, fontWeight: "bold", key: "d" + day })));
       } else {
-        parts.push(UI.Text({
-          text: String(day), fontSize: 12,
-          color: annInfo ? C.ann : C.txt,
-          fontWeight: annInfo ? "bold" : "normal",
-          key: "d" + day
-        }));
+        parts.push(UI.Text({ text: String(day), fontSize: 12, color: C.txt, key: "d" + day }));
       }
 
-      // 纪念日 ♡ 标记
-      if (annInfo) {
-        parts.push(UI.Text({ text: "♡", fontSize: 8, color: C.ann, key: "ann" + day }));
-      }
-
-      // 心情 tab：显示心情图标
+      // Tab-specific content
       if (tab === 0) {
+        // 心情图标
         if (rec && rec.user) {
           parts.push(UI.Image({
-            url: MOOD_ICONS_USER[rec.user.mood],
-            contentDescription: MOOD_LABELS[rec.user.mood] || "",
+            url: MOOD_ICONS_USER[rec.user.mood], contentDescription: MOOD_LABELS[rec.user.mood] || "",
             contentScale: "fit", width: 22, height: 22, key: "u" + day
           }));
         } else {
-          parts.push(UI.Box({
-            key: "ue" + day, width: 22, height: 22,
-            modifier: Modifier.background(C.dim, { type: "circle" })
-          }));
+          parts.push(UI.Box({ key: "ue" + day, width: 22, height: 22, modifier: Modifier.background(C.dim, { type: "circle" }) }));
         }
         if (rec && rec.ai) {
           parts.push(UI.Image({
-            url: MOOD_ICONS_AI[rec.ai.mood],
-            contentDescription: MOOD_LABELS[rec.ai.mood] || "",
+            url: MOOD_ICONS_AI[rec.ai.mood], contentDescription: MOOD_LABELS[rec.ai.mood] || "",
             contentScale: "fit", width: 22, height: 22, key: "a" + day
           }));
         } else {
-          parts.push(UI.Box({
-            key: "ae" + day, width: 22, height: 22,
-            modifier: Modifier.background(C.dim, { type: "rounded", cornerRadius: 4 })
-          }));
+          parts.push(UI.Box({ key: "ae" + day, width: 22, height: 22, modifier: Modifier.background(C.dim, { type: "rounded", cornerRadius: 4 }) }));
         }
-      } else {
-        // 经期 tab：显示经期状态点
-        if (isPer) {
-          parts.push(UI.Box({ key: "pd" + day, width: 6, height: 6,
-            modifier: Modifier.background(C.period, { type: "circle" }) }));
-        } else if (isOvu) {
-          parts.push(UI.Box({ key: "od" + day, width: 6, height: 6,
-            modifier: Modifier.background(C.ovu, { type: "circle" }) }));
-        } else if (isPred) {
-          parts.push(UI.Box({ key: "prd" + day, width: 6, height: 6,
-            modifier: Modifier.background(C.pred, { type: "circle" }) }));
+      } else if (tab === 1) {
+        // 经期阶段点
+        if (phaseInfo) {
+          parts.push(UI.Box({ key: "pd" + day, width: 6, height: 6, modifier: Modifier.background(phaseInfo.color, { type: "circle" }) }));
+        }
+      } else if (tab === 2) {
+        // 日程/纪念日标记
+        if (annInfo) {
+          parts.push(UI.Text({ text: "♡", fontSize: 10, color: "#E91E63", key: "ann" + day }));
+        } else if (hasEvents) {
+          parts.push(UI.Box({ key: "ev" + day, width: 6, height: 6, modifier: Modifier.background(C.pri, { type: "circle" }) }));
         }
       }
 
+      // 背景色
       var bg = "transparent";
-      if (tab === 1) {
-        if (isPer) bg = C.periodBg;
-        else if (isPred) bg = C.predBg;
-        else if (isOvu) bg = C.ovuBg;
-      }
+      if (tab === 1 && phaseInfo) bg = phaseInfo.bg;
 
       cells.push(UI.Box({
         key: "c" + day, height: cellH, contentAlignment: "center",
         modifier: Modifier.weight(1)
-          .background(isSel ? C.todayBg : bg, { type: "rounded", cornerRadius: 10 })
+          .background(isSel ? C.priL : bg, { type: "rounded", cornerRadius: 10 })
           .border(isSel ? 1.5 : 0, isSel ? C.pri : "transparent", { type: "rounded", cornerRadius: 10 })
           .clickable(function(day) { return function() { tapDay(day); }; }(day))
       }, UI.Column({ horizontalAlignment: "center", spacing: 1 }, parts)));
     }
-
     var rem = (off + dim) % 7;
     if (rem > 0) {
       for (var pi2 = 0; pi2 < 7 - rem; pi2++) {
         cells.push(UI.Box({ key: "p" + pi2, modifier: Modifier.weight(1), height: cellH }));
       }
     }
-
     var rows = [];
     for (var ri = 0; ri < cells.length; ri += 7) {
       rows.push(UI.Row({ key: "r" + ri, fillMaxWidth: true, spacing: 2 }, cells.slice(ri, ri + 7)));
@@ -640,35 +549,47 @@ function Screen(ctx) {
     return UI.Column({ spacing: 2, key: "grid" }, rows);
   }
 
+  // ---- 日历卡片（包裹导航+表头+网格）----
+  function buildCalendarCard() {
+    return UI.Card({
+      containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
+      elevation: 0, fillMaxWidth: true, padding: 12, key: "calcrd"
+    }, UI.Column({ spacing: 0 }, [monthHeader, weekRow, buildGrid()]));
+  }
+
   // ---- 图例 ----
+  function dot(color, shape, label, k) {
+    return UI.Row({ spacing: 4, verticalAlignment: "center", key: k }, [
+      UI.Box({ width: 10, height: 10, key: k + "d", modifier: Modifier.background(color, shape) }),
+      UI.Text({ text: label, fontSize: 11, color: C.sec, key: k + "t" })
+    ]);
+  }
   function buildLegend() {
-    function dot(color, shape, label, k) {
-      return UI.Row({ spacing: 4, verticalAlignment: "center", key: k }, [
-        UI.Box({ width: 10, height: 10, key: k + "d", modifier: Modifier.background(color, shape) }),
-        UI.Text({ text: label, fontSize: 11, color: C.sec, key: k + "t" })
-      ]);
-    }
     if (tab === 0) {
       return UI.Card({
         containerColor: C.card, shape: { type: "rounded", cornerRadius: 12 },
         elevation: 0, fillMaxWidth: true, padding: 12, key: "lgd"
       }, UI.Row({ spacing: 16, key: "lgr" }, [
-        dot(C.dim, { type: "circle" }, "你", "l1"),
-        dot(C.dim, { type: "rounded", cornerRadius: 3 }, "TA", "l2"),
-        UI.Text({ text: "♡ 纪念日", fontSize: 10, color: C.ann, key: "lann" })
+        dot(C.dim, { type: "circle" }, "Iris", "l1"),
+        dot(C.dim, { type: "rounded", cornerRadius: 3 }, "Claude", "l2"),
+        UI.Text({ text: "点击日期查看详情", fontSize: 10, color: C.light, key: "lh" })
       ]));
     }
-    return UI.Card({
-      containerColor: C.card, shape: { type: "rounded", cornerRadius: 12 },
-      elevation: 0, fillMaxWidth: true, padding: 12, key: "lgd"
-    }, UI.Row({ spacing: 14, key: "lgr" }, [
-      dot(C.period, { type: "circle" }, "经期", "lp1"),
-      dot(C.pred, { type: "circle" }, "预测", "lp2"),
-      dot(C.ovu, { type: "circle" }, "排卵日", "lp3")
-    ]));
+    if (tab === 1) {
+      return UI.Card({
+        containerColor: C.card, shape: { type: "rounded", cornerRadius: 12 },
+        elevation: 0, fillMaxWidth: true, padding: 12, key: "lgd"
+      }, UI.Row({ spacing: 10, key: "lgr", horizontalArrangement: "center" }, [
+        dot(PH.men, { type: "circle" }, "经期", "lp1"),
+        dot(PH.fol, { type: "circle" }, "卵泡期", "lp2"),
+        dot(PH.ovu, { type: "circle" }, "排卵期", "lp3"),
+        dot(PH.lut, { type: "circle" }, "黄体期", "lp4")
+      ]));
+    }
+    return UI.Spacer({ height: 0, key: "lgdn" });
   }
 
-  // ---- 记录心情按钮 ----
+  // ---- 心情 tab: 记录按钮 ----
   function buildRecordBtn() {
     if (tab !== 0) return UI.Spacer({ height: 0, key: "nrb" });
     return UI.Box({
@@ -680,7 +601,7 @@ function Screen(ctx) {
     ));
   }
 
-  // ---- 本月心情统计 ----
+  // ---- 心情 tab: 统计 ----
   function makeBars(counts, total, iconMap, prefix) {
     var entries = [];
     var keys = Object.keys(counts);
@@ -688,41 +609,31 @@ function Screen(ctx) {
     entries.sort(function(a, b) { return b[1] - a[1]; });
     var bars = [];
     for (var bi = 0; bi < entries.length; bi++) {
-      var mood = entries[bi][0];
-      var cnt = entries[bi][1];
+      var mood = entries[bi][0], cnt = entries[bi][1];
       var pct = Math.round(cnt / total * 100);
       bars.push(UI.Row({
         spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: prefix + "b" + mood
       }, [
-        UI.Image({
-          url: iconMap[mood], contentDescription: MOOD_LABELS[mood] || "",
-          contentScale: "fit", width: 18, height: 18, key: prefix + "bi" + mood
-        }),
+        UI.Image({ url: iconMap[mood], contentDescription: MOOD_LABELS[mood] || "", contentScale: "fit", width: 18, height: 18, key: prefix + "bi" + mood }),
         UI.Text({ text: MOOD_LABELS[mood], fontSize: 11, color: C.sec, key: prefix + "bl" + mood }),
         UI.Box({
           key: prefix + "bb" + mood, height: 8,
           modifier: Modifier.weight(1).background("#F5F0EE", { type: "pill" }).clip({ type: "pill" })
-        }, UI.Box({
-          key: prefix + "bf" + mood, height: 8,
-          modifier: Modifier.fillMaxWidth(pct / 100).background(MOOD_COLORS[mood] || "#CCC", { type: "pill" })
-        })),
+        }, UI.Box({ key: prefix + "bf" + mood, height: 8, modifier: Modifier.fillMaxWidth(pct / 100).background(MOOD_COLORS[mood] || "#CCC", { type: "pill" }) })),
         UI.Text({ text: "" + cnt, fontSize: 11, color: C.sec, key: prefix + "bc" + mood })
       ]));
     }
     return bars;
   }
-
   function buildStats() {
     if (tab !== 0) return UI.Spacer({ height: 0, key: "ns" });
-    var userCounts = {}, aiCounts = {};
-    var userTotal = 0, aiTotal = 0;
+    var userCounts = {}, aiCounts = {}, userTotal = 0, aiTotal = 0;
     var dates = Object.keys(moods.records);
     for (var di = 0; di < dates.length; di++) {
-      var dateKey = dates[di];
-      if (dateKey.indexOf(ms) === 0) {
-        var rec = moods.records[dateKey];
-        if (rec.user) { var um = rec.user.mood; userCounts[um] = (userCounts[um] || 0) + 1; userTotal++; }
-        if (rec.ai) { var am = rec.ai.mood; aiCounts[am] = (aiCounts[am] || 0) + 1; aiTotal++; }
+      if (dates[di].indexOf(ms) === 0) {
+        var rec = moods.records[dates[di]];
+        if (rec.user) { userCounts[rec.user.mood] = (userCounts[rec.user.mood] || 0) + 1; userTotal++; }
+        if (rec.ai) { aiCounts[rec.ai.mood] = (aiCounts[rec.ai.mood] || 0) + 1; aiTotal++; }
       }
     }
     if (userTotal === 0 && aiTotal === 0) {
@@ -734,7 +645,7 @@ function Screen(ctx) {
     var content = [];
     if (userTotal > 0) {
       content.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", key: "ush" }, [
-        UI.Text({ text: "你的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ust" }),
+        UI.Text({ text: "Iris 的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ust" }),
         UI.Text({ text: userTotal + " 天", fontSize: 12, color: C.sec, key: "usc" })
       ]));
       var ub = makeBars(userCounts, userTotal, MOOD_ICONS_USER, "u");
@@ -743,7 +654,7 @@ function Screen(ctx) {
     if (aiTotal > 0) {
       if (userTotal > 0) content.push(UI.Spacer({ height: 10, key: "sdiv" }));
       content.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", key: "ash" }, [
-        UI.Text({ text: "TA 的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ast" }),
+        UI.Text({ text: "Claude 的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ast" }),
         UI.Text({ text: aiTotal + " 天", fontSize: 12, color: C.sec, key: "asc" })
       ]));
       var ab = makeBars(aiCounts, aiTotal, MOOD_ICONS_AI, "a");
@@ -755,84 +666,260 @@ function Screen(ctx) {
     }, UI.Column({ spacing: 8 }, content));
   }
 
-  // ---- 经期信息 + 设置卡片 ----
+  // ---- 经期 tab: 阶段+设置 ----
   function buildPeriodInfo() {
     if (tab !== 1) return UI.Spacer({ height: 0, key: "npi" });
-
-    // 当前周期阶段
     var todayStr = TY + "-" + String(TM).padStart(2, "0") + "-" + String(TD).padStart(2, "0");
     var todayPhase = getPhase(todayStr);
-
     var content = [];
 
-    // 今日阶段指示
+    // 当前阶段
     if (todayPhase) {
-      content.push(UI.Row({
-        fillMaxWidth: true, spacing: 10, verticalAlignment: "center", key: "phrow"
-      }, [
-        UI.Box({
-          width: 12, height: 12, key: "phdot",
-          modifier: Modifier.background(todayPhase.color, { type: "circle" })
-        }),
-        UI.Text({ text: "当前：" + todayPhase.label, fontSize: 14, fontWeight: "bold", color: todayPhase.color, key: "phtxt" })
-      ]));
-      content.push(UI.Spacer({ height: 8, key: "phs" }));
+      content.push(UI.Card({
+        containerColor: todayPhase.bg, shape: { type: "pill" },
+        elevation: 0, fillMaxWidth: true, padding: { start: 16, end: 16, top: 10, bottom: 10 }, key: "phcard"
+      }, UI.Row({ spacing: 8, verticalAlignment: "center", horizontalArrangement: "center", key: "phr" }, [
+        UI.Box({ width: 10, height: 10, key: "phd", modifier: Modifier.background(todayPhase.color, { type: "circle" }) }),
+        UI.Text({ text: "当前阶段：" + todayPhase.label, fontSize: 14, fontWeight: "bold", color: todayPhase.color, key: "pht" })
+      ])));
     }
 
-    // 周期设置标题行
-    content.push(UI.Row({
-      fillMaxWidth: true, horizontalArrangement: "spaceBetween",
-      verticalAlignment: "center", key: "pih"
-    }, [
-      UI.Text({ text: "周期设置", fontSize: 15, fontWeight: "bold", color: C.txt, key: "pit" }),
-      UI.Box({
-        key: "piedit", contentAlignment: "center",
-        modifier: Modifier.background(C.priL, { type: "pill" })
-          .clickable(function() { setSCycle(sett.cycle_length); setSPeriod(sett.period_length); setPopup("settings"); })
-      }, UI.Box({ padding: { start: 14, end: 14, top: 6, bottom: 6 }, key: "piei" },
-        UI.Text({ text: "编辑", fontSize: 12, color: C.pri, key: "piet" })
-      ))
-    ]));
-
-    // 数值显示
-    content.push(UI.Row({ fillMaxWidth: true, spacing: 16, key: "pir" }, [
-      UI.Column({ horizontalAlignment: "center", modifier: Modifier.weight(1), key: "pcc" }, [
-        UI.Text({ text: String(sett.cycle_length), fontSize: 30, fontWeight: "bold", color: C.pri, key: "pcv" }),
-        UI.Text({ text: "天/周期", fontSize: 12, color: C.sec, key: "pcl" })
-      ]),
-      UI.Box({ width: 1, height: 40, modifier: Modifier.background(C.brd), key: "pdiv" }),
-      UI.Column({ horizontalAlignment: "center", modifier: Modifier.weight(1), key: "ppc" }, [
-        UI.Text({ text: String(sett.period_length), fontSize: 30, fontWeight: "bold", color: C.period, key: "ppv" }),
-        UI.Text({ text: "天/经期", fontSize: 12, color: C.sec, key: "ppl" })
-      ])
-    ]));
-
-    // 标记按钮
-    content.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "pmr" }, [
-      UI.Box({
-        key: "pms", contentAlignment: "center",
-        modifier: Modifier.weight(1).background(C.periodBg, { type: "pill" })
-          .clickable(function() { if (!selDay) setSelDay(TD); savePeriodMark("start"); })
-      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "pmsi" },
-        UI.Text({ text: "标记经期开始", fontSize: 13, color: C.period, fontWeight: "bold", key: "pmst" })
-      )),
-      UI.Box({
-        key: "pme", contentAlignment: "center",
-        modifier: Modifier.weight(1).background(C.ovuBg, { type: "pill" })
-          .clickable(function() { if (!selDay) setSelDay(TD); savePeriodMark("end"); })
-      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "pmei" },
-        UI.Text({ text: "标记经期结束", fontSize: 13, color: C.ovu, fontWeight: "bold", key: "pmet" })
-      ))
-    ]));
-
-    return UI.Card({
+    // 周期设置
+    content.push(UI.Card({
       containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
       elevation: 0, fillMaxWidth: true, padding: 16, key: "pic"
-    }, UI.Column({ spacing: 12 }, content));
+    }, UI.Column({ spacing: 12 }, [
+      UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "pih" }, [
+        UI.Text({ text: "周期设置", fontSize: 15, fontWeight: "bold", color: C.txt, key: "pit" }),
+        UI.Box({
+          key: "piedit", contentAlignment: "center",
+          modifier: Modifier.background(C.priL, { type: "pill" })
+            .clickable(function() { setSCycle(sett.cycle_length); setSPeriod(sett.period_length); setPopup("settings"); })
+        }, UI.Box({ padding: { start: 14, end: 14, top: 6, bottom: 6 }, key: "piei" },
+          UI.Text({ text: "编辑", fontSize: 12, color: C.pri, key: "piet" })
+        ))
+      ]),
+      UI.Row({ fillMaxWidth: true, spacing: 16, key: "pir" }, [
+        UI.Column({ horizontalAlignment: "center", modifier: Modifier.weight(1), key: "pcc" }, [
+          UI.Text({ text: String(sett.cycle_length), fontSize: 30, fontWeight: "bold", color: C.pri, key: "pcv" }),
+          UI.Text({ text: "天/周期", fontSize: 12, color: C.sec, key: "pcl" })
+        ]),
+        UI.Box({ width: 1, height: 40, modifier: Modifier.background(C.brd), key: "pdiv" }),
+        UI.Column({ horizontalAlignment: "center", modifier: Modifier.weight(1), key: "ppc" }, [
+          UI.Text({ text: String(sett.period_length), fontSize: 30, fontWeight: "bold", color: PH.men, key: "ppv" }),
+          UI.Text({ text: "天/经期", fontSize: 12, color: C.sec, key: "ppl" })
+        ])
+      ]),
+      UI.Row({ fillMaxWidth: true, spacing: 10, key: "pmr" }, [
+        UI.Box({
+          key: "pms", contentAlignment: "center",
+          modifier: Modifier.weight(1).background(PH.menBg, { type: "pill" })
+            .clickable(function() { if (!selDay) setSelDay(TD); savePeriodMark("start"); })
+        }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "pmsi" },
+          UI.Text({ text: "标记经期开始", fontSize: 13, color: PH.men, fontWeight: "bold", key: "pmst" })
+        )),
+        UI.Box({
+          key: "pme", contentAlignment: "center",
+          modifier: Modifier.weight(1).background(PH.ovuBg, { type: "pill" })
+            .clickable(function() { if (!selDay) setSelDay(TD); savePeriodMark("end"); })
+        }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "pmei" },
+          UI.Text({ text: "标记经期结束", fontSize: 13, color: PH.ovu, fontWeight: "bold", key: "pmet" })
+        ))
+      ]),
+      UI.Box({
+        key: "pdtbtn", contentAlignment: "center", fillMaxWidth: true,
+        modifier: Modifier.background(C.priL, { type: "pill" })
+          .clickable(function() { if (!selDay) setSelDay(TD); openPdPopup(); })
+      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "pdtbi" },
+        UI.Text({ text: "记录今日详情", fontSize: 13, color: C.pri, fontWeight: "bold", key: "pdtbt" })
+      ))
+    ])));
+
+    return UI.Column({ spacing: 12, key: "piw" }, content);
+  }
+
+  // ---- 日程 tab 内容 ----
+  function buildScheduleContent() {
+    if (tab !== 2) return UI.Spacer({ height: 0, key: "nsc" });
+    var content = [];
+
+    // 本月纪念日
+    var annList = [];
+    if (sett.anniversaries) {
+      var curMM = String(month).padStart(2, "0");
+      for (var ai = 0; ai < sett.anniversaries.length; ai++) {
+        if (sett.anniversaries[ai].date.split("-")[0] === curMM) annList.push(sett.anniversaries[ai]);
+      }
+    }
+    if (annList.length > 0) {
+      var annItems = [];
+      for (var aii = 0; aii < annList.length; aii++) {
+        annItems.push(UI.Row({ spacing: 8, verticalAlignment: "center", key: "ani" + aii }, [
+          UI.Text({ text: annList[aii].date.split("-")[1] + "日", fontSize: 12, fontWeight: "bold", color: "#E91E63", key: "and" + aii }),
+          UI.Text({ text: annList[aii].label, fontSize: 13, color: C.txt, key: "anl" + aii })
+        ]));
+      }
+      content.push(UI.Card({
+        containerColor: C.card, shape: { type: "rounded", cornerRadius: 12 },
+        elevation: 0, fillMaxWidth: true, padding: 12, key: "anncard"
+      }, UI.Column({ spacing: 6 }, [
+        UI.Text({ text: "本月纪念日", fontSize: 13, fontWeight: "bold", color: "#E91E63", key: "anntl" })
+      ].concat(annItems))));
+    }
+
+    // 今日日程
+    var todayDs = TY + "-" + String(TM).padStart(2, "0") + "-" + String(TD).padStart(2, "0");
+    var todayEvts = schedData.events && schedData.events[todayDs] ? schedData.events[todayDs] : [];
+    var evtItems = [];
+    if (todayEvts.length === 0) {
+      evtItems.push(UI.Text({ text: "今天没有日程安排", fontSize: 13, color: C.light, key: "noe" }));
+    } else {
+      for (var ei = 0; ei < todayEvts.length; ei++) {
+        var evt = todayEvts[ei];
+        var evtText = evt.title;
+        if (evt.start_time) evtText += "  " + evt.start_time + (evt.end_time ? "-" + evt.end_time : "");
+        if (evt.location) evtText += "  " + evt.location;
+        evtItems.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "tei" + ei }, [
+          UI.Box({ width: 4, height: 28, key: "ted" + ei, modifier: Modifier.background(C.pri, { type: "pill" }) }),
+          UI.Column({ modifier: Modifier.weight(1), key: "tec" + ei }, [
+            UI.Text({ text: evtText, fontSize: 13, color: C.txt, key: "tet" + ei }),
+            evt.note ? UI.Text({ text: evt.note, fontSize: 11, color: C.sec, key: "ten" + ei }) : UI.Spacer({ height: 0, key: "tens" + ei })
+          ])
+        ]));
+      }
+    }
+    content.push(UI.Card({
+      containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
+      elevation: 0, fillMaxWidth: true, padding: 16, key: "tesc"
+    }, UI.Column({ spacing: 8 }, [
+      UI.Text({ text: "今日日程", fontSize: 15, fontWeight: "bold", color: C.txt, key: "testl" })
+    ].concat(evtItems))));
+
+    // 添加日程按钮
+    content.push(UI.Box({
+      fillMaxWidth: true, contentAlignment: "center", key: "asbtn",
+      modifier: Modifier.background(C.pri, { type: "pill" })
+        .clickable(function() { if (!selDay) setSelDay(TD); setPopup("addSchedule"); })
+    }, UI.Box({ padding: { top: 14, bottom: 14 }, key: "asbi" },
+      UI.Text({ text: "添加日程", fontSize: 15, fontWeight: "bold", color: C.white, key: "asbt" })
+    )));
+
+    return UI.Column({ spacing: 12, key: "scw" }, content);
+  }
+
+  // ---- 设置 tab 内容 ----
+  function buildSettingsContent() {
+    if (tab !== 3) return UI.Spacer({ height: 0, key: "nstc" });
+    var content = [];
+
+    content.push(UI.Text({ text: "选择主题", fontSize: 18, fontWeight: "bold", color: C.txt, key: "stttl" }));
+    content.push(UI.Spacer({ height: 8, key: "sts1" }));
+
+    // 内置主题
+    var themeKeys = Object.keys(THEMES);
+    var presetItems = [];
+    for (var tki = 0; tki < themeKeys.length; tki++) {
+      (function(tk) {
+        var t = THEMES[tk];
+        var isOn = themeId === tk;
+        presetItems.push(UI.Column({
+          horizontalAlignment: "center", spacing: 4, key: "tp" + tk,
+          modifier: Modifier.weight(1).clickable(function() { applyTheme(tk); })
+        }, [
+          UI.Box({
+            width: 56, height: 56, contentAlignment: "center", key: "tpc" + tk,
+            modifier: Modifier.background(t.acc, { type: "circle" })
+              .border(isOn ? 3 : 0, isOn ? t.pri : "transparent", { type: "circle" })
+          }, UI.Box({
+            width: 28, height: 28, key: "tpi" + tk,
+            modifier: Modifier.background(t.pri, { type: "circle" })
+          })),
+          UI.Text({ text: t.name, fontSize: 11, color: isOn ? C.pri : C.sec, fontWeight: isOn ? "bold" : "normal", key: "tpn" + tk })
+        ]));
+      })(themeKeys[tki]);
+    }
+    // 自定义主题
+    for (var ci = 0; ci < customThemes.length; ci++) {
+      (function(ct) {
+        var isOn = themeId === ct.id;
+        presetItems.push(UI.Column({
+          horizontalAlignment: "center", spacing: 4, key: "tc" + ci,
+          modifier: Modifier.weight(1).clickable(function() { applyTheme(ct.id); })
+        }, [
+          UI.Box({
+            width: 56, height: 56, contentAlignment: "center", key: "tcc" + ci,
+            modifier: Modifier.background(ct.acc || "#DDD", { type: "circle" })
+              .border(isOn ? 3 : 0, isOn ? (ct.pri || "#333") : "transparent", { type: "circle" })
+          }, UI.Box({ width: 28, height: 28, key: "tci" + ci, modifier: Modifier.background(ct.pri || "#333", { type: "circle" }) })),
+          UI.Text({ text: ct.name, fontSize: 11, color: isOn ? C.pri : C.sec, fontWeight: isOn ? "bold" : "normal", key: "tcn" + ci })
+        ]));
+      })(customThemes[ci]);
+    }
+    content.push(UI.Card({
+      containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
+      elevation: 0, fillMaxWidth: true, padding: 16, key: "tpcard"
+    }, UI.Row({ fillMaxWidth: true, spacing: 12, horizontalArrangement: "center" }, presetItems)));
+
+    content.push(UI.Spacer({ height: 12, key: "sts2" }));
+
+    // 创建自定义主题
+    content.push(UI.Card({
+      containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
+      elevation: 0, fillMaxWidth: true, padding: 16, key: "ctcard"
+    }, UI.Column({ spacing: 10, fillMaxWidth: true }, [
+      UI.Text({ text: "创建自定义主题", fontSize: 15, fontWeight: "bold", color: C.txt, key: "cttl" }),
+      UI.Card({
+        containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+        elevation: 0, fillMaxWidth: true, key: "ctnc"
+      }, UI.TextField({
+        value: ctName, onValueChange: function(v) { setCtName(v); },
+        placeholder: "主题名称", singleLine: true, fillMaxWidth: true, key: "ctntf"
+      })),
+      // 4 color inputs
+      buildColorInput("背景色", ctBg, setCtBg, "ctbg"),
+      buildColorInput("主色", ctPri, setCtPri, "ctpr"),
+      buildColorInput("辅色", ctSec, setCtSec, "ctsc"),
+      buildColorInput("点缀色", ctAcc, setCtAcc, "ctac"),
+      // 预览条
+      UI.Row({ fillMaxWidth: true, spacing: 0, key: "ctpv" }, [
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctBg, { type: "rounded", cornerRadius: 0 }), key: "ctpv1" }),
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctPri, { type: "rounded", cornerRadius: 0 }), key: "ctpv2" }),
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctSec, { type: "rounded", cornerRadius: 0 }), key: "ctpv3" }),
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctAcc, { type: "rounded", cornerRadius: 0 }), key: "ctpv4" })
+      ]),
+      UI.Box({
+        fillMaxWidth: true, contentAlignment: "center", key: "ctsb",
+        modifier: Modifier.background(C.pri, { type: "pill" }).clickable(saveCustomTheme)
+      }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "ctsbi" },
+        UI.Text({ text: "保存预设", fontSize: 14, fontWeight: "bold", color: C.white, key: "ctsbt" })
+      ))
+    ])));
+
+    return UI.Column({ spacing: 8, key: "stw" }, content);
+  }
+
+  function buildColorInput(label, value, setter, k) {
+    return UI.Row({ fillMaxWidth: true, spacing: 10, verticalAlignment: "center", key: k + "r" }, [
+      UI.Column({ modifier: Modifier.weight(1), key: k + "lc" }, [
+        UI.Text({ text: label, fontSize: 13, fontWeight: "bold", color: C.txt, key: k + "l" })
+      ]),
+      UI.Card({
+        containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 8 },
+        elevation: 0, key: k + "fc"
+      }, UI.Box({ width: 100, key: k + "fw" },
+        UI.TextField({
+          value: value, onValueChange: function(v) { setter(v); },
+          singleLine: true, key: k + "tf"
+        })
+      )),
+      UI.Box({
+        width: 28, height: 28, key: k + "cv",
+        modifier: Modifier.background(value, { type: "circle" }).border(1, C.brd, { type: "circle" })
+      })
+    ]);
   }
 
   // ==================== 弹窗系统 ====================
-
   function overlayWrap(content, key) {
     return UI.Box({
       fillMaxSize: true, contentAlignment: "bottomCenter", key: key + "_ov",
@@ -846,377 +933,265 @@ function Screen(ctx) {
     }, UI.Column({ spacing: 8, fillMaxWidth: true }, content))));
   }
 
-  // ---- 日期详情弹窗 ----
+  // 关闭按钮
+  function closeBtn(k) {
+    return UI.Box({
+      key: k, width: 28, height: 28, contentAlignment: "center",
+      modifier: Modifier.background("#F0F0F0", { type: "circle" }).clickable(close)
+    }, UI.Text({ text: "x", fontSize: 13, color: C.sec, key: k + "t" }));
+  }
+
+  // ---- 日详情弹窗 ----
   function popDetail() {
     if (popup !== "detail" || !selDay) return null;
-
     var ds = ms + "-" + String(selDay).padStart(2, "0");
-    var rec = moods.records[ds];
-    var isPer = pi.actual.indexOf(selDay) !== -1;
-    var isPred = pi.predicted.indexOf(selDay) !== -1;
-    var isOvu = pi.ovulation.indexOf(selDay) !== -1;
-    var sickRec = sickData.records && sickData.records[ds] ? sickData.records[ds] : null;
-    var pinRec = pinData.records && pinData.records[ds] ? pinData.records[ds] : null;
-    var pdRec = pdtData.records && pdtData.records[ds] ? pdtData.records[ds] : null;
-    var annInfo = getAnnForDay(selDay);
-    var phaseInfo = getPhase(ds);
-
     var c = [];
 
-    // ---- 标题行 ----
-    c.push(UI.Row({
-      fillMaxWidth: true, horizontalArrangement: "spaceBetween",
-      verticalAlignment: "center", key: "dh"
-    }, [
-      UI.Text({
-        text: year + "." + String(month).padStart(2, "0") + "." + String(selDay).padStart(2, "0"),
-        fontSize: 18, fontWeight: "bold", color: C.txt, key: "dd"
-      }),
-      UI.Box({
-        key: "dx", width: 28, height: 28, contentAlignment: "center",
-        modifier: Modifier.background("#F0F0F0", { type: "circle" }).clickable(close)
-      }, UI.Text({ text: "x", fontSize: 13, color: C.sec, key: "dxt" }))
+    // 标题
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "dh" }, [
+      UI.Text({ text: year + "." + String(month).padStart(2, "0") + "." + String(selDay).padStart(2, "0"), fontSize: 18, fontWeight: "bold", color: C.txt, key: "dd" }),
+      closeBtn("dx")
     ]));
+    c.push(UI.Spacer({ height: 4, key: "ds0" }));
 
-    // ---- 纪念日 ----
-    if (annInfo) {
-      c.push(UI.Spacer({ height: 6, key: "ds_ann" }));
-      c.push(UI.Card({
-        containerColor: "#FFF0F5", shape: { type: "rounded", cornerRadius: 10 },
-        elevation: 0, fillMaxWidth: true, padding: 10, key: "annc"
-      }, UI.Row({ spacing: 8, verticalAlignment: "center", key: "annr" }, [
-        UI.Text({ text: "♡", fontSize: 16, color: C.ann, key: "anni" }),
-        UI.Text({ text: annInfo.label, fontSize: 13, fontWeight: "bold", color: C.ann, key: "annt" })
-      ])));
-    }
-
-    c.push(UI.Spacer({ height: 8, key: "ds1" }));
-
-    // ---- 心情内容 ----
-    if (rec && (rec.user || rec.ai)) {
-      c.push(UI.Text({ text: "双人心情", fontSize: 12, color: C.light, key: "dsub" }));
-      c.push(UI.Spacer({ height: 6, key: "ds2" }));
-      if (rec.user) {
-        c.push(UI.Row({ spacing: 10, verticalAlignment: "center", key: "du" }, [
-          UI.Image({
-            url: MOOD_ICONS_USER[rec.user.mood],
-            contentDescription: MOOD_LABELS[rec.user.mood] || "",
-            contentScale: "fit", width: 36, height: 36, key: "dui"
-          }),
-          UI.Text({
-            text: "你：" + (MOOD_LABELS[rec.user.mood] || rec.user.mood),
-            fontSize: 14, color: C.txt, key: "dum"
-          })
-        ]));
-        if (rec.user.note) {
-          c.push(UI.Card({
-            containerColor: "#FFF5F0", shape: { type: "rounded", cornerRadius: 10 },
-            elevation: 0, fillMaxWidth: true, padding: 10, key: "dunc"
-          }, UI.Text({ text: rec.user.note, fontSize: 12, color: C.sec, key: "dunt" })));
-        }
-        c.push(UI.Spacer({ height: 4, key: "ds3" }));
-      }
-      if (rec.ai) {
-        c.push(UI.Row({ spacing: 10, verticalAlignment: "center", key: "da" }, [
-          UI.Image({
-            url: MOOD_ICONS_AI[rec.ai.mood],
-            contentDescription: MOOD_LABELS[rec.ai.mood] || "",
-            contentScale: "fit", width: 36, height: 36, key: "dai"
-          }),
-          UI.Text({
-            text: "TA：" + (MOOD_LABELS[rec.ai.mood] || rec.ai.mood),
-            fontSize: 14, color: C.txt, key: "dam"
-          })
-        ]));
-        if (rec.ai.note) {
-          c.push(UI.Card({
-            containerColor: "#F0F5FF", shape: { type: "rounded", cornerRadius: 10 },
-            elevation: 0, fillMaxWidth: true, padding: 10, key: "danc"
-          }, UI.Text({ text: rec.ai.note, fontSize: 12, color: C.sec, key: "dant" })));
-        }
-      }
-    } else if (tab === 0) {
-      c.push(UI.Text({ text: "这天还没有心情记录", fontSize: 13, color: C.light, key: "dnr" }));
-    }
-
-    // ---- 经期状态 + 阶段 ----
-    if (isPer || isPred || isOvu || phaseInfo) {
-      c.push(UI.Spacer({ height: 6, key: "ds4" }));
-      if (isPer) {
-        c.push(UI.Row({ spacing: 6, verticalAlignment: "center", key: "dpmi" }, [
-          UI.Box({ width: 8, height: 8, key: "dpmd", modifier: Modifier.background(C.period, { type: "circle" }) }),
-          UI.Text({ text: "经期中", fontSize: 13, color: C.period, key: "dpm" })
-        ]));
-      }
-      if (isPred) {
-        c.push(UI.Row({ spacing: 6, verticalAlignment: "center", key: "dprmi" }, [
-          UI.Box({ width: 8, height: 8, key: "dprmd", modifier: Modifier.background(C.pred, { type: "circle" }) }),
-          UI.Text({ text: "预测经期", fontSize: 13, color: "#FF9800", key: "dprm" })
-        ]));
-      }
-      if (isOvu) {
-        c.push(UI.Row({ spacing: 6, verticalAlignment: "center", key: "domi" }, [
-          UI.Box({ width: 8, height: 8, key: "domd", modifier: Modifier.background(C.ovu, { type: "circle" }) }),
-          UI.Text({ text: "预测排卵日", fontSize: 13, color: C.ovu, key: "dom" })
-        ]));
-      }
-      if (phaseInfo && !isPer) {
-        c.push(UI.Row({ spacing: 6, verticalAlignment: "center", key: "dphi" }, [
-          UI.Box({ width: 8, height: 8, key: "dphd", modifier: Modifier.background(phaseInfo.color, { type: "circle" }) }),
-          UI.Text({ text: phaseInfo.label, fontSize: 13, color: phaseInfo.color, key: "dph" })
-        ]));
-      }
-    }
-
-    // ---- 经期详情 ----
-    if (pdRec) {
-      c.push(UI.Spacer({ height: 6, key: "ds_pd" }));
-      c.push(UI.Text({ text: "经期详情", fontSize: 12, color: C.light, key: "pdlbl" }));
-      c.push(UI.Spacer({ height: 4, key: "ds_pd2" }));
-      var pdItems = [];
-      if (pdRec.flow) {
-        pdItems.push(UI.Box({
-          key: "pdfi", contentAlignment: "center",
-          modifier: Modifier.background(FLOW_COLORS[pdRec.flow] || "#F5F0EE", { type: "pill" })
-        }, UI.Box({ padding: { start: 10, end: 10, top: 4, bottom: 4 }, key: "pdfii" },
-          UI.Text({ text: FLOW_LABELS[pdRec.flow] || pdRec.flow, fontSize: 11, color: "#FFF", key: "pdfit" })
-        )));
-      }
-      if (pdRec.color) {
-        pdItems.push(UI.Row({ spacing: 4, verticalAlignment: "center", key: "pdci" }, [
-          UI.Box({ width: 12, height: 12, key: "pdcid",
-            modifier: Modifier.background(COLOR_HEX[pdRec.color] || "#CCC", { type: "circle" })
-          }),
-          UI.Text({ text: COLOR_LABELS[pdRec.color] || pdRec.color, fontSize: 11, color: C.sec, key: "pdcit" })
-        ]));
-      }
-      if (pdRec.pain !== null && pdRec.pain !== undefined) {
-        pdItems.push(UI.Text({ text: "疼痛：" + PAIN_LABELS[pdRec.pain], fontSize: 11, color: C.sec, key: "pdpni" }));
-      }
-      if (pdItems.length > 0) {
-        c.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "pdir" }, pdItems));
-      }
-      if (pdRec.symptoms && pdRec.symptoms.length > 0) {
-        var sympText = pdRec.symptoms.map(function(s) { return SYMPTOM_LABELS[s] || s; }).join("、");
-        c.push(UI.Text({ text: "症状：" + sympText, fontSize: 11, color: C.sec, key: "pdsi" }));
-      }
-      if (pdRec.note) {
-        c.push(UI.Text({ text: "备注：" + pdRec.note, fontSize: 11, color: C.sec, key: "pdni" }));
-      }
-    }
-
-    // ---- 生病记录 ----
-    if (sickRec) {
-      c.push(UI.Spacer({ height: 6, key: "ds_sk" }));
-      c.push(UI.Card({
-        containerColor: "#FFF3E0", shape: { type: "rounded", cornerRadius: 10 },
-        elevation: 0, fillMaxWidth: true, padding: 10, key: "skc"
-      }, UI.Row({ spacing: 8, verticalAlignment: "center", fillMaxWidth: true, key: "skr" }, [
-        UI.Text({ text: "🤒", fontSize: 16, key: "ski" }),
-        UI.Column({ modifier: Modifier.weight(1), key: "skcol" }, [
-          UI.Text({ text: "生病记录", fontSize: 12, fontWeight: "bold", color: "#E65100", key: "sklt" }),
-          UI.Text({ text: sickRec.note, fontSize: 11, color: C.sec, key: "sknt" })
-        ])
-      ])));
-    }
-
-    // ---- 日期备注 ----
-    if (pinRec) {
-      c.push(UI.Spacer({ height: 6, key: "ds_pn" }));
-      c.push(UI.Card({
-        containerColor: "#E3F2FD", shape: { type: "rounded", cornerRadius: 10 },
-        elevation: 0, fillMaxWidth: true, padding: 10, key: "pnc"
-      }, UI.Row({ spacing: 8, verticalAlignment: "center", fillMaxWidth: true, key: "pnr" }, [
-        UI.Text({ text: "📌", fontSize: 16, key: "pni" }),
-        UI.Column({ modifier: Modifier.weight(1), key: "pncol" }, [
-          UI.Text({ text: "备注", fontSize: 12, fontWeight: "bold", color: "#1565C0", key: "pnlt" }),
-          UI.Text({ text: pinRec.note, fontSize: 11, color: C.sec, key: "pnnt" })
-        ])
-      ])));
-    }
-
-    c.push(UI.Spacer({ height: 12, key: "ds7" }));
-
-    // ---- 底部按钮 ----
     if (tab === 0) {
-      // 心情 tab 主操作
-      var moodBtns = [];
-      moodBtns.push(UI.Box({
-        key: "drb", contentAlignment: "center",
-        modifier: Modifier.weight(1).background(C.pri, { type: "pill" })
-          .clickable(function() { setPopup("record"); })
-      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "drbi" },
-        UI.Text({ text: "记录心情", fontSize: 12, fontWeight: "bold", color: C.white, key: "drbt" })
-      )));
+      // ---- 心情 tab 详情 ----
+      var rec = moods.records[ds];
       if (rec && (rec.user || rec.ai)) {
-        moodBtns.push(UI.Box({
+        if (rec.user) {
+          c.push(UI.Row({ spacing: 10, verticalAlignment: "center", key: "du" }, [
+            UI.Image({ url: MOOD_ICONS_USER[rec.user.mood], contentDescription: MOOD_LABELS[rec.user.mood] || "", contentScale: "fit", width: 36, height: 36, key: "dui" }),
+            UI.Text({ text: "Iris：" + (MOOD_LABELS[rec.user.mood] || rec.user.mood), fontSize: 14, color: C.txt, key: "dum" })
+          ]));
+          if (rec.user.note) {
+            c.push(UI.Card({ containerColor: "#FFF5F0", shape: { type: "rounded", cornerRadius: 10 }, elevation: 0, fillMaxWidth: true, padding: 10, key: "dunc" },
+              UI.Text({ text: rec.user.note, fontSize: 12, color: C.sec, key: "dunt" })));
+          }
+        }
+        if (rec.ai) {
+          c.push(UI.Spacer({ height: 4, key: "ds2a" }));
+          c.push(UI.Row({ spacing: 10, verticalAlignment: "center", key: "da" }, [
+            UI.Image({ url: MOOD_ICONS_AI[rec.ai.mood], contentDescription: MOOD_LABELS[rec.ai.mood] || "", contentScale: "fit", width: 36, height: 36, key: "dai" }),
+            UI.Text({ text: "Claude：" + (MOOD_LABELS[rec.ai.mood] || rec.ai.mood), fontSize: 14, color: C.txt, key: "dam" })
+          ]));
+          if (rec.ai.note) {
+            c.push(UI.Card({ containerColor: "#F0F5FF", shape: { type: "rounded", cornerRadius: 10 }, elevation: 0, fillMaxWidth: true, padding: 10, key: "danc" },
+              UI.Text({ text: rec.ai.note, fontSize: 12, color: C.sec, key: "dant" })));
+          }
+        }
+      } else {
+        c.push(UI.Text({ text: "这天还没有心情记录", fontSize: 13, color: C.light, key: "dnr" }));
+      }
+      c.push(UI.Spacer({ height: 8, key: "ds3" }));
+      // 操作按钮
+      var mBtns = [
+        UI.Box({
+          key: "drb", contentAlignment: "center",
+          modifier: Modifier.weight(1).background(C.pri, { type: "pill" }).clickable(function() { setPopup("record"); })
+        }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "drbi" },
+          UI.Text({ text: "记录心情", fontSize: 12, fontWeight: "bold", color: C.white, key: "drbt" })
+        ))
+      ];
+      if (rec && (rec.user || rec.ai)) {
+        mBtns.push(UI.Box({
           key: "ddb", contentAlignment: "center",
           modifier: Modifier.weight(1).background("#FFEBEE", { type: "pill" }).clickable(deleteMoodAsync)
         }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "ddbi" },
           UI.Text({ text: "删除心情", fontSize: 12, fontWeight: "bold", color: "#FF4444", key: "ddbt" })
         )));
       }
-      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts1" }, moodBtns));
+      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts" }, mBtns));
 
-      // 生病/备注 操作
-      var extraBtns = [];
+    } else if (tab === 1) {
+      // ---- 经期 tab 详情 ----
+      var phaseInfo = getPhase(ds);
+      var pdRec = pdtData.records && pdtData.records[ds];
+      var sickRec = sickData.records && sickData.records[ds];
+      var isPer = false;
+      for (var pi3 = 0; pi3 < periods.periods.length; pi3++) {
+        var pp = periods.periods[pi3];
+        var ppEnd = pp.end_date || "9999-12-31";
+        if (ds >= pp.start_date && ds <= ppEnd) { isPer = true; break; }
+      }
+
+      // 阶段
+      if (phaseInfo) {
+        c.push(UI.Row({ spacing: 6, verticalAlignment: "center", key: "dphi" }, [
+          UI.Box({ width: 8, height: 8, key: "dphd", modifier: Modifier.background(phaseInfo.color, { type: "circle" }) }),
+          UI.Text({ text: phaseInfo.label, fontSize: 14, fontWeight: "bold", color: phaseInfo.color, key: "dph" })
+        ]));
+      }
+
+      // 经期详情
+      if (pdRec) {
+        c.push(UI.Spacer({ height: 4, key: "dspd" }));
+        c.push(UI.Text({ text: "经期详情", fontSize: 12, color: C.light, key: "pdlbl" }));
+        var pdItems = [];
+        if (pdRec.flow) {
+          pdItems.push(UI.Box({
+            key: "pdfi", contentAlignment: "center",
+            modifier: Modifier.background(FLOW_COLORS[pdRec.flow] || "#F5F0EE", { type: "pill" })
+          }, UI.Box({ padding: { start: 10, end: 10, top: 4, bottom: 4 }, key: "pdfii" },
+            UI.Text({ text: FLOW_LABELS[pdRec.flow] || pdRec.flow, fontSize: 11, color: "#FFF", key: "pdfit" })
+          )));
+        }
+        if (pdRec.color) {
+          pdItems.push(UI.Row({ spacing: 4, verticalAlignment: "center", key: "pdci" }, [
+            UI.Box({ width: 12, height: 12, key: "pdcid", modifier: Modifier.background(COLOR_HEX[pdRec.color] || "#CCC", { type: "circle" }) }),
+            UI.Text({ text: COLOR_LABELS[pdRec.color] || pdRec.color, fontSize: 11, color: C.sec, key: "pdcit" })
+          ]));
+        }
+        if (pdRec.pain !== null && pdRec.pain !== undefined) {
+          pdItems.push(UI.Text({ text: "疼痛：" + PAIN_LABELS[pdRec.pain], fontSize: 11, color: C.sec, key: "pdpni" }));
+        }
+        if (pdItems.length > 0) c.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "pdir" }, pdItems));
+        if (pdRec.symptoms && pdRec.symptoms.length > 0) {
+          c.push(UI.Text({ text: "症状：" + pdRec.symptoms.map(function(s) { return SYMPTOM_LABELS[s] || s; }).join("、"), fontSize: 11, color: C.sec, key: "pdsi" }));
+        }
+        if (pdRec.note) c.push(UI.Text({ text: "备注：" + pdRec.note, fontSize: 11, color: C.sec, key: "pdni" }));
+      }
+
+      // 生病记录
       if (sickRec) {
-        extraBtns.push(UI.Box({
-          key: "dskd", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#FFF3E0", { type: "pill" }).clickable(deleteSickAsync)
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dskdi" },
-          UI.Text({ text: "删除生病", fontSize: 11, color: "#E65100", key: "dskdt" })
-        )));
-      } else {
-        extraBtns.push(UI.Box({
-          key: "dskr", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#FFF3E0", { type: "pill" })
-            .clickable(function() { setPopup("recordSick"); })
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dskri" },
-          UI.Text({ text: "记录生病", fontSize: 11, color: "#E65100", key: "dskrt" })
-        )));
+        c.push(UI.Spacer({ height: 4, key: "dssk" }));
+        c.push(UI.Card({
+          containerColor: "#FFF3E0", shape: { type: "rounded", cornerRadius: 10 },
+          elevation: 0, fillMaxWidth: true, padding: 10, key: "skc"
+        }, UI.Column({ spacing: 2, key: "skcol" }, [
+          UI.Text({ text: "生病记录", fontSize: 12, fontWeight: "bold", color: "#E65100", key: "sklt" }),
+          UI.Text({ text: sickRec.note, fontSize: 11, color: C.sec, key: "sknt" })
+        ])));
       }
-      if (pinRec) {
-        extraBtns.push(UI.Box({
-          key: "dpnd", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#E3F2FD", { type: "pill" }).clickable(deletePinAsync)
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpndi" },
-          UI.Text({ text: "删除备注", fontSize: 11, color: "#1565C0", key: "dpndt" })
-        )));
-      } else {
-        extraBtns.push(UI.Box({
-          key: "dpnr", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#E3F2FD", { type: "pill" })
-            .clickable(function() { setPopup("recordPin"); })
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpnri" },
-          UI.Text({ text: "添加备注", fontSize: 11, color: "#1565C0", key: "dpnrt" })
-        )));
-      }
-      c.push(UI.Spacer({ height: 4, key: "ds8" }));
-      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts2" }, extraBtns));
 
-      // 关闭
-      c.push(UI.Spacer({ height: 4, key: "ds9" }));
-      c.push(UI.Box({
-        key: "dcb", fillMaxWidth: true, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "pill" }).clickable(close)
-      }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dcbi" },
-        UI.Text({ text: "关闭", fontSize: 12, color: C.sec, key: "dcbt" })
-      )));
-    } else {
-      // 经期 tab
-      var perBtns = [];
-      perBtns.push(UI.Box({
+      c.push(UI.Spacer({ height: 8, key: "ds5" }));
+      // 操作按钮
+      var pBtns = [];
+      pBtns.push(UI.Box({
         key: "dps", contentAlignment: "center",
-        modifier: Modifier.weight(1).background(C.periodBg, { type: "pill" })
-          .clickable(function() { savePeriodMark("start"); })
-      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "dpsi" },
-        UI.Text({ text: "标记开始", fontSize: 12, fontWeight: "bold", color: C.period, key: "dpst" })
+        modifier: Modifier.weight(1).background(PH.menBg, { type: "pill" }).clickable(function() { savePeriodMark("start"); })
+      }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpsi" },
+        UI.Text({ text: "标记开始", fontSize: 11, fontWeight: "bold", color: PH.men, key: "dpst" })
       )));
-      perBtns.push(UI.Box({
+      pBtns.push(UI.Box({
         key: "dpe", contentAlignment: "center",
-        modifier: Modifier.weight(1).background(C.ovuBg, { type: "pill" })
-          .clickable(function() { savePeriodMark("end"); })
-      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "dpei" },
-        UI.Text({ text: "标记结束", fontSize: 12, fontWeight: "bold", color: C.ovu, key: "dpet" })
+        modifier: Modifier.weight(1).background(PH.ovuBg, { type: "pill" }).clickable(function() { savePeriodMark("end"); })
+      }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpei" },
+        UI.Text({ text: "标记结束", fontSize: 11, fontWeight: "bold", color: PH.ovu, key: "dpet" })
       )));
-      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts1" }, perBtns));
+      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts1" }, pBtns));
 
-      // 经期详情 + 删除
-      var perBtns2 = [];
-      perBtns2.push(UI.Box({
+      var pBtns2 = [];
+      pBtns2.push(UI.Box({
         key: "dpdr", contentAlignment: "center",
         modifier: Modifier.weight(1).background(C.priL, { type: "pill" }).clickable(openPdPopup)
       }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpdri" },
         UI.Text({ text: "记录详情", fontSize: 11, color: C.pri, key: "dpdrt" })
       )));
       if (isPer) {
-        perBtns2.push(UI.Box({
+        pBtns2.push(UI.Box({
           key: "dpd", contentAlignment: "center",
           modifier: Modifier.weight(1).background("#FFEBEE", { type: "pill" }).clickable(deletePeriodAsync)
         }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpdi" },
           UI.Text({ text: "删除标记", fontSize: 11, color: "#FF4444", key: "dpdt" })
         )));
       }
-      if (pdRec) {
-        perBtns2.push(UI.Box({
-          key: "dpdd", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#FFEBEE", { type: "pill" }).clickable(deletePdtAsync)
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpddi" },
-          UI.Text({ text: "删除详情", fontSize: 11, color: "#FF4444", key: "dpddt" })
-        )));
-      }
-      c.push(UI.Spacer({ height: 4, key: "ds8" }));
-      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts2" }, perBtns2));
+      c.push(UI.Spacer({ height: 4, key: "ds6" }));
+      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts2" }, pBtns2));
 
-      // 生病/备注 操作
-      var extraBtns2 = [];
+      // 生病操作
+      var skBtns = [];
       if (sickRec) {
-        extraBtns2.push(UI.Box({
-          key: "dskd2", contentAlignment: "center",
+        skBtns.push(UI.Box({
+          key: "dskd", contentAlignment: "center",
           modifier: Modifier.weight(1).background("#FFF3E0", { type: "pill" }).clickable(deleteSickAsync)
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dskdi2" },
-          UI.Text({ text: "删除生病", fontSize: 11, color: "#E65100", key: "dskdt2" })
+        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dskdi" },
+          UI.Text({ text: "删除生病记录", fontSize: 11, color: "#E65100", key: "dskdt" })
         )));
       } else {
-        extraBtns2.push(UI.Box({
-          key: "dskr2", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#FFF3E0", { type: "pill" })
-            .clickable(function() { setPopup("recordSick"); })
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dskri2" },
-          UI.Text({ text: "记录生病", fontSize: 11, color: "#E65100", key: "dskrt2" })
+        skBtns.push(UI.Box({
+          key: "dskr", contentAlignment: "center",
+          modifier: Modifier.weight(1).background("#FFF3E0", { type: "pill" }).clickable(function() { setPopup("recordSick"); })
+        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dskri" },
+          UI.Text({ text: "记录生病", fontSize: 11, color: "#E65100", key: "dskrt" })
         )));
       }
-      if (pinRec) {
-        extraBtns2.push(UI.Box({
-          key: "dpnd2", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#E3F2FD", { type: "pill" }).clickable(deletePinAsync)
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpndi2" },
-          UI.Text({ text: "删除备注", fontSize: 11, color: "#1565C0", key: "dpndt2" })
-        )));
-      } else {
-        extraBtns2.push(UI.Box({
-          key: "dpnr2", contentAlignment: "center",
-          modifier: Modifier.weight(1).background("#E3F2FD", { type: "pill" })
-            .clickable(function() { setPopup("recordPin"); })
-        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpnri2" },
-          UI.Text({ text: "添加备注", fontSize: 11, color: "#1565C0", key: "dpnrt2" })
-        )));
-      }
-      c.push(UI.Spacer({ height: 4, key: "ds9" }));
-      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts3" }, extraBtns2));
+      c.push(UI.Spacer({ height: 4, key: "ds7" }));
+      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts3" }, skBtns));
 
-      // 关闭
-      c.push(UI.Spacer({ height: 4, key: "ds10" }));
+    } else if (tab === 2) {
+      // ---- 日程 tab 详情 ----
+      var annInfo = getAnnForDay(selDay);
+      var dayEvts = schedData.events && schedData.events[ds] ? schedData.events[ds] : [];
+
+      if (annInfo) {
+        c.push(UI.Card({
+          containerColor: "#FFF0F5", shape: { type: "rounded", cornerRadius: 10 },
+          elevation: 0, fillMaxWidth: true, padding: 10, key: "dannc"
+        }, UI.Text({ text: annInfo.label, fontSize: 13, fontWeight: "bold", color: "#E91E63", key: "dannt" })));
+        c.push(UI.Spacer({ height: 4, key: "dsann" }));
+      }
+
+      if (dayEvts.length === 0) {
+        c.push(UI.Text({ text: "这天没有日程安排", fontSize: 13, color: C.light, key: "dne" }));
+      } else {
+        for (var dei = 0; dei < dayEvts.length; dei++) {
+          (function(evt, idx) {
+            var evtInfo = evt.title;
+            if (evt.start_time) evtInfo += "  " + evt.start_time + (evt.end_time ? "-" + evt.end_time : "");
+            c.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "dei" + idx }, [
+              UI.Box({ width: 4, height: 30, key: "ded" + idx, modifier: Modifier.background(C.pri, { type: "pill" }) }),
+              UI.Column({ modifier: Modifier.weight(1), key: "dec" + idx }, [
+                UI.Text({ text: evtInfo, fontSize: 13, color: C.txt, key: "det" + idx }),
+                evt.location ? UI.Text({ text: evt.location, fontSize: 11, color: C.sec, key: "del" + idx }) : UI.Spacer({ height: 0, key: "dels" + idx }),
+                evt.note ? UI.Text({ text: evt.note, fontSize: 11, color: C.sec, key: "den" + idx }) : UI.Spacer({ height: 0, key: "dens" + idx })
+              ]),
+              UI.Box({
+                key: "ded2" + idx, width: 24, height: 24, contentAlignment: "center",
+                modifier: Modifier.background("#FFEBEE", { type: "circle" }).clickable(function() { deleteScheduleByIdx(ds, idx); })
+              }, UI.Text({ text: "x", fontSize: 11, color: "#FF4444", key: "dedt" + idx }))
+            ]));
+          })(dayEvts[dei], dei);
+        }
+      }
+
+      c.push(UI.Spacer({ height: 8, key: "ds8" }));
       c.push(UI.Box({
-        key: "dcb2", fillMaxWidth: true, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "pill" }).clickable(close)
-      }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dcbi2" },
-        UI.Text({ text: "关闭", fontSize: 12, color: C.sec, key: "dcbt2" })
+        fillMaxWidth: true, contentAlignment: "center", key: "dasb",
+        modifier: Modifier.background(C.pri, { type: "pill" }).clickable(function() { setPopup("addSchedule"); })
+      }, UI.Box({ padding: { top: 10, bottom: 10 }, key: "dasbi" },
+        UI.Text({ text: "添加日程", fontSize: 13, fontWeight: "bold", color: C.white, key: "dasbt" })
       )));
     }
+
+    // 关闭
+    c.push(UI.Spacer({ height: 4, key: "ds9" }));
+    c.push(UI.Box({
+      fillMaxWidth: true, contentAlignment: "center", key: "dcb",
+      modifier: Modifier.clickable(close)
+    }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dcbi" },
+      UI.Text({ text: "关闭", fontSize: 12, color: C.sec, key: "dcbt" })
+    )));
 
     return overlayWrap(c, "det");
   }
 
-  // ---- 记录心情弹窗（3x3 网格）----
+  // ---- 记录心情弹窗（2x4）----
   function popRecord() {
     if (popup !== "record") return null;
     var targetDay = selDay || TD;
     var c = [];
-
-    c.push(UI.Text({ text: "记录心情", fontSize: 18, fontWeight: "bold", color: C.txt, key: "rt" }));
-    c.push(UI.Text({
-      text: year + "年" + month + "月" + targetDay + "日",
-      fontSize: 12, color: C.sec, key: "rs"
-    }));
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "rth" }, [
+      UI.Text({ text: "记录心情", fontSize: 18, fontWeight: "bold", color: C.txt, key: "rt" }),
+      closeBtn("rx")
+    ]));
+    c.push(UI.Text({ text: year + "年" + month + "月" + targetDay + "日", fontSize: 12, color: C.sec, key: "rs" }));
     c.push(UI.Spacer({ height: 12, key: "rs1" }));
 
-    // 3x3 心情网格
-    for (var row = 0; row < 3; row++) {
+    // 2x4 心情网格
+    for (var row = 0; row < 2; row++) {
       var rowItems = [];
-      for (var col = 0; col < 3; col++) {
-        var idx = row * 3 + col;
+      for (var col = 0; col < 4; col++) {
+        var idx = row * 4 + col;
         (function(m, s) {
           rowItems.push(UI.Column({
             horizontalAlignment: "center", spacing: 4, key: "m" + m,
@@ -1226,33 +1201,25 @@ function Screen(ctx) {
               .clickable(function() { setRecMood(m); })
           }, [
             UI.Spacer({ height: 4, key: "ms" + m }),
-            UI.Image({
-              url: MOOD_ICONS_USER[m], contentDescription: MOOD_LABELS[m] || "",
-              contentScale: "fit", width: 40, height: 40, key: "mi" + m
-            }),
+            UI.Image({ url: MOOD_ICONS_USER[m], contentDescription: MOOD_LABELS[m] || "", contentScale: "fit", width: 40, height: 40, key: "mi" + m }),
             UI.Text({ text: MOOD_LABELS[m], fontSize: 11, color: s ? C.pri : C.sec, key: "ml" + m }),
             UI.Spacer({ height: 4, key: "me" + m })
           ]));
         })(MOOD_TYPES[idx], recMood === MOOD_TYPES[idx]);
       }
       c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "mr" + row }, rowItems));
-      if (row < 2) c.push(UI.Spacer({ height: 4, key: "mrs" + row }));
+      if (row < 1) c.push(UI.Spacer({ height: 4, key: "mrs" + row }));
     }
 
     c.push(UI.Spacer({ height: 10, key: "rs3" }));
-
-    // 心情备注
     c.push(UI.Card({
-      containerColor: "#FFF9F6", shape: { type: "rounded", cornerRadius: 14 },
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 14 },
       elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "rntfc"
     }, UI.TextField({
       value: recNote, onValueChange: function(v) { setRecNote(v); },
-      placeholder: "写点什么吧...（可选）",
-      singleLine: false, maxLines: 3, fillMaxWidth: true, key: "rntf"
+      placeholder: "写点什么吧...", singleLine: false, maxLines: 3, fillMaxWidth: true, key: "rntf"
     })));
-
     c.push(UI.Spacer({ height: 12, key: "rs3b" }));
-
     c.push(UI.Box({
       fillMaxWidth: true, contentAlignment: "center", key: "rsb",
       modifier: Modifier.background(recMood ? C.pri : C.light, { type: "pill" })
@@ -1261,13 +1228,10 @@ function Screen(ctx) {
       UI.Text({ text: "保存", fontSize: 14, fontWeight: "bold", color: C.white, key: "rsbt" })
     )));
     c.push(UI.Spacer({ height: 6, key: "rs4" }));
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "rcb",
-      modifier: Modifier.clickable(close)
-    }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "rcbi" },
-      UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "rcbt" })
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "rcb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "rcbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "rcbt" })
     )));
-
     return overlayWrap(c, "rec");
   }
 
@@ -1276,16 +1240,14 @@ function Screen(ctx) {
     if (popup !== "recordSick") return null;
     var targetDay = selDay || TD;
     var c = [];
-
-    c.push(UI.Text({ text: "记录生病 🤒", fontSize: 18, fontWeight: "bold", color: C.txt, key: "skt" }));
-    c.push(UI.Text({
-      text: year + "年" + month + "月" + targetDay + "日",
-      fontSize: 12, color: C.sec, key: "sks"
-    }));
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "skth" }, [
+      UI.Text({ text: "记录生病", fontSize: 18, fontWeight: "bold", color: C.txt, key: "skt" }),
+      closeBtn("skx")
+    ]));
+    c.push(UI.Text({ text: year + "年" + month + "月" + targetDay + "日", fontSize: 12, color: C.sec, key: "sks" }));
     c.push(UI.Spacer({ height: 12, key: "sks1" }));
-
     c.push(UI.Card({
-      containerColor: "#FFF9F6", shape: { type: "rounded", cornerRadius: 14 },
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 14 },
       elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "skntfc"
     }, UI.TextField({
       value: sickNote, onValueChange: function(v) { setSickNote(v); },
@@ -1293,64 +1255,18 @@ function Screen(ctx) {
       singleLine: false, maxLines: 3, fillMaxWidth: true, key: "skntf"
     })));
     c.push(UI.Spacer({ height: 12, key: "sks2" }));
-
     c.push(UI.Box({
       fillMaxWidth: true, contentAlignment: "center", key: "sksb",
-      modifier: Modifier.background(sickNote && sickNote.trim() ? C.pri : C.light, { type: "pill" })
-        .clickable(function() { if (sickNote && sickNote.trim()) saveSick(); })
+      modifier: Modifier.background(sickNote && sickNote.trim() ? C.pri : C.light, { type: "pill" }).clickable(saveSick)
     }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "sksbi" },
       UI.Text({ text: "保存", fontSize: 14, fontWeight: "bold", color: C.white, key: "sksbt" })
     )));
     c.push(UI.Spacer({ height: 6, key: "sks3" }));
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "skcb",
-      modifier: Modifier.clickable(close)
-    }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "skcbi" },
-      UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "skcbt" })
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "skcb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "skcbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "skcbt" })
     )));
-
     return overlayWrap(c, "sk");
-  }
-
-  // ---- 添加备注弹窗 ----
-  function popRecordPin() {
-    if (popup !== "recordPin") return null;
-    var targetDay = selDay || TD;
-    var c = [];
-
-    c.push(UI.Text({ text: "添加备注 📌", fontSize: 18, fontWeight: "bold", color: C.txt, key: "pntt" }));
-    c.push(UI.Text({
-      text: year + "年" + month + "月" + targetDay + "日",
-      fontSize: 12, color: C.sec, key: "pnts"
-    }));
-    c.push(UI.Spacer({ height: 12, key: "pns1" }));
-
-    c.push(UI.Card({
-      containerColor: "#FFF9F6", shape: { type: "rounded", cornerRadius: 14 },
-      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "pnntfc"
-    }, UI.TextField({
-      value: pinNote, onValueChange: function(v) { setPinNote(v); },
-      placeholder: "写下重要备忘...",
-      singleLine: false, maxLines: 3, fillMaxWidth: true, key: "pnntf"
-    })));
-    c.push(UI.Spacer({ height: 12, key: "pns2" }));
-
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "pnsb",
-      modifier: Modifier.background(pinNote && pinNote.trim() ? C.pri : C.light, { type: "pill" })
-        .clickable(function() { if (pinNote && pinNote.trim()) savePin(); })
-    }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "pnsbi" },
-      UI.Text({ text: "保存", fontSize: 14, fontWeight: "bold", color: C.white, key: "pnsbt" })
-    )));
-    c.push(UI.Spacer({ height: 6, key: "pns3" }));
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "pncb",
-      modifier: Modifier.clickable(close)
-    }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "pncbi" },
-      UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "pncbt" })
-    )));
-
-    return overlayWrap(c, "pn");
   }
 
   // ---- 经期详情弹窗 ----
@@ -1358,16 +1274,15 @@ function Screen(ctx) {
     if (popup !== "periodDetail") return null;
     var targetDay = selDay || TD;
     var c = [];
-
-    c.push(UI.Text({ text: "经期详情", fontSize: 18, fontWeight: "bold", color: C.txt, key: "pdtt" }));
-    c.push(UI.Text({
-      text: year + "年" + month + "月" + targetDay + "日",
-      fontSize: 12, color: C.sec, key: "pdts"
-    }));
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "pdth" }, [
+      UI.Text({ text: "经期详情", fontSize: 18, fontWeight: "bold", color: C.txt, key: "pdtt" }),
+      closeBtn("pdx")
+    ]));
+    c.push(UI.Text({ text: year + "年" + month + "月" + targetDay + "日", fontSize: 12, color: C.sec, key: "pdts" }));
     c.push(UI.Spacer({ height: 12, key: "pd1" }));
 
-    // 流量
-    c.push(UI.Text({ text: "流量", fontSize: 13, color: C.sec, key: "pdfl" }));
+    // 经血量
+    c.push(UI.Text({ text: "经血量", fontSize: 13, fontWeight: "bold", color: C.txt, key: "pdfl" }));
     c.push(UI.Spacer({ height: 6, key: "pd2" }));
     var flowKeys = ["light", "medium", "heavy"];
     var flowChips = [];
@@ -1376,8 +1291,7 @@ function Screen(ctx) {
         var sel = pdFlow === fk;
         flowChips.push(UI.Box({
           key: "fl" + fk, contentAlignment: "center",
-          modifier: Modifier.weight(1)
-            .background(sel ? FLOW_COLORS[fk] : "#F5F0EE", { type: "pill" })
+          modifier: Modifier.weight(1).background(sel ? FLOW_COLORS[fk] : "#F5F0EE", { type: "pill" })
             .clickable(function() { setPdFlow(sel ? "" : fk); })
         }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "fli" + fk },
           UI.Text({ text: FLOW_LABELS[fk], fontSize: 12, color: sel ? "#FFF" : C.txt, key: "flt" + fk })
@@ -1388,11 +1302,11 @@ function Screen(ctx) {
     c.push(UI.Spacer({ height: 12, key: "pd3" }));
 
     // 颜色
-    c.push(UI.Text({ text: "颜色", fontSize: 13, color: C.sec, key: "pdcl" }));
+    c.push(UI.Text({ text: "颜色", fontSize: 13, fontWeight: "bold", color: C.txt, key: "pdcl" }));
     c.push(UI.Spacer({ height: 6, key: "pd4" }));
     var colorKeys = ["bright_red", "dark_red", "brown", "pink"];
     var colorChips = [];
-    for (var ci = 0; ci < colorKeys.length; ci++) {
+    for (var ci2 = 0; ci2 < colorKeys.length; ci2++) {
       (function(ck) {
         var sel = pdColor === ck;
         colorChips.push(UI.Column({
@@ -1403,19 +1317,17 @@ function Screen(ctx) {
             .clickable(function() { setPdColor(sel ? "" : ck); })
         }, [
           UI.Spacer({ height: 4, key: "cls" + ck }),
-          UI.Box({ width: 24, height: 24, key: "cld" + ck,
-            modifier: Modifier.background(COLOR_HEX[ck], { type: "circle" })
-          }),
+          UI.Box({ width: 24, height: 24, key: "cld" + ck, modifier: Modifier.background(COLOR_HEX[ck], { type: "circle" }) }),
           UI.Text({ text: COLOR_LABELS[ck], fontSize: 10, color: sel ? COLOR_HEX[ck] : C.sec, key: "clt" + ck }),
           UI.Spacer({ height: 4, key: "cle" + ck })
         ]));
-      })(colorKeys[ci]);
+      })(colorKeys[ci2]);
     }
     c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "clr" }, colorChips));
     c.push(UI.Spacer({ height: 12, key: "pd5" }));
 
     // 疼痛程度
-    c.push(UI.Text({ text: "疼痛程度", fontSize: 13, color: C.sec, key: "pdpl" }));
+    c.push(UI.Text({ text: "疼痛程度", fontSize: 13, fontWeight: "bold", color: C.txt, key: "pdpl" }));
     c.push(UI.Spacer({ height: 6, key: "pd6" }));
     var painChips = [];
     for (var pai = 0; pai <= 4; pai++) {
@@ -1423,8 +1335,7 @@ function Screen(ctx) {
         var sel = pdPain === pv;
         painChips.push(UI.Box({
           key: "pn" + pv, contentAlignment: "center",
-          modifier: Modifier.weight(1)
-            .background(sel ? C.pri : "#F5F0EE", { type: "pill" })
+          modifier: Modifier.weight(1).background(sel ? C.pri : "#F5F0EE", { type: "pill" })
             .clickable(function() { setPdPain(sel ? -1 : pv); })
         }, UI.Box({ padding: { top: 6, bottom: 6 }, key: "pni" + pv },
           UI.Text({ text: PAIN_LABELS[pv], fontSize: 10, color: sel ? "#FFF" : C.txt, key: "pnl" + pv })
@@ -1434,10 +1345,9 @@ function Screen(ctx) {
     c.push(UI.Row({ fillMaxWidth: true, spacing: 4, key: "pnr" }, painChips));
     c.push(UI.Spacer({ height: 12, key: "pd7" }));
 
-    // 症状（可多选）
-    c.push(UI.Text({ text: "症状（可多选）", fontSize: 13, color: C.sec, key: "pdsyl" }));
+    // 伴随症状
+    c.push(UI.Text({ text: "伴随症状（可多选）", fontSize: 13, fontWeight: "bold", color: C.txt, key: "pdsyl" }));
     c.push(UI.Spacer({ height: 6, key: "pd8" }));
-
     function mkSympRow(startIdx, endIdx, rowKey) {
       var chips = [];
       for (var si = startIdx; si < endIdx; si++) {
@@ -1446,9 +1356,8 @@ function Screen(ctx) {
           var sel = sympArr.indexOf(sk) >= 0;
           chips.push(UI.Box({
             key: "sy" + sk, contentAlignment: "center",
-            modifier: Modifier.weight(1)
-              .background(sel ? "#FFE0E0" : "#F5F0EE", { type: "pill" })
-              .border(sel ? 1 : 0, sel ? C.period : "transparent", { type: "pill" })
+            modifier: Modifier.weight(1).background(sel ? "#FFE0E0" : "#F5F0EE", { type: "pill" })
+              .border(sel ? 1 : 0, sel ? PH.men : "transparent", { type: "pill" })
               .clickable(function() {
                 var arr = pdSymp ? pdSymp.split(",").filter(function(x) { return x.length > 0; }) : [];
                 var idx = arr.indexOf(sk);
@@ -1456,13 +1365,12 @@ function Screen(ctx) {
                 setPdSymp(arr.join(","));
               })
           }, UI.Box({ padding: { top: 6, bottom: 6 }, key: "syi" + sk },
-            UI.Text({ text: SYMPTOM_LABELS[sk], fontSize: 10, color: sel ? C.period : C.txt, key: "syt" + sk })
+            UI.Text({ text: SYMPTOM_LABELS[sk], fontSize: 10, color: sel ? PH.men : C.txt, key: "syt" + sk })
           )));
         })(SYMPTOM_TYPES[si]);
       }
       return UI.Row({ fillMaxWidth: true, spacing: 4, key: rowKey }, chips);
     }
-
     c.push(mkSympRow(0, 4, "syr1"));
     c.push(UI.Spacer({ height: 4, key: "pd9" }));
     c.push(mkSympRow(4, 8, "syr2"));
@@ -1470,57 +1378,137 @@ function Screen(ctx) {
 
     // 备注
     c.push(UI.Card({
-      containerColor: "#FFF9F6", shape: { type: "rounded", cornerRadius: 14 },
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 14 },
       elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "pdntfc"
     }, UI.TextField({
       value: pdNoteVal, onValueChange: function(v) { setPdNoteVal(v); },
-      placeholder: "补充备注...（可选）",
-      singleLine: false, maxLines: 3, fillMaxWidth: true, key: "pdntf"
+      placeholder: "其他备注...（可选）", singleLine: false, maxLines: 3, fillMaxWidth: true, key: "pdntf"
     })));
     c.push(UI.Spacer({ height: 12, key: "pd11" }));
 
-    // 保存
     c.push(UI.Box({
       fillMaxWidth: true, contentAlignment: "center", key: "pdsb",
       modifier: Modifier.background(C.pri, { type: "pill" }).clickable(savePeriodDetail)
     }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "pdsbi" },
-      UI.Text({ text: "保存", fontSize: 14, fontWeight: "bold", color: C.white, key: "pdsbt" })
+      UI.Text({ text: "保存详情", fontSize: 14, fontWeight: "bold", color: C.white, key: "pdsbt" })
     )));
     c.push(UI.Spacer({ height: 6, key: "pd12" }));
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "pdcb",
-      modifier: Modifier.clickable(close)
-    }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "pdcbi" },
-      UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "pdcbt" })
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "pdcb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "pdcbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "pdcbt" })
     )));
-
     return overlayWrap(c, "pdl");
+  }
+
+  // ---- 添加日程弹窗 ----
+  function popAddSchedule() {
+    if (popup !== "addSchedule") return null;
+    var targetDay = selDay || TD;
+    var c = [];
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "asth" }, [
+      UI.Text({ text: "添加日程", fontSize: 18, fontWeight: "bold", color: C.txt, key: "astt" }),
+      closeBtn("asx")
+    ]));
+    c.push(UI.Spacer({ height: 12, key: "as1" }));
+
+    // 日程名称
+    c.push(UI.Text({ text: "日程名称", fontSize: 13, fontWeight: "bold", color: C.txt, key: "astl" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "asttfc"
+    }, UI.TextField({
+      value: schTitle, onValueChange: function(v) { setSchTitle(v); },
+      placeholder: "例：考试、聚会、约会...", singleLine: true, fillMaxWidth: true, key: "astttf"
+    })));
+    c.push(UI.Spacer({ height: 8, key: "as2" }));
+
+    // 日期
+    c.push(UI.Text({ text: "日期", fontSize: 13, fontWeight: "bold", color: C.txt, key: "asdl" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, padding: { start: 12, end: 12, top: 10, bottom: 10 }, key: "asdc"
+    }, UI.Text({ text: year + "/" + String(month).padStart(2, "0") + "/" + String(targetDay).padStart(2, "0"), fontSize: 14, color: C.txt, key: "asdt" })));
+    c.push(UI.Spacer({ height: 8, key: "as3" }));
+
+    // 开始/结束时间
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "astr" }, [
+      UI.Column({ modifier: Modifier.weight(1), key: "asstc" }, [
+        UI.Text({ text: "开始时间", fontSize: 13, fontWeight: "bold", color: C.txt, key: "asstl" }),
+        UI.Card({
+          containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+          elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "asstfc"
+        }, UI.TextField({
+          value: schSt, onValueChange: function(v) { setSchSt(v); },
+          placeholder: "如 09:00", singleLine: true, fillMaxWidth: true, key: "assttf"
+        }))
+      ]),
+      UI.Column({ modifier: Modifier.weight(1), key: "asetc" }, [
+        UI.Text({ text: "结束时间", fontSize: 13, fontWeight: "bold", color: C.txt, key: "asetl" }),
+        UI.Card({
+          containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+          elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "asetfc"
+        }, UI.TextField({
+          value: schEt, onValueChange: function(v) { setSchEt(v); },
+          placeholder: "如 11:00", singleLine: true, fillMaxWidth: true, key: "asettf"
+        }))
+      ])
+    ]));
+    c.push(UI.Spacer({ height: 8, key: "as4" }));
+
+    // 地点
+    c.push(UI.Text({ text: "地点", fontSize: 13, fontWeight: "bold", color: C.txt, key: "asll" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "aslfc"
+    }, UI.TextField({
+      value: schLoc, onValueChange: function(v) { setSchLoc(v); },
+      placeholder: "选填", singleLine: true, fillMaxWidth: true, key: "asltf"
+    })));
+    c.push(UI.Spacer({ height: 8, key: "as5" }));
+
+    // 备注
+    c.push(UI.Text({ text: "备注", fontSize: 13, fontWeight: "bold", color: C.txt, key: "asnl" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "asnfc"
+    }, UI.TextField({
+      value: schNote, onValueChange: function(v) { setSchNote(v); },
+      placeholder: "选填", singleLine: false, maxLines: 3, fillMaxWidth: true, key: "asntf"
+    })));
+    c.push(UI.Spacer({ height: 12, key: "as6" }));
+
+    c.push(UI.Box({
+      fillMaxWidth: true, contentAlignment: "center", key: "assb",
+      modifier: Modifier.background(schTitle && schTitle.trim() ? C.pri : C.light, { type: "pill" }).clickable(saveSchedule)
+    }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "assbi" },
+      UI.Text({ text: "保存日程", fontSize: 14, fontWeight: "bold", color: C.white, key: "assbt" })
+    )));
+    c.push(UI.Spacer({ height: 6, key: "as7" }));
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "ascb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "ascbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "ascbt" })
+    )));
+    return overlayWrap(c, "asc");
   }
 
   // ---- 年月选择弹窗 ----
   function popPicker() {
     if (popup !== "picker") return null;
     var c = [];
-
     c.push(UI.Row({
-      fillMaxWidth: true, horizontalArrangement: "spaceBetween",
-      verticalAlignment: "center", key: "pyr"
+      fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "pyr"
     }, [
       UI.Box({
         key: "pyp", width: 36, height: 36, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "circle" })
-          .clickable(function() { setPYear(pYear - 1); })
+        modifier: Modifier.background("#F5F0EE", { type: "circle" }).clickable(function() { setPYear(pYear - 1); })
       }, UI.Text({ text: "<", fontSize: 16, color: C.sec, key: "pypt" })),
       UI.Text({ text: pYear + "年", fontSize: 20, fontWeight: "bold", color: C.txt, key: "pyt" }),
       UI.Box({
         key: "pyn", width: 36, height: 36, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "circle" })
-          .clickable(function() { setPYear(pYear + 1); })
+        modifier: Modifier.background("#F5F0EE", { type: "circle" }).clickable(function() { setPYear(pYear + 1); })
       }, UI.Text({ text: ">", fontSize: 16, color: C.sec, key: "pynt" }))
     ]));
-
     c.push(UI.Spacer({ height: 12, key: "ps1" }));
-
     var mLabels = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
     for (var row = 0; row < 3; row++) {
       var cells = [];
@@ -1531,23 +1519,16 @@ function Screen(ctx) {
         cells.push((function(mm, cur, nw) {
           return UI.Box({
             key: "pm" + mm, contentAlignment: "center",
-            modifier: Modifier.weight(1)
-              .background(cur ? C.pri : nw ? C.todayBg : "transparent", { type: "rounded", cornerRadius: 10 })
+            modifier: Modifier.weight(1).background(cur ? C.pri : nw ? C.priL : "transparent", { type: "rounded", cornerRadius: 10 })
               .clickable(function() { jumpTo(pYear, mm); })
           }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "pmi" + mm },
-            UI.Text({
-              text: mLabels[mm - 1], fontSize: 14,
-              fontWeight: cur ? "bold" : "normal",
-              color: cur ? C.white : nw ? C.pri : C.txt, key: "pmt" + mm
-            })
+            UI.Text({ text: mLabels[mm - 1], fontSize: 14, fontWeight: cur ? "bold" : "normal", color: cur ? C.white : nw ? C.pri : C.txt, key: "pmt" + mm })
           ));
         })(m, isCur, isNow));
       }
       c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "pmr" + row }, cells));
     }
-
     c.push(UI.Spacer({ height: 12, key: "ps2" }));
-
     c.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "pacts" }, [
       UI.Box({
         key: "ptb", contentAlignment: "center",
@@ -1562,7 +1543,6 @@ function Screen(ctx) {
         UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "pcbt" })
       ))
     ]));
-
     return overlayWrap(c, "pk");
   }
 
@@ -1570,50 +1550,43 @@ function Screen(ctx) {
   function popSettings() {
     if (popup !== "settings") return null;
     var c = [];
-
-    c.push(UI.Text({ text: "周期设置", fontSize: 18, fontWeight: "bold", color: C.txt, key: "stt" }));
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "stth" }, [
+      UI.Text({ text: "周期设置", fontSize: 18, fontWeight: "bold", color: C.txt, key: "stt" }),
+      closeBtn("stx")
+    ]));
     c.push(UI.Spacer({ height: 16, key: "ss1" }));
-
     c.push(UI.Text({ text: "月经周期（天）", fontSize: 13, color: C.sec, key: "scl" }));
     c.push(UI.Spacer({ height: 6, key: "ss2" }));
     c.push(UI.Row({
-      fillMaxWidth: true, horizontalArrangement: "center",
-      verticalAlignment: "center", spacing: 20, key: "scr"
+      fillMaxWidth: true, horizontalArrangement: "center", verticalAlignment: "center", spacing: 20, key: "scr"
     }, [
       UI.Box({
         key: "scm", width: 44, height: 44, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "circle" })
-          .clickable(function() { if (sCycle > 1) setSCycle(sCycle - 1); })
+        modifier: Modifier.background("#F5F0EE", { type: "circle" }).clickable(function() { if (sCycle > 1) setSCycle(sCycle - 1); })
       }, UI.Text({ text: "-", fontSize: 22, color: C.txt, key: "scmt" })),
       UI.Text({ text: String(sCycle), fontSize: 36, fontWeight: "bold", color: C.pri, key: "scv" }),
       UI.Box({
         key: "scp", width: 44, height: 44, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "circle" })
-          .clickable(function() { setSCycle(sCycle + 1); })
+        modifier: Modifier.background("#F5F0EE", { type: "circle" }).clickable(function() { setSCycle(sCycle + 1); })
       }, UI.Text({ text: "+", fontSize: 22, color: C.txt, key: "scpt" }))
     ]));
     c.push(UI.Spacer({ height: 16, key: "ss3" }));
-
     c.push(UI.Text({ text: "经期时长（天）", fontSize: 13, color: C.sec, key: "spl" }));
     c.push(UI.Spacer({ height: 6, key: "ss4" }));
     c.push(UI.Row({
-      fillMaxWidth: true, horizontalArrangement: "center",
-      verticalAlignment: "center", spacing: 20, key: "spr"
+      fillMaxWidth: true, horizontalArrangement: "center", verticalAlignment: "center", spacing: 20, key: "spr"
     }, [
       UI.Box({
         key: "spm", width: 44, height: 44, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "circle" })
-          .clickable(function() { if (sPeriod > 1) setSPeriod(sPeriod - 1); })
+        modifier: Modifier.background("#F5F0EE", { type: "circle" }).clickable(function() { if (sPeriod > 1) setSPeriod(sPeriod - 1); })
       }, UI.Text({ text: "-", fontSize: 22, color: C.txt, key: "spmt" })),
-      UI.Text({ text: String(sPeriod), fontSize: 36, fontWeight: "bold", color: C.period, key: "spv" }),
+      UI.Text({ text: String(sPeriod), fontSize: 36, fontWeight: "bold", color: PH.men, key: "spv" }),
       UI.Box({
         key: "spp", width: 44, height: 44, contentAlignment: "center",
-        modifier: Modifier.background("#F5F0EE", { type: "circle" })
-          .clickable(function() { setSPeriod(sPeriod + 1); })
+        modifier: Modifier.background("#F5F0EE", { type: "circle" }).clickable(function() { setSPeriod(sPeriod + 1); })
       }, UI.Text({ text: "+", fontSize: 22, color: C.txt, key: "sppt" }))
     ]));
     c.push(UI.Spacer({ height: 20, key: "ss5" }));
-
     c.push(UI.Box({
       fillMaxWidth: true, contentAlignment: "center", key: "ssb",
       modifier: Modifier.background(C.pri, { type: "pill" }).clickable(saveSettingsFn)
@@ -1621,38 +1594,36 @@ function Screen(ctx) {
       UI.Text({ text: "保存设置", fontSize: 14, fontWeight: "bold", color: C.white, key: "ssbt" })
     )));
     c.push(UI.Spacer({ height: 6, key: "ss6" }));
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "scnb",
-      modifier: Modifier.clickable(close)
-    }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "scnbi" },
-      UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "scnbt" })
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "scnb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "scnbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "scnbt" })
     )));
-
     return overlayWrap(c, "st");
   }
 
-  // ==================== 组装主界面 ====================
+  // ==================== 组装 ====================
+  var mainItems = [tabBar];
+
+  // 设置 tab 不需要日历
+  if (tab < 3) {
+    mainItems.push(buildCalendarCard());
+    mainItems.push(buildLegend());
+  }
+
+  // 各 tab 专属内容
+  mainItems.push(buildRecordBtn());
+  mainItems.push(buildStats());
+  mainItems.push(buildPeriodInfo());
+  mainItems.push(buildScheduleContent());
+  mainItems.push(buildSettingsContent());
+  mainItems.push(UI.Spacer({ height: 24, key: "bs" }));
 
   var mainContent = UI.LazyColumn({
     fillMaxSize: true, padding: 16, spacing: 12, background: C.bg, key: "lc",
-    onLoad: async function() {
-      if (!dataLoaded) {
-        await loadAllData();
-      }
-    }
-  }, [
-    tabBar,
-    monthHeader,
-    weekRow,
-    buildGrid(),
-    buildLegend(),
-    buildRecordBtn(),
-    buildStats(),
-    buildPeriodInfo(),
-    UI.Spacer({ height: 24, key: "bs" })
-  ]);
+    onLoad: async function() { if (!dataLoaded) await loadAllData(); }
+  }, mainItems);
 
-  var activePopup = popDetail() || popRecord() || popRecordSick() || popRecordPin() || popPeriodDetail() || popPicker() || popSettings();
+  var activePopup = popDetail() || popRecord() || popRecordSick() || popPeriodDetail() || popAddSchedule() || popPicker() || popSettings();
   if (activePopup) {
     return UI.Box({ fillMaxSize: true, key: "root" }, [mainContent, activePopup]);
   }

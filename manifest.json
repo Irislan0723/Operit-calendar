@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "toolpkg_id": "com.iris.calendar",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": "Irislan0723",
   "display_name": {
     "zh": "拾月日历",
     "en": "Shiyue Calendar"
   },
   "description": {
-    "zh": "心情记录与经期追踪日历插件，支持9种心情、经期详情记录、生病/置顶标记、纪念日与经期预测",
-    "en": "Mood & period calendar plugin with 9 moods, period detail tracking, sick/pin records, anniversaries and cycle prediction"
+    "zh": "心情记录与经期追踪日历插件，支持8种心情、经期详情记录、生病标记、日程管理、纪念日、经期预测与自定义主题配色",
+    "en": "Mood & period calendar plugin with 8 moods, period detail tracking, sick records, schedule management, anniversaries, cycle prediction and custom themes"
   },
   "main": "main.js",
   "subpackages": [

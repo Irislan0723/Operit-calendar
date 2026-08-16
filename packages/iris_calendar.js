@@ -6,133 +6,145 @@ METADATA
         "zh": "拾月日历工具",
         "en": "Shiyue Calendar Tools"
     },
-    "description": "提供心情记录、经期标记和详情记录、生病记录、日期备注、纪念日和日历数据查询工具，支持AI和用户双人记录",
+    "description": "提供心情记录、经期追踪与详情、生病记录、日程管理、纪念日和日历数据查询工具",
     "author": ["Irislan0723"],
     "category": "Utility",
     "tools": [
         {
             "name": "record_mood",
-            "description": "记录心情。AI和用户都可以记录，通过role区分。记录后会在日历上显示对应的心情图标。",
+            "description": "记录心情。AI和用户都可以记录，通过role区分。",
             "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD，例如2026-08-10", "type": "string", "required": true },
-                { "name": "role", "description": "记录者角色，取值 user 或 ai", "type": "string", "required": true },
-                { "name": "mood", "description": "心情类型，取值：happy(开心), loved(被爱), calm(平静), tired(疲惫), sad(难过), anxious(焦虑), angry(生气), miss_you(想你), excited(兴奋)", "type": "string", "required": true },
-                { "name": "note", "description": "可选，心情备注文字", "type": "string", "required": false }
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "role", "description": "记录者 user 或 ai", "type": "string", "required": true },
+                { "name": "mood", "description": "心情：happy(开心), calm(平静), tired(疲惫), sad(难过), anxious(焦虑), angry(生气), miss_you(想你), excited(兴奋)", "type": "string", "required": true },
+                { "name": "note", "description": "备注", "type": "string", "required": false }
             ]
         },
         {
             "name": "record_period",
-            "description": "记录经期信息。可标记经期开始或结束日期。AI可在聊天中主动调用来帮用户记录。",
+            "description": "标记经期开始或结束。",
             "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true },
-                { "name": "action", "description": "操作类型，取值 start(标记经期开始) 或 end(标记经期结束)", "type": "string", "required": true }
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "action", "description": "start 或 end", "type": "string", "required": true }
             ]
         },
         {
             "name": "record_period_detail",
-            "description": "记录经期当天的详细信息，包括流量、颜色、疼痛程度和症状。AI可在用户描述经期状况时主动调用。",
+            "description": "记录经期当天详情：经血量、颜色、疼痛、症状。",
             "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true },
-                { "name": "flow", "description": "流量，取值：light(少量)、medium(中等)、heavy(大量)", "type": "string", "required": false },
-                { "name": "color", "description": "颜色，取值：bright_red(鲜红)、dark_red(暗红)、brown(褐色)、pink(粉色)", "type": "string", "required": false },
-                { "name": "pain", "description": "疼痛等级，0(无痛)到4(剧痛)", "type": "number", "required": false },
-                { "name": "symptoms", "description": "症状列表，逗号分隔，可选值：cramps(痉挛),backache(腰痛),headache(头痛),bloating(腹胀),fatigue(疲劳),mood_swing(情绪波动),breast_pain(胸痛),acne(痘痘)", "type": "string", "required": false },
-                { "name": "note", "description": "补充备注", "type": "string", "required": false }
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "flow", "description": "经血量：light(少量), medium(中等), heavy(较多)", "type": "string", "required": false },
+                { "name": "color", "description": "颜色：bright_red(鲜红), dark_red(暗红), brown(褐色), pink(粉色)", "type": "string", "required": false },
+                { "name": "pain", "description": "疼痛 0(无痛)~4(严重)", "type": "number", "required": false },
+                { "name": "symptoms", "description": "症状逗号分隔：cramps(痛经),backache(腰痛),headache(头痛),bloating(腹胀),fatigue(疲劳),mood_swing(情绪波动),breast_pain(胸胀),acne(长痘)", "type": "string", "required": false },
+                { "name": "note", "description": "备注", "type": "string", "required": false }
             ]
         },
         {
             "name": "record_sick",
-            "description": "记录生病信息。可记录症状描述，会在日历上显示生病图标🤒。AI可在用户提到身体不舒服时主动调用。",
+            "description": "记录生病信息，会显示在经期板块。",
             "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true },
-                { "name": "note", "description": "症状描述，如'喉咙痛'、'发烧38.5度'、'胃疼'", "type": "string", "required": true }
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "note", "description": "症状描述", "type": "string", "required": true }
             ]
         },
         {
-            "name": "record_pin",
-            "description": "给指定日期添加重要备注/便签。会在日历上显示📌图标。适合标记重要事件、提醒等。",
+            "name": "record_schedule",
+            "description": "添加日程事件。",
             "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true },
-                { "name": "note", "description": "备注内容", "type": "string", "required": true }
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "title", "description": "日程标题", "type": "string", "required": true },
+                { "name": "start_time", "description": "开始时间 HH:MM", "type": "string", "required": false },
+                { "name": "end_time", "description": "结束时间 HH:MM", "type": "string", "required": false },
+                { "name": "location", "description": "地点", "type": "string", "required": false },
+                { "name": "note", "description": "备注", "type": "string", "required": false }
             ]
         },
         {
             "name": "set_anniversary",
-            "description": "设置纪念日。纪念日会在日历上每年同一天高亮显示♡。",
+            "description": "设置纪念日，每年同日显示。",
             "parameters": [
-                { "name": "date", "description": "纪念日日期，格式为MM-DD（每年重复）或YYYY-MM-DD（记录起始年份）", "type": "string", "required": true },
-                { "name": "label", "description": "纪念日名称，如'相识纪念日'、'在一起纪念日'", "type": "string", "required": true }
+                { "name": "date", "description": "日期 MM-DD 或 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "label", "description": "纪念日名称", "type": "string", "required": true }
             ]
         },
         {
             "name": "get_calendar_data",
-            "description": "获取指定月份的日历数据，包括心情记录、经期信息、经期详情、生病记录、日期备注和纪念日",
+            "description": "获取指定月份的所有日历数据。",
             "parameters": [
-                { "name": "month", "description": "月份，格式为YYYY-MM，例如2026-08", "type": "string", "required": true }
+                { "name": "month", "description": "月份 YYYY-MM", "type": "string", "required": true }
             ]
         },
         {
             "name": "get_mood_summary",
-            "description": "获取指定月份的心情统计汇总",
+            "description": "获取月份心情统计。",
             "parameters": [
-                { "name": "month", "description": "月份，格式为YYYY-MM", "type": "string", "required": true }
+                { "name": "month", "description": "月份 YYYY-MM", "type": "string", "required": true }
+            ]
+        },
+        {
+            "name": "get_schedules",
+            "description": "获取月份日程和纪念日。",
+            "parameters": [
+                { "name": "month", "description": "月份 YYYY-MM", "type": "string", "required": true }
             ]
         },
         {
             "name": "update_period_settings",
-            "description": "更新经期设置，包括周期时长和经期时长",
+            "description": "更新周期设置。",
             "parameters": [
-                { "name": "cycle_length", "description": "月经周期时长（天），默认28天", "type": "number", "required": false },
-                { "name": "period_length", "description": "经期时长（天），默认5天", "type": "number", "required": false }
-            ]
-        },
-        {
-            "name": "delete_mood",
-            "description": "删除指定日期的心情记录",
-            "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true },
-                { "name": "role", "description": "要删除的角色记录，取值 user 或 ai。不指定则删除该日全部心情记录", "type": "string", "required": false }
-            ]
-        },
-        {
-            "name": "delete_period",
-            "description": "删除包含指定日期的经期记录",
-            "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD，将删除包含该日期的经期记录", "type": "string", "required": true }
-            ]
-        },
-        {
-            "name": "delete_period_detail",
-            "description": "删除指定日期的经期详情记录",
-            "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true }
-            ]
-        },
-        {
-            "name": "delete_sick",
-            "description": "删除指定日期的生病记录",
-            "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true }
-            ]
-        },
-        {
-            "name": "delete_pin",
-            "description": "删除指定日期的备注",
-            "parameters": [
-                { "name": "date", "description": "日期，格式为YYYY-MM-DD", "type": "string", "required": true }
-            ]
-        },
-        {
-            "name": "delete_anniversary",
-            "description": "删除指定纪念日",
-            "parameters": [
-                { "name": "date", "description": "纪念日日期，格式为MM-DD", "type": "string", "required": true }
+                { "name": "cycle_length", "description": "周期天数", "type": "number", "required": false },
+                { "name": "period_length", "description": "经期天数", "type": "number", "required": false }
             ]
         },
         {
             "name": "get_anniversaries",
-            "description": "获取所有已设置的纪念日列表",
+            "description": "获取纪念日列表。",
             "parameters": []
+        },
+        {
+            "name": "delete_mood",
+            "description": "删除心情记录。",
+            "parameters": [
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "role", "description": "user 或 ai，不指定则全部删除", "type": "string", "required": false }
+            ]
+        },
+        {
+            "name": "delete_period",
+            "description": "删除经期记录。",
+            "parameters": [
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true }
+            ]
+        },
+        {
+            "name": "delete_period_detail",
+            "description": "删除经期详情。",
+            "parameters": [
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true }
+            ]
+        },
+        {
+            "name": "delete_sick",
+            "description": "删除生病记录。",
+            "parameters": [
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true }
+            ]
+        },
+        {
+            "name": "delete_schedule",
+            "description": "删除日程事件。",
+            "parameters": [
+                { "name": "date", "description": "日期 YYYY-MM-DD", "type": "string", "required": true },
+                { "name": "title", "description": "日程标题", "type": "string", "required": true }
+            ]
+        },
+        {
+            "name": "delete_anniversary",
+            "description": "删除纪念日。",
+            "parameters": [
+                { "name": "date", "description": "日期 MM-DD", "type": "string", "required": true }
+            ]
         }
     ]
 }
@@ -142,23 +154,23 @@ const MOOD_FILE = DATA_DIR + "/mood_data.json";
 const PERIOD_FILE = DATA_DIR + "/period_data.json";
 const SETTINGS_FILE = DATA_DIR + "/settings.json";
 const SICK_FILE = DATA_DIR + "/sick_data.json";
-const PIN_FILE = DATA_DIR + "/pin_data.json";
 const PERIOD_DETAIL_FILE = DATA_DIR + "/period_detail_data.json";
+const SCHEDULE_FILE = DATA_DIR + "/schedule_data.json";
 
-const MOOD_TYPES = ["happy", "loved", "calm", "tired", "sad", "anxious", "angry", "miss_you", "excited"];
+const MOOD_TYPES = ["happy", "calm", "tired", "sad", "anxious", "angry", "miss_you", "excited"];
 const MOOD_LABELS = {
-  happy: "开心", loved: "被爱", calm: "平静", tired: "疲惫", sad: "难过",
+  happy: "开心", calm: "平静", tired: "疲惫", sad: "难过",
   anxious: "焦虑", angry: "生气", miss_you: "想你", excited: "兴奋"
 };
 
 const FLOW_OPTIONS = ["light", "medium", "heavy"];
-const FLOW_LABELS = { light: "少量", medium: "中等", heavy: "大量" };
+const FLOW_LABELS = { light: "少量", medium: "中等", heavy: "较多" };
 const COLOR_OPTIONS = ["bright_red", "dark_red", "brown", "pink"];
 const COLOR_LABELS = { bright_red: "鲜红", dark_red: "暗红", brown: "褐色", pink: "粉色" };
 const SYMPTOM_TYPES = ["cramps", "backache", "headache", "bloating", "fatigue", "mood_swing", "breast_pain", "acne"];
 const SYMPTOM_LABELS = {
-  cramps: "痉挛", backache: "腰痛", headache: "头痛", bloating: "腹胀",
-  fatigue: "疲劳", mood_swing: "情绪波动", breast_pain: "胸痛", acne: "痘痘"
+  cramps: "痛经", backache: "腰痛", headache: "头痛", bloating: "腹胀",
+  fatigue: "疲劳", mood_swing: "情绪波动", breast_pain: "胸胀", acne: "长痘"
 };
 
 async function ensureDataDir() {
@@ -200,12 +212,12 @@ async function getSickData() {
   return (await readJson(SICK_FILE)) || { records: {} };
 }
 
-async function getPinData() {
-  return (await readJson(PIN_FILE)) || { records: {} };
-}
-
 async function getPeriodDetailData() {
   return (await readJson(PERIOD_DETAIL_FILE)) || { records: {} };
+}
+
+async function getScheduleData() {
+  return (await readJson(SCHEDULE_FILE)) || { events: {} };
 }
 
 // ========== 心情 ==========
@@ -222,14 +234,8 @@ async function record_mood(params) {
     return { success: false, error: "心情类型无效，可选：" + MOOD_TYPES.join(", ") };
   }
   const data = await getMoodData();
-  if (!data.records[date]) {
-    data.records[date] = {};
-  }
-  data.records[date][role] = {
-    mood: mood,
-    note: note || "",
-    timestamp: Date.now()
-  };
+  if (!data.records[date]) data.records[date] = {};
+  data.records[date][role] = { mood: mood, note: note || "", timestamp: Date.now() };
   await writeJson(MOOD_FILE, data);
   const moodLabel = MOOD_LABELS[mood];
   const roleLabel = role === "user" ? "用户" : "AI";
@@ -242,20 +248,14 @@ async function record_mood(params) {
 async function delete_mood(params) {
   const { date, role } = params;
   if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
+    return { success: false, error: "日期格式无效" };
   }
   const data = await getMoodData();
-  if (!data.records[date]) {
-    return { success: false, error: "该日期没有心情记录" };
-  }
+  if (!data.records[date]) return { success: false, error: "该日期没有心情记录" };
   if (role) {
-    if (!["user", "ai"].includes(role)) {
-      return { success: false, error: "角色无效，请使用 user 或 ai" };
-    }
+    if (!["user", "ai"].includes(role)) return { success: false, error: "角色无效" };
     delete data.records[date][role];
-    if (!data.records[date].user && !data.records[date].ai) {
-      delete data.records[date];
-    }
+    if (!data.records[date].user && !data.records[date].ai) delete data.records[date];
   } else {
     delete data.records[date];
   }
@@ -268,7 +268,7 @@ async function delete_mood(params) {
 async function record_period(params) {
   const { date, action } = params;
   if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
+    return { success: false, error: "日期格式无效" };
   }
   if (!["start", "end"].includes(action)) {
     return { success: false, error: "操作类型无效，请使用 start 或 end" };
@@ -277,7 +277,7 @@ async function record_period(params) {
   if (action === "start") {
     const lastPeriod = data.periods[data.periods.length - 1];
     if (lastPeriod && !lastPeriod.end_date) {
-      return { success: false, error: "上一次经期尚未标记结束，请先标记结束日期" };
+      return { success: false, error: "上一次经期尚未标记结束" };
     }
     data.periods.push({ start_date: date, end_date: null });
     await writeJson(PERIOD_FILE, data);
@@ -285,37 +285,26 @@ async function record_period(params) {
   } else {
     const lastPeriod = data.periods[data.periods.length - 1];
     if (!lastPeriod || lastPeriod.end_date) {
-      return { success: false, error: "没有未结束的经期记录，请先标记开始日期" };
+      return { success: false, error: "没有未结束的经期记录" };
     }
     lastPeriod.end_date = date;
     await writeJson(PERIOD_FILE, data);
-    const startMs = new Date(lastPeriod.start_date).getTime();
-    const endMs = new Date(date).getTime();
-    const days = Math.round((endMs - startMs) / (1000 * 60 * 60 * 24)) + 1;
+    const days = Math.round((new Date(date).getTime() - new Date(lastPeriod.start_date).getTime()) / 86400000) + 1;
     return { success: true, message: `已标记 ${date} 为经期结束日，本次经期共${days}天` };
   }
 }
 
 async function delete_period(params) {
   const { date } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
-  }
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
   const data = await getPeriodData();
   let found = false;
   for (let i = data.periods.length - 1; i >= 0; i--) {
     const p = data.periods[i];
-    const startDate = p.start_date;
     const endDate = p.end_date || "9999-12-31";
-    if (date >= startDate && date <= endDate) {
-      data.periods.splice(i, 1);
-      found = true;
-      break;
-    }
+    if (date >= p.start_date && date <= endDate) { data.periods.splice(i, 1); found = true; break; }
   }
-  if (!found) {
-    return { success: false, error: "该日期没有经期记录" };
-  }
+  if (!found) return { success: false, error: "该日期没有经期记录" };
   await writeJson(PERIOD_FILE, data);
   return { success: true, message: "已删除包含 " + date + " 的经期记录" };
 }
@@ -325,21 +314,17 @@ async function update_period_settings(params) {
   const settings = await getSettings();
   if (cycle_length !== undefined) {
     const cl = parseInt(cycle_length);
-    if (isNaN(cl) || cl < 1) {
-      return { success: false, error: "请输入有效的周期时长" };
-    }
+    if (isNaN(cl) || cl < 1) return { success: false, error: "请输入有效的周期时长" };
     settings.cycle_length = cl;
   }
   if (period_length !== undefined) {
     const pl = parseInt(period_length);
-    if (isNaN(pl) || pl < 1) {
-      return { success: false, error: "请输入有效的经期时长" };
-    }
+    if (isNaN(pl) || pl < 1) return { success: false, error: "请输入有效的经期时长" };
     settings.period_length = pl;
   }
   await writeJson(SETTINGS_FILE, settings);
   const periodData = await getPeriodData();
-  periodData.settings = settings;
+  periodData.settings = { cycle_length: settings.cycle_length, period_length: settings.period_length };
   await writeJson(PERIOD_FILE, periodData);
   return {
     success: true,
@@ -352,21 +337,13 @@ async function update_period_settings(params) {
 
 async function record_period_detail(params) {
   const { date, flow, color, pain, symptoms, note } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
-  }
-  if (flow && !FLOW_OPTIONS.includes(flow)) {
-    return { success: false, error: "流量取值无效，可选：light(少量), medium(中等), heavy(大量)" };
-  }
-  if (color && !COLOR_OPTIONS.includes(color)) {
-    return { success: false, error: "颜色取值无效，可选：bright_red(鲜红), dark_red(暗红), brown(褐色), pink(粉色)" };
-  }
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
+  if (flow && !FLOW_OPTIONS.includes(flow)) return { success: false, error: "经血量取值无效" };
+  if (color && !COLOR_OPTIONS.includes(color)) return { success: false, error: "颜色取值无效" };
   var painVal = null;
   if (pain !== undefined && pain !== null) {
     painVal = parseInt(pain);
-    if (isNaN(painVal) || painVal < 0 || painVal > 4) {
-      return { success: false, error: "疼痛等级无效，请输入0-4之间的数字" };
-    }
+    if (isNaN(painVal) || painVal < 0 || painVal > 4) return { success: false, error: "疼痛等级无效(0-4)" };
   }
   var symptomList = [];
   if (symptoms) {
@@ -374,128 +351,111 @@ async function record_period_detail(params) {
   }
   const data = await getPeriodDetailData();
   data.records[date] = {
-    flow: flow || null,
-    color: color || null,
-    pain: painVal,
-    symptoms: symptomList,
-    note: note || "",
-    timestamp: Date.now()
+    flow: flow || null, color: color || null, pain: painVal,
+    symptoms: symptomList, note: note || "", timestamp: Date.now()
   };
   await writeJson(PERIOD_DETAIL_FILE, data);
-
   var parts = [];
-  if (flow) parts.push("流量" + FLOW_LABELS[flow]);
+  if (flow) parts.push("经血量" + FLOW_LABELS[flow]);
   if (color) parts.push("颜色" + COLOR_LABELS[color]);
   if (painVal !== null) parts.push("疼痛" + painVal + "级");
   if (symptomList.length > 0) parts.push("症状：" + symptomList.map(function(s) { return SYMPTOM_LABELS[s] || s; }).join("、"));
   if (note) parts.push("备注：" + note);
-
-  return {
-    success: true,
-    message: "已记录 " + date + " 的经期详情" + (parts.length > 0 ? "：" + parts.join("，") : "")
-  };
+  return { success: true, message: "已记录 " + date + " 的经期详情" + (parts.length > 0 ? "：" + parts.join("，") : "") };
 }
 
 async function delete_period_detail(params) {
   const { date } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
-  }
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
   const data = await getPeriodDetailData();
-  if (!data.records[date]) {
-    return { success: false, error: "该日期没有经期详情记录" };
-  }
+  if (!data.records[date]) return { success: false, error: "该日期没有经期详情" };
   delete data.records[date];
   await writeJson(PERIOD_DETAIL_FILE, data);
-  return { success: true, message: "已删除 " + date + " 的经期详情记录" };
+  return { success: true, message: "已删除 " + date + " 的经期详情" };
 }
 
 // ========== 生病记录 ==========
 
 async function record_sick(params) {
   const { date, note } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
-  }
-  if (!note || !note.trim()) {
-    return { success: false, error: "请填写症状描述" };
-  }
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
+  if (!note || !note.trim()) return { success: false, error: "请填写症状描述" };
   const data = await getSickData();
-  data.records[date] = {
-    note: note.trim(),
-    timestamp: Date.now()
-  };
+  data.records[date] = { note: note.trim(), timestamp: Date.now() };
   await writeJson(SICK_FILE, data);
-  return {
-    success: true,
-    message: `已记录 ${date} 的生病信息：${note.trim()}`
-  };
+  return { success: true, message: `已记录 ${date} 的生病信息：${note.trim()}` };
 }
 
 async function delete_sick(params) {
   const { date } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
-  }
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
   const data = await getSickData();
-  if (!data.records[date]) {
-    return { success: false, error: "该日期没有生病记录" };
-  }
+  if (!data.records[date]) return { success: false, error: "该日期没有生病记录" };
   delete data.records[date];
   await writeJson(SICK_FILE, data);
   return { success: true, message: "已删除 " + date + " 的生病记录" };
 }
 
-// ========== 日期备注 ==========
+// ========== 日程 ==========
 
-async function record_pin(params) {
-  const { date, note } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
-  }
-  if (!note || !note.trim()) {
-    return { success: false, error: "请填写备注内容" };
-  }
-  const data = await getPinData();
-  data.records[date] = {
-    note: note.trim(),
+async function record_schedule(params) {
+  const { date, title, start_time, end_time, location, note } = params;
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
+  if (!title || !title.trim()) return { success: false, error: "请填写日程标题" };
+  const data = await getScheduleData();
+  if (!data.events[date]) data.events[date] = [];
+  data.events[date].push({
+    id: String(Date.now()),
+    title: title.trim(),
+    start_time: start_time || "",
+    end_time: end_time || "",
+    location: location || "",
+    note: note || "",
     timestamp: Date.now()
-  };
-  await writeJson(PIN_FILE, data);
-  return {
-    success: true,
-    message: `已为 ${date} 添加备注：${note.trim()}`
-  };
+  });
+  await writeJson(SCHEDULE_FILE, data);
+  var msg = "已添加 " + date + " 的日程：" + title.trim();
+  if (start_time) msg += "（" + start_time + (end_time ? "-" + end_time : "") + "）";
+  return { success: true, message: msg };
 }
 
-async function delete_pin(params) {
-  const { date } = params;
-  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用YYYY-MM-DD格式" };
+async function delete_schedule(params) {
+  const { date, title } = params;
+  if (!date || !date.match(/^\d{4}-\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
+  if (!title || !title.trim()) return { success: false, error: "请提供日程标题" };
+  const data = await getScheduleData();
+  if (!data.events[date] || data.events[date].length === 0) return { success: false, error: "该日期没有日程" };
+  var idx = -1;
+  for (var i = 0; i < data.events[date].length; i++) {
+    if (data.events[date][i].title === title.trim()) { idx = i; break; }
   }
-  const data = await getPinData();
-  if (!data.records[date]) {
-    return { success: false, error: "该日期没有备注" };
+  if (idx < 0) return { success: false, error: "未找到该日程" };
+  data.events[date].splice(idx, 1);
+  if (data.events[date].length === 0) delete data.events[date];
+  await writeJson(SCHEDULE_FILE, data);
+  return { success: true, message: "已删除 " + date + " 的日程：" + title.trim() };
+}
+
+async function get_schedules(params) {
+  const { month } = params;
+  if (!month || !month.match(/^\d{4}-\d{2}$/)) return { success: false, error: "月份格式无效" };
+  const data = await getScheduleData();
+  const monthEvents = {};
+  for (const [date, events] of Object.entries(data.events)) {
+    if (date.startsWith(month)) monthEvents[date] = events;
   }
-  delete data.records[date];
-  await writeJson(PIN_FILE, data);
-  return { success: true, message: "已删除 " + date + " 的备注" };
+  const settings = await getSettings();
+  return { success: true, month: month, events: monthEvents, anniversaries: settings.anniversaries || [] };
 }
 
 // ========== 纪念日 ==========
 
 async function set_anniversary(params) {
   const { date, label } = params;
-  if (!label || !label.trim()) {
-    return { success: false, error: "请填写纪念日名称" };
-  }
+  if (!label || !label.trim()) return { success: false, error: "请填写纪念日名称" };
   let mmdd = date;
-  if (date && date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    mmdd = date.substring(5);
-  }
-  if (!mmdd || !mmdd.match(/^\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用MM-DD或YYYY-MM-DD格式" };
-  }
+  if (date && date.match(/^\d{4}-\d{2}-\d{2}$/)) mmdd = date.substring(5);
+  if (!mmdd || !mmdd.match(/^\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
   const settings = await getSettings();
   if (!settings.anniversaries) settings.anniversaries = [];
   const existing = settings.anniversaries.findIndex(a => a.date === mmdd);
@@ -505,27 +465,18 @@ async function set_anniversary(params) {
     settings.anniversaries.push({ date: mmdd, label: label.trim(), origin: date });
   }
   await writeJson(SETTINGS_FILE, settings);
-  return {
-    success: true,
-    message: `已设置纪念日：每年 ${mmdd} — ${label.trim()}`
-  };
+  return { success: true, message: `已设置纪念日：每年 ${mmdd} — ${label.trim()}` };
 }
 
 async function delete_anniversary(params) {
   const { date } = params;
   let mmdd = date;
-  if (date && date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    mmdd = date.substring(5);
-  }
-  if (!mmdd || !mmdd.match(/^\d{2}-\d{2}$/)) {
-    return { success: false, error: "日期格式无效，请使用MM-DD格式" };
-  }
+  if (date && date.match(/^\d{4}-\d{2}-\d{2}$/)) mmdd = date.substring(5);
+  if (!mmdd || !mmdd.match(/^\d{2}-\d{2}$/)) return { success: false, error: "日期格式无效" };
   const settings = await getSettings();
   if (!settings.anniversaries) settings.anniversaries = [];
   const idx = settings.anniversaries.findIndex(a => a.date === mmdd);
-  if (idx < 0) {
-    return { success: false, error: "该日期没有纪念日记录" };
-  }
+  if (idx < 0) return { success: false, error: "该日期没有纪念日" };
   const removed = settings.anniversaries.splice(idx, 1)[0];
   await writeJson(SETTINGS_FILE, settings);
   return { success: true, message: "已删除纪念日：" + removed.label };
@@ -534,9 +485,7 @@ async function delete_anniversary(params) {
 async function get_anniversaries() {
   const settings = await getSettings();
   const list = settings.anniversaries || [];
-  if (list.length === 0) {
-    return { success: true, message: "还没有设置纪念日", anniversaries: [] };
-  }
+  if (list.length === 0) return { success: true, message: "还没有设置纪念日", anniversaries: [] };
   return { success: true, anniversaries: list };
 }
 
@@ -544,42 +493,29 @@ async function get_anniversaries() {
 
 async function get_calendar_data(params) {
   const { month } = params;
-  if (!month || !month.match(/^\d{4}-\d{2}$/)) {
-    return { success: false, error: "月份格式无效，请使用YYYY-MM格式" };
-  }
+  if (!month || !month.match(/^\d{4}-\d{2}$/)) return { success: false, error: "月份格式无效" };
   const moodData = await getMoodData();
   const periodData = await getPeriodData();
   const settings = await getSettings();
   const sickData = await getSickData();
-  const pinData = await getPinData();
   const periodDetailData = await getPeriodDetailData();
+  const scheduleData = await getScheduleData();
 
   const monthMoods = {};
   for (const [date, record] of Object.entries(moodData.records)) {
-    if (date.startsWith(month)) {
-      monthMoods[date] = record;
-    }
+    if (date.startsWith(month)) monthMoods[date] = record;
   }
-
   const monthSick = {};
   for (const [date, record] of Object.entries(sickData.records)) {
-    if (date.startsWith(month)) {
-      monthSick[date] = record;
-    }
+    if (date.startsWith(month)) monthSick[date] = record;
   }
-
-  const monthPins = {};
-  for (const [date, record] of Object.entries(pinData.records)) {
-    if (date.startsWith(month)) {
-      monthPins[date] = record;
-    }
-  }
-
   const monthPeriodDetails = {};
   for (const [date, record] of Object.entries(periodDetailData.records)) {
-    if (date.startsWith(month)) {
-      monthPeriodDetails[date] = record;
-    }
+    if (date.startsWith(month)) monthPeriodDetails[date] = record;
+  }
+  const monthSchedules = {};
+  for (const [date, events] of Object.entries(scheduleData.events)) {
+    if (date.startsWith(month)) monthSchedules[date] = events;
   }
 
   const [year, mon] = month.split("-").map(Number);
@@ -593,91 +529,69 @@ async function get_calendar_data(params) {
     const start = new Date(period.start_date);
     const end = period.end_date ? new Date(period.end_date) : new Date(start.getTime() + (settings.period_length - 1) * 86400000);
     for (let d = new Date(start); d <= end && d <= lastDay; d.setDate(d.getDate() + 1)) {
-      if (d >= firstDay) {
-        periodDates.push(d.toISOString().split("T")[0]);
-      }
+      if (d >= firstDay) periodDates.push(d.toISOString().split("T")[0]);
     }
   }
 
-  if (periodData.periods.length > 0) {
-    const lastCompletePeriod = [...periodData.periods].reverse().find(p => p.end_date);
-    if (lastCompletePeriod) {
-      const lastStart = new Date(lastCompletePeriod.start_date);
-      const cycleLen = settings.cycle_length;
-      const periodLen = settings.period_length;
-      for (let i = 1; i <= 3; i++) {
-        const predictedStart = new Date(lastStart.getTime() + cycleLen * i * 86400000);
-        const predictedEnd = new Date(predictedStart.getTime() + (periodLen - 1) * 86400000);
-        const ovulation = new Date(predictedStart.getTime() + (cycleLen - 14) * 86400000);
-        for (let d = new Date(predictedStart); d <= predictedEnd && d <= lastDay; d.setDate(d.getDate() + 1)) {
-          if (d >= firstDay) {
-            const ds = d.toISOString().split("T")[0];
-            if (!periodDates.includes(ds)) {
-              predictedPeriodDates.push(ds);
-            }
-          }
-        }
-        if (ovulation >= firstDay && ovulation <= lastDay) {
-          ovulationDates.push(ovulation.toISOString().split("T")[0]);
+  // Use the most recent period (completed or ongoing) for predictions
+  var refPeriod = null;
+  for (var j = periodData.periods.length - 1; j >= 0; j--) {
+    refPeriod = periodData.periods[j];
+    break;
+  }
+  if (refPeriod) {
+    var ls = new Date(refPeriod.start_date);
+    var cycleLen = settings.cycle_length;
+    var periodLen = settings.period_length;
+    for (var i = 1; i <= 6; i++) {
+      var ps = new Date(ls.getTime() + cycleLen * i * 86400000);
+      var pe = new Date(ps.getTime() + (periodLen - 1) * 86400000);
+      var ov = new Date(ps.getTime() + (cycleLen - 14) * 86400000);
+      for (var dd = new Date(ps); dd <= pe && dd <= lastDay; dd.setDate(dd.getDate() + 1)) {
+        if (dd >= firstDay) {
+          var ds = dd.toISOString().split("T")[0];
+          if (periodDates.indexOf(ds) < 0) predictedPeriodDates.push(ds);
         }
       }
+      if (ov >= firstDay && ov <= lastDay) ovulationDates.push(ov.toISOString().split("T")[0]);
     }
   }
 
   const anniversaryDates = [];
   const anniversaries = settings.anniversaries || [];
+  var monthMM = month.split("-")[1];
   for (const ann of anniversaries) {
-    const mmdd = ann.date;
-    const annDateStr = month + "-" + mmdd.split("-")[1];
-    if (mmdd.split("-")[0] === month.split("-")[1]) {
-      anniversaryDates.push({ date: annDateStr, label: ann.label });
+    if (ann.date.split("-")[0] === monthMM) {
+      anniversaryDates.push({ date: month + "-" + ann.date.split("-")[1], label: ann.label });
     }
   }
 
   return {
-    success: true,
-    month: month,
-    moods: monthMoods,
-    sick_records: monthSick,
-    pin_records: monthPins,
-    period_details: monthPeriodDetails,
-    period_dates: periodDates,
-    predicted_period_dates: predictedPeriodDates,
-    ovulation_dates: ovulationDates,
-    anniversaries: anniversaryDates,
+    success: true, month: month,
+    moods: monthMoods, sick_records: monthSick,
+    period_details: monthPeriodDetails, schedules: monthSchedules,
+    period_dates: periodDates, predicted_period_dates: predictedPeriodDates,
+    ovulation_dates: ovulationDates, anniversaries: anniversaryDates,
     settings: settings
   };
 }
 
 async function get_mood_summary(params) {
   const { month } = params;
-  if (!month || !month.match(/^\d{4}-\d{2}$/)) {
-    return { success: false, error: "月份格式无效，请使用YYYY-MM格式" };
-  }
+  if (!month || !month.match(/^\d{4}-\d{2}$/)) return { success: false, error: "月份格式无效" };
   const moodData = await getMoodData();
   const userSummary = {};
   const aiSummary = {};
-  for (const type of MOOD_TYPES) {
-    userSummary[type] = 0;
-    aiSummary[type] = 0;
-  }
-  let userTotal = 0;
-  let aiTotal = 0;
+  for (const type of MOOD_TYPES) { userSummary[type] = 0; aiSummary[type] = 0; }
+  let userTotal = 0, aiTotal = 0;
   for (const [date, record] of Object.entries(moodData.records)) {
     if (date.startsWith(month)) {
-      if (record.user) {
-        userSummary[record.user.mood]++;
-        userTotal++;
-      }
-      if (record.ai) {
-        aiSummary[record.ai.mood]++;
-        aiTotal++;
-      }
+      if (record.user) { userSummary[record.user.mood]++; userTotal++; }
+      if (record.ai) { aiSummary[record.ai.mood]++; aiTotal++; }
     }
   }
   return {
-    success: true,
-    month: month,
+    success: true, month: month,
     user: { total: userTotal, breakdown: userSummary },
     ai: { total: aiTotal, breakdown: aiSummary },
     mood_labels: MOOD_LABELS
@@ -685,8 +599,10 @@ async function get_mood_summary(params) {
 }
 
 module.exports = {
-  record_mood, record_period, record_period_detail, record_sick, record_pin, set_anniversary,
-  get_calendar_data, get_mood_summary, get_anniversaries,
+  record_mood, record_period, record_period_detail, record_sick,
+  record_schedule, set_anniversary,
+  get_calendar_data, get_mood_summary, get_anniversaries, get_schedules,
   update_period_settings,
-  delete_mood, delete_period, delete_period_detail, delete_sick, delete_pin, delete_anniversary
+  delete_mood, delete_period, delete_period_detail, delete_sick,
+  delete_schedule, delete_anniversary
 };
