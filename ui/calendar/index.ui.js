@@ -8,6 +8,7 @@ var SETTINGS_FILE = DATA_DIR + "/settings.json";
 var SICK_FILE = DATA_DIR + "/sick_data.json";
 var PERIOD_DETAIL_FILE = DATA_DIR + "/period_detail_data.json";
 var SCHEDULE_FILE = DATA_DIR + "/schedule_data.json";
+var COURSE_FILE = DATA_DIR + "/course_data.json";
 var THEME_FILE = DATA_DIR + "/theme_data.json";
 
 // ========== 心情定义（8种）==========
@@ -48,6 +49,17 @@ var SYMPTOM_LABELS = {
   fatigue: "疲劳", mood_swing: "情绪波动", breast_pain: "胸胀", acne: "长痘"
 };
 
+// ========== 日程分类 ==========
+var SCHEDULE_CATEGORIES = ["anniversary", "exam", "party", "date_event", "trip", "meeting", "birthday", "other"];
+var CATEGORY_LABELS = {
+  anniversary: "纪念日", exam: "考试", party: "聚会", date_event: "约会",
+  trip: "旅行", meeting: "会议", birthday: "生日", other: "其他"
+};
+var CATEGORY_COLORS = {
+  anniversary: "#E91E63", exam: "#FF9800", party: "#9C27B0", date_event: "#FF4081",
+  trip: "#4CAF50", meeting: "#2196F3", birthday: "#FF5722", other: "#607D8B"
+};
+
 // ========== 经期阶段色（莫兰迪，不随主题变化）==========
 var PH = {
   men: "#D4A0A0", menBg: "#F2DCDC",
@@ -61,6 +73,16 @@ var THEMES = {
   mint_choco: { name: "薄荷生巧", bg: "#EBF6F7", pri: "#705854", sec: "#A49E99", acc: "#C1E6E4", priL: "#EDE5E3" },
   blue_ice:   { name: "雾蓝冰美式", bg: "#F0F0E9", pri: "#2D3E59", sec: "#869BC0", acc: "#C7D9F3", priL: "#E0E5EE" }
 };
+
+// ========== 取色器调色板 ==========
+var COLOR_PALETTE = [
+  "#FFFFFF", "#F5F5F5", "#E0E0E0", "#9E9E9E", "#616161", "#000000",
+  "#FFCDD2", "#EF5350", "#C62828", "#F48FB1", "#E91E63", "#880E4F",
+  "#CE93D8", "#9C27B0", "#4A148C", "#90CAF9", "#2196F3", "#0D47A1",
+  "#80DEEA", "#00BCD4", "#006064", "#A5D6A7", "#4CAF50", "#1B5E20",
+  "#FFF59D", "#FFEB3B", "#F9A825", "#FFCC80", "#FF9800", "#E65100",
+  "#BCAAA4", "#795548", "#4E342E", "#C1E6E4", "#C7D9F3", "#EBF6F7"
+];
 
 // ========== 异步数据读写 ==========
 async function readJsonAsync(path) {
@@ -112,6 +134,7 @@ function Screen(ctx) {
   var sickState = ctx.useState("sick", { records: {} }), sickData = sickState[0], setSickData = sickState[1];
   var pdtState = ctx.useState("pdt", { records: {} }), pdtData = pdtState[0], setPdtData = pdtState[1];
   var schedState = ctx.useState("sched", { events: {} }), schedData = schedState[0], setSchedData = schedState[1];
+  var courseState = ctx.useState("crs", { semester_start: "", courses: [] }), courseData = courseState[0], setCourseData = courseState[1];
   var dataLoadedState = ctx.useState("dl", false), dataLoaded = dataLoadedState[0], setDataLoaded = dataLoadedState[1];
 
   // Theme state
@@ -130,10 +153,23 @@ function Screen(ctx) {
 
   // Schedule form
   var schTitleState = ctx.useState("sct", ""), schTitle = schTitleState[0], setSchTitle = schTitleState[1];
+  var schCatState = ctx.useState("sccat", "other"), schCat = schCatState[0], setSchCat = schCatState[1];
   var schStState = ctx.useState("scst", ""), schSt = schStState[0], setSchSt = schStState[1];
   var schEtState = ctx.useState("scet", ""), schEt = schEtState[0], setSchEt = schEtState[1];
   var schLocState = ctx.useState("scl", ""), schLoc = schLocState[0], setSchLoc = schLocState[1];
   var schNoteState = ctx.useState("scn", ""), schNote = schNoteState[0], setSchNote = schNoteState[1];
+
+  // Course form
+  var crNameState = ctx.useState("crn", ""), crName = crNameState[0], setCrName = crNameState[1];
+  var crDayState = ctx.useState("crd", 1), crDay = crDayState[0], setCrDay = crDayState[1];
+  var crSpState = ctx.useState("crsp", ""), crSp = crSpState[0], setCrSp = crSpState[1];
+  var crEpState = ctx.useState("crep", ""), crEp = crEpState[0], setCrEp = crEpState[1];
+  var crWsState = ctx.useState("crws", "1"), crWs = crWsState[0], setCrWs = crWsState[1];
+  var crWeState = ctx.useState("crwe", "16"), crWe = crWeState[0], setCrWe = crWeState[1];
+  var crWtState = ctx.useState("crwt", "all"), crWt = crWtState[0], setCrWt = crWtState[1];
+  var crLocState = ctx.useState("crloc", ""), crLoc = crLocState[0], setCrLoc = crLocState[1];
+  var crTchState = ctx.useState("crtch", ""), crTch = crTchState[0], setCrTch = crTchState[1];
+  var semStartState = ctx.useState("sems", ""), semStart = semStartState[0], setSemStart = semStartState[1];
 
   // Custom theme form
   var ctNameState = ctx.useState("ctn", ""), ctName = ctNameState[0], setCtName = ctNameState[1];
@@ -141,6 +177,9 @@ function Screen(ctx) {
   var ctPriState = ctx.useState("ctp", "#705854"), ctPri = ctPriState[0], setCtPri = ctPriState[1];
   var ctSecState = ctx.useState("cts", "#A49E99"), ctSec = ctSecState[0], setCtSec = ctSecState[1];
   var ctAccState = ctx.useState("cta", "#C1E6E4"), ctAcc = ctAccState[0], setCtAcc = ctAccState[1];
+
+  // Color picker target
+  var cpTargetState = ctx.useState("cpt", ""), cpTarget = cpTargetState[0], setCpTarget = cpTargetState[1];
 
   // ======= Theme colors =======
   var themeData = THEMES[themeId];
@@ -163,9 +202,10 @@ function Screen(ctx) {
   var off = getFirstDayOfWeek(year, month);
   var ms = year + "-" + String(month).padStart(2, "0");
 
-  // ======= 经期阶段 =======
+  // ======= 经期阶段（区分实际/预测）=======
   function getPhase(dateStr) {
     if (!periods.periods || periods.periods.length === 0) return null;
+    // 先检查实际经期
     for (var idx = 0; idx < periods.periods.length; idx++) {
       var p = periods.periods[idx];
       var endStr = p.end_date;
@@ -174,9 +214,10 @@ function Screen(ctx) {
         endStr = new Date(st.getTime() + (sett.period_length - 1) * 86400000).toISOString().split("T")[0];
       }
       if (dateStr >= p.start_date && dateStr <= endStr) {
-        return { phase: "menstrual", label: "经期", color: PH.men, bg: PH.menBg };
+        return { phase: "menstrual", label: "经期", color: PH.men, bg: PH.menBg, predicted: false };
       }
     }
+    // 根据最近实际经期计算周期阶段
     var lastP = null;
     for (var j = periods.periods.length - 1; j >= 0; j--) {
       if (periods.periods[j].start_date <= dateStr) { lastP = periods.periods[j]; break; }
@@ -186,10 +227,10 @@ function Screen(ctx) {
     var dateMs = new Date(dateStr).getTime();
     var daySince = Math.floor((dateMs - lastMs) / 86400000);
     var cycDay = ((daySince % sett.cycle_length) + sett.cycle_length) % sett.cycle_length;
-    if (cycDay < sett.period_length) return { phase: "menstrual", label: "经期", color: PH.men, bg: PH.menBg };
-    if (cycDay < sett.cycle_length - 14) return { phase: "follicular", label: "卵泡期", color: PH.fol, bg: PH.folBg };
-    if (cycDay < sett.cycle_length - 14 + 3) return { phase: "ovulation", label: "排卵期", color: PH.ovu, bg: PH.ovuBg };
-    return { phase: "luteal", label: "黄体期", color: PH.lut, bg: PH.lutBg };
+    if (cycDay < sett.period_length) return { phase: "menstrual", label: "预测经期", color: PH.men, bg: PH.menBg, predicted: true };
+    if (cycDay < sett.cycle_length - 14) return { phase: "follicular", label: "卵泡期", color: PH.fol, bg: PH.folBg, predicted: true };
+    if (cycDay < sett.cycle_length - 14 + 3) return { phase: "ovulation", label: "排卵期", color: PH.ovu, bg: PH.ovuBg, predicted: true };
+    return { phase: "luteal", label: "黄体期", color: PH.lut, bg: PH.lutBg, predicted: true };
   }
 
   // ======= 纪念日检查 =======
@@ -202,6 +243,30 @@ function Screen(ctx) {
     return null;
   }
 
+  // ======= 当天课程检查 =======
+  function getCoursesForDate(dateStr) {
+    if (!courseData.semester_start || courseData.courses.length === 0) return [];
+    var semMs = new Date(courseData.semester_start).getTime();
+    var dateMs = new Date(dateStr).getTime();
+    if (dateMs < semMs) return [];
+    var daysSince = Math.floor((dateMs - semMs) / 86400000);
+    var weekNum = Math.floor(daysSince / 7) + 1;
+    var dateObj = new Date(dateStr);
+    var dow = dateObj.getDay();
+    dow = dow === 0 ? 7 : dow;
+    var result = [];
+    for (var i = 0; i < courseData.courses.length; i++) {
+      var cr = courseData.courses[i];
+      if (cr.day !== dow) continue;
+      if (weekNum < cr.week_start || weekNum > cr.week_end) continue;
+      if (cr.week_type === "odd" && weekNum % 2 === 0) continue;
+      if (cr.week_type === "even" && weekNum % 2 === 1) continue;
+      result.push(cr);
+    }
+    result.sort(function(a, b) { return a.start_period - b.start_period; });
+    return result;
+  }
+
   // ======= 数据加载 =======
   async function loadAllData() {
     try { var m = await readJsonAsync(MOOD_FILE); if (m) setMoods(m); } catch (e) {}
@@ -210,6 +275,7 @@ function Screen(ctx) {
     try { var sk = await readJsonAsync(SICK_FILE); if (sk) setSickData(sk); } catch (e) {}
     try { var pd = await readJsonAsync(PERIOD_DETAIL_FILE); if (pd) setPdtData(pd); } catch (e) {}
     try { var sc = await readJsonAsync(SCHEDULE_FILE); if (sc) setSchedData(sc); } catch (e) {}
+    try { var cr = await readJsonAsync(COURSE_FILE); if (cr) { setCourseData(cr); if (cr.semester_start) setSemStart(cr.semester_start); } } catch (e) {}
     try {
       var th = await readJsonAsync(THEME_FILE);
       if (th) {
@@ -224,7 +290,9 @@ function Screen(ctx) {
   function close() {
     setPopup(""); setRecMood(""); setRecNote(""); setSickNote("");
     setPdFlow(""); setPdColor(""); setPdPain(-1); setPdSymp(""); setPdNoteVal("");
-    setSchTitle(""); setSchSt(""); setSchEt(""); setSchLoc(""); setSchNote("");
+    setSchTitle(""); setSchCat("other"); setSchSt(""); setSchEt(""); setSchLoc(""); setSchNote("");
+    setCrName(""); setCrDay(1); setCrSp(""); setCrEp(""); setCrWs("1"); setCrWe("16"); setCrWt("all"); setCrLoc(""); setCrTch("");
+    setCpTarget("");
   }
   function prev() {
     if (month === 1) { setYear(year - 1); setMonth(12); } else setMonth(month - 1);
@@ -356,7 +424,7 @@ function Screen(ctx) {
     if (!d.events) d.events = {};
     if (!d.events[ds]) d.events[ds] = [];
     d.events[ds].push({
-      id: String(Date.now()), title: schTitle.trim(),
+      id: String(Date.now()), title: schTitle.trim(), category: schCat || "other",
       start_time: schSt || "", end_time: schEt || "",
       location: schLoc || "", note: schNote || "", timestamp: Date.now()
     });
@@ -369,6 +437,39 @@ function Screen(ctx) {
     d.events[ds].splice(idx, 1);
     if (d.events[ds].length === 0) delete d.events[ds];
     try { await writeJsonAsync(SCHEDULE_FILE, d); setSchedData(d); ctx.showToast("已删除日程"); } catch (e) { ctx.showToast("删除失败"); }
+  }
+
+  // ======= 课程操作 =======
+  async function saveCourse() {
+    if (!crName || !crName.trim()) { ctx.showToast("请填写课程名称"); return; }
+    var sp = parseInt(crSp); var ep = parseInt(crEp);
+    if (isNaN(sp) || isNaN(ep) || sp < 1 || ep < sp) { ctx.showToast("节次无效"); return; }
+    var ws = parseInt(crWs) || 1; var we = parseInt(crWe) || 16;
+    if (ws < 1 || we < ws) { ctx.showToast("周数无效"); return; }
+    var d = JSON.parse(JSON.stringify(courseData));
+    d.courses.push({
+      id: String(Date.now()), name: crName.trim(), day: crDay,
+      start_period: sp, end_period: ep,
+      week_start: ws, week_end: we, week_type: crWt,
+      location: crLoc || "", teacher: crTch || ""
+    });
+    try { await writeJsonAsync(COURSE_FILE, d); setCourseData(d); ctx.showToast("已添加课程"); } catch (e) { ctx.showToast("保存失败"); }
+    close();
+    setPopup("courseList");
+  }
+  async function deleteCourseById(id) {
+    var d = JSON.parse(JSON.stringify(courseData));
+    for (var i = 0; i < d.courses.length; i++) {
+      if (d.courses[i].id === id) { d.courses.splice(i, 1); break; }
+    }
+    try { await writeJsonAsync(COURSE_FILE, d); setCourseData(d); ctx.showToast("已删除课程"); } catch (e) { ctx.showToast("删除失败"); }
+  }
+  async function saveSemesterStart() {
+    if (!semStart || !semStart.match(/^\d{4}[-\/]\d{2}[-\/]\d{2}$/)) { ctx.showToast("日期格式无效"); return; }
+    var normalized = semStart.replace(/\//g, "-");
+    var d = JSON.parse(JSON.stringify(courseData));
+    d.semester_start = normalized;
+    try { await writeJsonAsync(COURSE_FILE, d); setCourseData(d); setSemStart(normalized); ctx.showToast("已设置学期开始"); } catch (e) { ctx.showToast("保存失败"); }
   }
 
   // ======= 设置操作 =======
@@ -400,12 +501,21 @@ function Screen(ctx) {
     var nt = { id: id, name: ctName.trim(), bg: ctBg, pri: ctPri, sec: ctSec, acc: ctAcc, priL: ctAcc };
     var list = JSON.parse(JSON.stringify(customThemes));
     list.push(nt);
-    setCustomThemes(list);
-    setThemeId(id);
+    setCustomThemes(list); setThemeId(id);
+    try { await writeJsonAsync(THEME_FILE, { current: id, custom: list }); ctx.showToast("已保存主题"); } catch (e) { ctx.showToast("保存失败"); }
+  }
+  async function deleteCustomTheme(id) {
+    var list = JSON.parse(JSON.stringify(customThemes));
+    var newList = [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id !== id) newList.push(list[i]);
+    }
+    setCustomThemes(newList);
+    if (themeId === id) setThemeId("mint_choco");
     try {
-      await writeJsonAsync(THEME_FILE, { current: id, custom: list });
-      ctx.showToast("已保存主题");
-    } catch (e) { ctx.showToast("保存失败"); }
+      await writeJsonAsync(THEME_FILE, { current: themeId === id ? "mint_choco" : themeId, custom: newList });
+      ctx.showToast("已删除主题");
+    } catch (e) { ctx.showToast("删除失败"); }
   }
 
   // ==================== UI 组件 ====================
@@ -478,6 +588,7 @@ function Screen(ctx) {
       var annInfo = getAnnForDay(day);
       var phaseInfo = tab === 1 ? getPhase(ds) : null;
       var hasEvents = tab === 2 && schedData.events && schedData.events[ds] && schedData.events[ds].length > 0;
+      var hasCourses = tab === 2 && getCoursesForDate(ds).length > 0;
 
       var parts = [];
 
@@ -493,7 +604,6 @@ function Screen(ctx) {
 
       // Tab-specific content
       if (tab === 0) {
-        // 心情图标
         if (rec && rec.user) {
           parts.push(UI.Image({
             url: MOOD_ICONS_USER[rec.user.mood], contentDescription: MOOD_LABELS[rec.user.mood] || "",
@@ -511,28 +621,40 @@ function Screen(ctx) {
           parts.push(UI.Box({ key: "ae" + day, width: 22, height: 22, modifier: Modifier.background(C.dim, { type: "rounded", cornerRadius: 4 }) }));
         }
       } else if (tab === 1) {
-        // 经期阶段点
         if (phaseInfo) {
           parts.push(UI.Box({ key: "pd" + day, width: 6, height: 6, modifier: Modifier.background(phaseInfo.color, { type: "circle" }) }));
         }
       } else if (tab === 2) {
-        // 日程/纪念日标记
         if (annInfo) {
           parts.push(UI.Text({ text: "♡", fontSize: 10, color: "#E91E63", key: "ann" + day }));
         } else if (hasEvents) {
-          parts.push(UI.Box({ key: "ev" + day, width: 6, height: 6, modifier: Modifier.background(C.pri, { type: "circle" }) }));
+          // 显示第一个日程的分类颜色
+          var firstEvt = schedData.events[ds][0];
+          var evtColor = CATEGORY_COLORS[firstEvt.category] || CATEGORY_COLORS.other;
+          parts.push(UI.Box({ key: "ev" + day, width: 6, height: 6, modifier: Modifier.background(evtColor, { type: "circle" }) }));
+        } else if (hasCourses) {
+          parts.push(UI.Box({ key: "cr" + day, width: 6, height: 6, modifier: Modifier.background(C.pri, { type: "rounded", cornerRadius: 1 }) }));
         }
       }
 
-      // 背景色
+      // 背景色 & 边框
       var bg = "transparent";
-      if (tab === 1 && phaseInfo) bg = phaseInfo.bg;
+      var bw = 0, bc = "transparent";
+      if (tab === 1 && phaseInfo) {
+        if (phaseInfo.phase === "menstrual" && phaseInfo.predicted) {
+          // 预测经期：虚线框效果（用边框表示）
+          bw = 1.5; bc = PH.men;
+        } else {
+          bg = phaseInfo.bg;
+        }
+      }
+      if (isSel) { bg = C.priL; bw = 1.5; bc = C.pri; }
 
       cells.push(UI.Box({
         key: "c" + day, height: cellH, contentAlignment: "center",
         modifier: Modifier.weight(1)
-          .background(isSel ? C.priL : bg, { type: "rounded", cornerRadius: 10 })
-          .border(isSel ? 1.5 : 0, isSel ? C.pri : "transparent", { type: "rounded", cornerRadius: 10 })
+          .background(bg, { type: "rounded", cornerRadius: 10 })
+          .border(bw, bc, { type: "rounded", cornerRadius: 10 })
           .clickable(function(day) { return function() { tapDay(day); }; }(day))
       }, UI.Column({ horizontalAlignment: "center", spacing: 1 }, parts)));
     }
@@ -549,7 +671,7 @@ function Screen(ctx) {
     return UI.Column({ spacing: 2, key: "grid" }, rows);
   }
 
-  // ---- 日历卡片（包裹导航+表头+网格）----
+  // ---- 日历卡片 ----
   function buildCalendarCard() {
     return UI.Card({
       containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
@@ -564,14 +686,20 @@ function Screen(ctx) {
       UI.Text({ text: label, fontSize: 11, color: C.sec, key: k + "t" })
     ]);
   }
+  function dotOutline(color, label, k) {
+    return UI.Row({ spacing: 4, verticalAlignment: "center", key: k }, [
+      UI.Box({ width: 10, height: 10, key: k + "d", modifier: Modifier.border(1.5, color, { type: "circle" }) }),
+      UI.Text({ text: label, fontSize: 11, color: C.sec, key: k + "t" })
+    ]);
+  }
   function buildLegend() {
     if (tab === 0) {
       return UI.Card({
         containerColor: C.card, shape: { type: "rounded", cornerRadius: 12 },
         elevation: 0, fillMaxWidth: true, padding: 12, key: "lgd"
       }, UI.Row({ spacing: 16, key: "lgr" }, [
-        dot(C.dim, { type: "circle" }, "Iris", "l1"),
-        dot(C.dim, { type: "rounded", cornerRadius: 3 }, "Claude", "l2"),
+        dot(C.dim, { type: "circle" }, "我", "l1"),
+        dot(C.dim, { type: "rounded", cornerRadius: 3 }, "TA", "l2"),
         UI.Text({ text: "点击日期查看详情", fontSize: 10, color: C.light, key: "lh" })
       ]));
     }
@@ -579,11 +707,16 @@ function Screen(ctx) {
       return UI.Card({
         containerColor: C.card, shape: { type: "rounded", cornerRadius: 12 },
         elevation: 0, fillMaxWidth: true, padding: 12, key: "lgd"
-      }, UI.Row({ spacing: 10, key: "lgr", horizontalArrangement: "center" }, [
-        dot(PH.men, { type: "circle" }, "经期", "lp1"),
-        dot(PH.fol, { type: "circle" }, "卵泡期", "lp2"),
-        dot(PH.ovu, { type: "circle" }, "排卵期", "lp3"),
-        dot(PH.lut, { type: "circle" }, "黄体期", "lp4")
+      }, UI.Column({ spacing: 6, key: "lgc" }, [
+        UI.Row({ spacing: 10, key: "lgr1" }, [
+          dot(PH.men, { type: "circle" }, "经期", "lp1"),
+          dotOutline(PH.men, "预测经期", "lp5"),
+          dot(PH.fol, { type: "circle" }, "卵泡期", "lp2")
+        ]),
+        UI.Row({ spacing: 10, key: "lgr2" }, [
+          dot(PH.ovu, { type: "circle" }, "排卵期", "lp3"),
+          dot(PH.lut, { type: "circle" }, "黄体期", "lp4")
+        ])
       ]));
     }
     return UI.Spacer({ height: 0, key: "lgdn" });
@@ -645,7 +778,7 @@ function Screen(ctx) {
     var content = [];
     if (userTotal > 0) {
       content.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", key: "ush" }, [
-        UI.Text({ text: "Iris 的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ust" }),
+        UI.Text({ text: "我的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ust" }),
         UI.Text({ text: userTotal + " 天", fontSize: 12, color: C.sec, key: "usc" })
       ]));
       var ub = makeBars(userCounts, userTotal, MOOD_ICONS_USER, "u");
@@ -654,7 +787,7 @@ function Screen(ctx) {
     if (aiTotal > 0) {
       if (userTotal > 0) content.push(UI.Spacer({ height: 10, key: "sdiv" }));
       content.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", key: "ash" }, [
-        UI.Text({ text: "Claude 的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ast" }),
+        UI.Text({ text: "TA的心情", fontSize: 14, fontWeight: "bold", color: C.txt, key: "ast" }),
         UI.Text({ text: aiTotal + " 天", fontSize: 12, color: C.sec, key: "asc" })
       ]));
       var ab = makeBars(aiCounts, aiTotal, MOOD_ICONS_AI, "a");
@@ -673,7 +806,6 @@ function Screen(ctx) {
     var todayPhase = getPhase(todayStr);
     var content = [];
 
-    // 当前阶段
     if (todayPhase) {
       content.push(UI.Card({
         containerColor: todayPhase.bg, shape: { type: "pill" },
@@ -684,7 +816,6 @@ function Screen(ctx) {
       ])));
     }
 
-    // 周期设置
     content.push(UI.Card({
       containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
       elevation: 0, fillMaxWidth: true, padding: 16, key: "pic"
@@ -767,42 +898,80 @@ function Screen(ctx) {
       ].concat(annItems))));
     }
 
-    // 今日日程
+    // 今日课程
     var todayDs = TY + "-" + String(TM).padStart(2, "0") + "-" + String(TD).padStart(2, "0");
+    var todayCourses = getCoursesForDate(todayDs);
+    if (todayCourses.length > 0) {
+      var crItems = [];
+      var dayLabels = ["", "一", "二", "三", "四", "五", "六", "日"];
+      for (var ci = 0; ci < todayCourses.length; ci++) {
+        var cr = todayCourses[ci];
+        crItems.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "tci" + ci }, [
+          UI.Box({ width: 4, height: 28, key: "tcd" + ci, modifier: Modifier.background(C.acc, { type: "pill" }) }),
+          UI.Column({ modifier: Modifier.weight(1), key: "tcc" + ci }, [
+            UI.Text({ text: cr.name + "  第" + cr.start_period + "-" + cr.end_period + "节", fontSize: 13, color: C.txt, key: "tcn" + ci }),
+            cr.location ? UI.Text({ text: cr.location + (cr.teacher ? " · " + cr.teacher : ""), fontSize: 11, color: C.sec, key: "tcl" + ci }) : UI.Spacer({ height: 0, key: "tcls" + ci })
+          ])
+        ]));
+      }
+      content.push(UI.Card({
+        containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
+        elevation: 0, fillMaxWidth: true, padding: 16, key: "tcrsc"
+      }, UI.Column({ spacing: 8 }, [
+        UI.Text({ text: "今日课程", fontSize: 15, fontWeight: "bold", color: C.txt, key: "tcrstl" })
+      ].concat(crItems))));
+    }
+
+    // 今日日程
     var todayEvts = schedData.events && schedData.events[todayDs] ? schedData.events[todayDs] : [];
     var evtItems = [];
-    if (todayEvts.length === 0) {
+    if (todayEvts.length === 0 && todayCourses.length === 0) {
       evtItems.push(UI.Text({ text: "今天没有日程安排", fontSize: 13, color: C.light, key: "noe" }));
     } else {
       for (var ei = 0; ei < todayEvts.length; ei++) {
         var evt = todayEvts[ei];
+        var evtColor = CATEGORY_COLORS[evt.category] || CATEGORY_COLORS.other;
         var evtText = evt.title;
         if (evt.start_time) evtText += "  " + evt.start_time + (evt.end_time ? "-" + evt.end_time : "");
         if (evt.location) evtText += "  " + evt.location;
         evtItems.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "tei" + ei }, [
-          UI.Box({ width: 4, height: 28, key: "ted" + ei, modifier: Modifier.background(C.pri, { type: "pill" }) }),
+          UI.Box({ width: 4, height: 28, key: "ted" + ei, modifier: Modifier.background(evtColor, { type: "pill" }) }),
           UI.Column({ modifier: Modifier.weight(1), key: "tec" + ei }, [
-            UI.Text({ text: evtText, fontSize: 13, color: C.txt, key: "tet" + ei }),
+            UI.Row({ spacing: 6, verticalAlignment: "center", key: "ter" + ei }, [
+              UI.Text({ text: CATEGORY_LABELS[evt.category] || "其他", fontSize: 10, color: evtColor, key: "tecat" + ei }),
+              UI.Text({ text: evtText, fontSize: 13, color: C.txt, key: "tet" + ei })
+            ]),
             evt.note ? UI.Text({ text: evt.note, fontSize: 11, color: C.sec, key: "ten" + ei }) : UI.Spacer({ height: 0, key: "tens" + ei })
           ])
         ]));
       }
     }
-    content.push(UI.Card({
-      containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
-      elevation: 0, fillMaxWidth: true, padding: 16, key: "tesc"
-    }, UI.Column({ spacing: 8 }, [
-      UI.Text({ text: "今日日程", fontSize: 15, fontWeight: "bold", color: C.txt, key: "testl" })
-    ].concat(evtItems))));
+    if (todayEvts.length > 0 || (todayEvts.length === 0 && todayCourses.length === 0)) {
+      content.push(UI.Card({
+        containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
+        elevation: 0, fillMaxWidth: true, padding: 16, key: "tesc"
+      }, UI.Column({ spacing: 8 }, [
+        UI.Text({ text: "今日日程", fontSize: 15, fontWeight: "bold", color: C.txt, key: "testl" })
+      ].concat(evtItems))));
+    }
 
-    // 添加日程按钮
-    content.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "asbtn",
-      modifier: Modifier.background(C.pri, { type: "pill" })
-        .clickable(function() { if (!selDay) setSelDay(TD); setPopup("addSchedule"); })
-    }, UI.Box({ padding: { top: 14, bottom: 14 }, key: "asbi" },
-      UI.Text({ text: "添加日程", fontSize: 15, fontWeight: "bold", color: C.white, key: "asbt" })
-    )));
+    // 两个操作按钮并排
+    content.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "scbr" }, [
+      UI.Box({
+        key: "clbtn", contentAlignment: "center",
+        modifier: Modifier.weight(1).background(C.priL, { type: "pill" })
+          .clickable(function() { setPopup("courseList"); })
+      }, UI.Box({ padding: { top: 14, bottom: 14 }, key: "clbi" },
+        UI.Text({ text: "课表管理", fontSize: 15, fontWeight: "bold", color: C.pri, key: "clbt" })
+      )),
+      UI.Box({
+        key: "asbtn", contentAlignment: "center",
+        modifier: Modifier.weight(1).background(C.pri, { type: "pill" })
+          .clickable(function() { if (!selDay) setSelDay(TD); setPopup("addSchedule"); })
+      }, UI.Box({ padding: { top: 14, bottom: 14 }, key: "asbi" },
+        UI.Text({ text: "添加日程", fontSize: 15, fontWeight: "bold", color: C.white, key: "asbt" })
+      ))
+    ]));
 
     return UI.Column({ spacing: 12, key: "scw" }, content);
   }
@@ -815,50 +984,50 @@ function Screen(ctx) {
     content.push(UI.Text({ text: "选择主题", fontSize: 18, fontWeight: "bold", color: C.txt, key: "stttl" }));
     content.push(UI.Spacer({ height: 8, key: "sts1" }));
 
-    // 内置主题
-    var themeKeys = Object.keys(THEMES);
+    // 内置+自定义主题（可滑动的行）
     var presetItems = [];
+    var themeKeys = Object.keys(THEMES);
     for (var tki = 0; tki < themeKeys.length; tki++) {
       (function(tk) {
         var t = THEMES[tk];
         var isOn = themeId === tk;
         presetItems.push(UI.Column({
-          horizontalAlignment: "center", spacing: 4, key: "tp" + tk,
-          modifier: Modifier.weight(1).clickable(function() { applyTheme(tk); })
+          horizontalAlignment: "center", spacing: 4, key: "tp" + tk, width: 80,
+          modifier: Modifier.clickable(function() { applyTheme(tk); })
         }, [
           UI.Box({
             width: 56, height: 56, contentAlignment: "center", key: "tpc" + tk,
             modifier: Modifier.background(t.acc, { type: "circle" })
               .border(isOn ? 3 : 0, isOn ? t.pri : "transparent", { type: "circle" })
-          }, UI.Box({
-            width: 28, height: 28, key: "tpi" + tk,
-            modifier: Modifier.background(t.pri, { type: "circle" })
-          })),
+          }, UI.Box({ width: 28, height: 28, key: "tpi" + tk, modifier: Modifier.background(t.pri, { type: "circle" }) })),
           UI.Text({ text: t.name, fontSize: 11, color: isOn ? C.pri : C.sec, fontWeight: isOn ? "bold" : "normal", key: "tpn" + tk })
         ]));
       })(themeKeys[tki]);
     }
-    // 自定义主题
-    for (var ci = 0; ci < customThemes.length; ci++) {
-      (function(ct) {
+    for (var ci2 = 0; ci2 < customThemes.length; ci2++) {
+      (function(ct, idx) {
         var isOn = themeId === ct.id;
         presetItems.push(UI.Column({
-          horizontalAlignment: "center", spacing: 4, key: "tc" + ci,
-          modifier: Modifier.weight(1).clickable(function() { applyTheme(ct.id); })
+          horizontalAlignment: "center", spacing: 4, key: "tc" + idx, width: 80,
+          modifier: Modifier.clickable(function() { applyTheme(ct.id); })
         }, [
           UI.Box({
-            width: 56, height: 56, contentAlignment: "center", key: "tcc" + ci,
+            width: 56, height: 56, contentAlignment: "center", key: "tcc" + idx,
             modifier: Modifier.background(ct.acc || "#DDD", { type: "circle" })
               .border(isOn ? 3 : 0, isOn ? (ct.pri || "#333") : "transparent", { type: "circle" })
-          }, UI.Box({ width: 28, height: 28, key: "tci" + ci, modifier: Modifier.background(ct.pri || "#333", { type: "circle" }) })),
-          UI.Text({ text: ct.name, fontSize: 11, color: isOn ? C.pri : C.sec, fontWeight: isOn ? "bold" : "normal", key: "tcn" + ci })
+          }, UI.Box({ width: 28, height: 28, key: "tci" + idx, modifier: Modifier.background(ct.pri || "#333", { type: "circle" }) })),
+          UI.Text({ text: ct.name, fontSize: 11, color: isOn ? C.pri : C.sec, fontWeight: isOn ? "bold" : "normal", key: "tcn" + idx }),
+          UI.Box({
+            key: "tcdel" + idx, contentAlignment: "center",
+            modifier: Modifier.clickable(function() { deleteCustomTheme(ct.id); })
+          }, UI.Text({ text: "删除", fontSize: 9, color: "#FF4444", key: "tcdt" + idx }))
         ]));
-      })(customThemes[ci]);
+      })(customThemes[ci2], ci2);
     }
     content.push(UI.Card({
       containerColor: C.card, shape: { type: "rounded", cornerRadius: 16 },
       elevation: 0, fillMaxWidth: true, padding: 16, key: "tpcard"
-    }, UI.Row({ fillMaxWidth: true, spacing: 12, horizontalArrangement: "center" }, presetItems)));
+    }, UI.Row({ fillMaxWidth: true, spacing: 12, horizontalArrangement: "start" }, presetItems)));
 
     content.push(UI.Spacer({ height: 12, key: "sts2" }));
 
@@ -875,17 +1044,16 @@ function Screen(ctx) {
         value: ctName, onValueChange: function(v) { setCtName(v); },
         placeholder: "主题名称", singleLine: true, fillMaxWidth: true, key: "ctntf"
       })),
-      // 4 color inputs
       buildColorInput("背景色", ctBg, setCtBg, "ctbg"),
       buildColorInput("主色", ctPri, setCtPri, "ctpr"),
       buildColorInput("辅色", ctSec, setCtSec, "ctsc"),
       buildColorInput("点缀色", ctAcc, setCtAcc, "ctac"),
       // 预览条
       UI.Row({ fillMaxWidth: true, spacing: 0, key: "ctpv" }, [
-        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctBg, { type: "rounded", cornerRadius: 0 }), key: "ctpv1" }),
-        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctPri, { type: "rounded", cornerRadius: 0 }), key: "ctpv2" }),
-        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctSec, { type: "rounded", cornerRadius: 0 }), key: "ctpv3" }),
-        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctAcc, { type: "rounded", cornerRadius: 0 }), key: "ctpv4" })
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctBg), key: "ctpv1" }),
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctPri), key: "ctpv2" }),
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctSec), key: "ctpv3" }),
+        UI.Box({ height: 24, modifier: Modifier.weight(1).background(ctAcc), key: "ctpv4" })
       ]),
       UI.Box({
         fillMaxWidth: true, contentAlignment: "center", key: "ctsb",
@@ -915,6 +1083,7 @@ function Screen(ctx) {
       UI.Box({
         width: 28, height: 28, key: k + "cv",
         modifier: Modifier.background(value, { type: "circle" }).border(1, C.brd, { type: "circle" })
+          .clickable(function() { setCpTarget(k); setPopup("colorPicker"); })
       })
     ]);
   }
@@ -933,7 +1102,6 @@ function Screen(ctx) {
     }, UI.Column({ spacing: 8, fillMaxWidth: true }, content))));
   }
 
-  // 关闭按钮
   function closeBtn(k) {
     return UI.Box({
       key: k, width: 28, height: 28, contentAlignment: "center",
@@ -947,7 +1115,6 @@ function Screen(ctx) {
     var ds = ms + "-" + String(selDay).padStart(2, "0");
     var c = [];
 
-    // 标题
     c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "dh" }, [
       UI.Text({ text: year + "." + String(month).padStart(2, "0") + "." + String(selDay).padStart(2, "0"), fontSize: 18, fontWeight: "bold", color: C.txt, key: "dd" }),
       closeBtn("dx")
@@ -961,7 +1128,7 @@ function Screen(ctx) {
         if (rec.user) {
           c.push(UI.Row({ spacing: 10, verticalAlignment: "center", key: "du" }, [
             UI.Image({ url: MOOD_ICONS_USER[rec.user.mood], contentDescription: MOOD_LABELS[rec.user.mood] || "", contentScale: "fit", width: 36, height: 36, key: "dui" }),
-            UI.Text({ text: "Iris：" + (MOOD_LABELS[rec.user.mood] || rec.user.mood), fontSize: 14, color: C.txt, key: "dum" })
+            UI.Text({ text: "我：" + (MOOD_LABELS[rec.user.mood] || rec.user.mood), fontSize: 14, color: C.txt, key: "dum" })
           ]));
           if (rec.user.note) {
             c.push(UI.Card({ containerColor: "#FFF5F0", shape: { type: "rounded", cornerRadius: 10 }, elevation: 0, fillMaxWidth: true, padding: 10, key: "dunc" },
@@ -972,7 +1139,7 @@ function Screen(ctx) {
           c.push(UI.Spacer({ height: 4, key: "ds2a" }));
           c.push(UI.Row({ spacing: 10, verticalAlignment: "center", key: "da" }, [
             UI.Image({ url: MOOD_ICONS_AI[rec.ai.mood], contentDescription: MOOD_LABELS[rec.ai.mood] || "", contentScale: "fit", width: 36, height: 36, key: "dai" }),
-            UI.Text({ text: "Claude：" + (MOOD_LABELS[rec.ai.mood] || rec.ai.mood), fontSize: 14, color: C.txt, key: "dam" })
+            UI.Text({ text: "TA：" + (MOOD_LABELS[rec.ai.mood] || rec.ai.mood), fontSize: 14, color: C.txt, key: "dam" })
           ]));
           if (rec.ai.note) {
             c.push(UI.Card({ containerColor: "#F0F5FF", shape: { type: "rounded", cornerRadius: 10 }, elevation: 0, fillMaxWidth: true, padding: 10, key: "danc" },
@@ -983,7 +1150,6 @@ function Screen(ctx) {
         c.push(UI.Text({ text: "这天还没有心情记录", fontSize: 13, color: C.light, key: "dnr" }));
       }
       c.push(UI.Spacer({ height: 8, key: "ds3" }));
-      // 操作按钮
       var mBtns = [
         UI.Box({
           key: "drb", contentAlignment: "center",
@@ -1014,15 +1180,13 @@ function Screen(ctx) {
         if (ds >= pp.start_date && ds <= ppEnd) { isPer = true; break; }
       }
 
-      // 阶段
       if (phaseInfo) {
         c.push(UI.Row({ spacing: 6, verticalAlignment: "center", key: "dphi" }, [
           UI.Box({ width: 8, height: 8, key: "dphd", modifier: Modifier.background(phaseInfo.color, { type: "circle" }) }),
-          UI.Text({ text: phaseInfo.label, fontSize: 14, fontWeight: "bold", color: phaseInfo.color, key: "dph" })
+          UI.Text({ text: phaseInfo.label + (phaseInfo.predicted ? "（预测）" : ""), fontSize: 14, fontWeight: "bold", color: phaseInfo.color, key: "dph" })
         ]));
       }
 
-      // 经期详情
       if (pdRec) {
         c.push(UI.Spacer({ height: 4, key: "dspd" }));
         c.push(UI.Text({ text: "经期详情", fontSize: 12, color: C.light, key: "pdlbl" }));
@@ -1051,7 +1215,6 @@ function Screen(ctx) {
         if (pdRec.note) c.push(UI.Text({ text: "备注：" + pdRec.note, fontSize: 11, color: C.sec, key: "pdni" }));
       }
 
-      // 生病记录
       if (sickRec) {
         c.push(UI.Spacer({ height: 4, key: "dssk" }));
         c.push(UI.Card({
@@ -1064,7 +1227,7 @@ function Screen(ctx) {
       }
 
       c.push(UI.Spacer({ height: 8, key: "ds5" }));
-      // 操作按钮
+      // 经期操作按钮
       var pBtns = [];
       pBtns.push(UI.Box({
         key: "dps", contentAlignment: "center",
@@ -1095,6 +1258,15 @@ function Screen(ctx) {
           UI.Text({ text: "删除标记", fontSize: 11, color: "#FF4444", key: "dpdt" })
         )));
       }
+      // 经期详情删除按钮
+      if (pdRec) {
+        pBtns2.push(UI.Box({
+          key: "dpdel", contentAlignment: "center",
+          modifier: Modifier.weight(1).background("#FFEBEE", { type: "pill" }).clickable(deletePdtAsync)
+        }, UI.Box({ padding: { top: 8, bottom: 8 }, key: "dpdeli" },
+          UI.Text({ text: "删除详情", fontSize: 11, color: "#FF4444", key: "dpdelt" })
+        )));
+      }
       c.push(UI.Spacer({ height: 4, key: "ds6" }));
       c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "dacts2" }, pBtns2));
 
@@ -1122,6 +1294,7 @@ function Screen(ctx) {
       // ---- 日程 tab 详情 ----
       var annInfo = getAnnForDay(selDay);
       var dayEvts = schedData.events && schedData.events[ds] ? schedData.events[ds] : [];
+      var dayCrs = getCoursesForDate(ds);
 
       if (annInfo) {
         c.push(UI.Card({
@@ -1131,17 +1304,41 @@ function Screen(ctx) {
         c.push(UI.Spacer({ height: 4, key: "dsann" }));
       }
 
-      if (dayEvts.length === 0) {
+      // 当天课程
+      if (dayCrs.length > 0) {
+        for (var dci = 0; dci < dayCrs.length; dci++) {
+          var dcr = dayCrs[dci];
+          c.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "dcri" + dci }, [
+            UI.Box({ width: 4, height: 30, key: "dcrd" + dci, modifier: Modifier.background(C.acc, { type: "pill" }) }),
+            UI.Column({ modifier: Modifier.weight(1), key: "dcrc" + dci }, [
+              UI.Text({ text: dcr.name + "  第" + dcr.start_period + "-" + dcr.end_period + "节", fontSize: 13, color: C.txt, key: "dcrn" + dci }),
+              dcr.location ? UI.Text({ text: dcr.location + (dcr.teacher ? " · " + dcr.teacher : ""), fontSize: 11, color: C.sec, key: "dcrl" + dci }) : UI.Spacer({ height: 0, key: "dcrls" + dci })
+            ])
+          ]));
+        }
+        c.push(UI.Spacer({ height: 4, key: "dcrspc" }));
+      }
+
+      if (dayEvts.length === 0 && dayCrs.length === 0 && !annInfo) {
         c.push(UI.Text({ text: "这天没有日程安排", fontSize: 13, color: C.light, key: "dne" }));
       } else {
         for (var dei = 0; dei < dayEvts.length; dei++) {
           (function(evt, idx) {
+            var evtColor = CATEGORY_COLORS[evt.category] || CATEGORY_COLORS.other;
             var evtInfo = evt.title;
             if (evt.start_time) evtInfo += "  " + evt.start_time + (evt.end_time ? "-" + evt.end_time : "");
             c.push(UI.Row({ spacing: 8, fillMaxWidth: true, verticalAlignment: "center", key: "dei" + idx }, [
-              UI.Box({ width: 4, height: 30, key: "ded" + idx, modifier: Modifier.background(C.pri, { type: "pill" }) }),
+              UI.Box({ width: 4, height: 30, key: "ded" + idx, modifier: Modifier.background(evtColor, { type: "pill" }) }),
               UI.Column({ modifier: Modifier.weight(1), key: "dec" + idx }, [
-                UI.Text({ text: evtInfo, fontSize: 13, color: C.txt, key: "det" + idx }),
+                UI.Row({ spacing: 6, verticalAlignment: "center", key: "decr" + idx }, [
+                  UI.Box({
+                    key: "decc" + idx, contentAlignment: "center",
+                    modifier: Modifier.background(evtColor + "22", { type: "pill" })
+                  }, UI.Box({ padding: { start: 6, end: 6, top: 2, bottom: 2 }, key: "decci" + idx },
+                    UI.Text({ text: CATEGORY_LABELS[evt.category] || "其他", fontSize: 9, color: evtColor, key: "decct" + idx })
+                  )),
+                  UI.Text({ text: evtInfo, fontSize: 13, color: C.txt, key: "det" + idx })
+                ]),
                 evt.location ? UI.Text({ text: evt.location, fontSize: 11, color: C.sec, key: "del" + idx }) : UI.Spacer({ height: 0, key: "dels" + idx }),
                 evt.note ? UI.Text({ text: evt.note, fontSize: 11, color: C.sec, key: "den" + idx }) : UI.Spacer({ height: 0, key: "dens" + idx })
               ]),
@@ -1163,7 +1360,6 @@ function Screen(ctx) {
       )));
     }
 
-    // 关闭
     c.push(UI.Spacer({ height: 4, key: "ds9" }));
     c.push(UI.Box({
       fillMaxWidth: true, contentAlignment: "center", key: "dcb",
@@ -1187,7 +1383,6 @@ function Screen(ctx) {
     c.push(UI.Text({ text: year + "年" + month + "月" + targetDay + "日", fontSize: 12, color: C.sec, key: "rs" }));
     c.push(UI.Spacer({ height: 12, key: "rs1" }));
 
-    // 2x4 心情网格
     for (var row = 0; row < 2; row++) {
       var rowItems = [];
       for (var col = 0; col < 4; col++) {
@@ -1306,7 +1501,7 @@ function Screen(ctx) {
     c.push(UI.Spacer({ height: 6, key: "pd4" }));
     var colorKeys = ["bright_red", "dark_red", "brown", "pink"];
     var colorChips = [];
-    for (var ci2 = 0; ci2 < colorKeys.length; ci2++) {
+    for (var ci3 = 0; ci3 < colorKeys.length; ci3++) {
       (function(ck) {
         var sel = pdColor === ck;
         colorChips.push(UI.Column({
@@ -1321,7 +1516,7 @@ function Screen(ctx) {
           UI.Text({ text: COLOR_LABELS[ck], fontSize: 10, color: sel ? COLOR_HEX[ck] : C.sec, key: "clt" + ck }),
           UI.Spacer({ height: 4, key: "cle" + ck })
         ]));
-      })(colorKeys[ci2]);
+      })(colorKeys[ci3]);
     }
     c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "clr" }, colorChips));
     c.push(UI.Spacer({ height: 12, key: "pd5" }));
@@ -1386,12 +1581,21 @@ function Screen(ctx) {
     })));
     c.push(UI.Spacer({ height: 12, key: "pd11" }));
 
-    c.push(UI.Box({
-      fillMaxWidth: true, contentAlignment: "center", key: "pdsb",
-      modifier: Modifier.background(C.pri, { type: "pill" }).clickable(savePeriodDetail)
-    }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "pdsbi" },
-      UI.Text({ text: "保存详情", fontSize: 14, fontWeight: "bold", color: C.white, key: "pdsbt" })
-    )));
+    // 保存 + 删除按钮
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 8, key: "pdbtnr" }, [
+      UI.Box({
+        key: "pdsb", contentAlignment: "center",
+        modifier: Modifier.weight(1).background(C.pri, { type: "pill" }).clickable(savePeriodDetail)
+      }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "pdsbi" },
+        UI.Text({ text: "保存详情", fontSize: 14, fontWeight: "bold", color: C.white, key: "pdsbt" })
+      )),
+      UI.Box({
+        key: "pddelb", contentAlignment: "center",
+        modifier: Modifier.weight(1).background("#FFEBEE", { type: "pill" }).clickable(deletePdtAsync)
+      }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "pddelbi" },
+        UI.Text({ text: "删除记录", fontSize: 14, fontWeight: "bold", color: "#FF4444", key: "pddelbt" })
+      ))
+    ]));
     c.push(UI.Spacer({ height: 6, key: "pd12" }));
     c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "pdcb", modifier: Modifier.clickable(close) },
       UI.Box({ padding: { top: 8, bottom: 8 }, key: "pdcbi" },
@@ -1400,7 +1604,7 @@ function Screen(ctx) {
     return overlayWrap(c, "pdl");
   }
 
-  // ---- 添加日程弹窗 ----
+  // ---- 添加日程弹窗（含分类）----
   function popAddSchedule() {
     if (popup !== "addSchedule") return null;
     var targetDay = selDay || TD;
@@ -1420,6 +1624,29 @@ function Screen(ctx) {
       value: schTitle, onValueChange: function(v) { setSchTitle(v); },
       placeholder: "例：考试、聚会、约会...", singleLine: true, fillMaxWidth: true, key: "astttf"
     })));
+    c.push(UI.Spacer({ height: 8, key: "as1b" }));
+
+    // 分类选择
+    c.push(UI.Text({ text: "分类", fontSize: 13, fontWeight: "bold", color: C.txt, key: "ascatl" }));
+    c.push(UI.Spacer({ height: 4, key: "as1c" }));
+    var catRow1 = [], catRow2 = [];
+    for (var sci = 0; sci < SCHEDULE_CATEGORIES.length; sci++) {
+      (function(cat) {
+        var sel = schCat === cat;
+        var chip = UI.Box({
+          key: "scc" + cat, contentAlignment: "center",
+          modifier: Modifier.weight(1)
+            .background(sel ? CATEGORY_COLORS[cat] : "#F5F0EE", { type: "pill" })
+            .clickable(function() { setSchCat(cat); })
+        }, UI.Box({ padding: { top: 6, bottom: 6 }, key: "scci" + cat },
+          UI.Text({ text: CATEGORY_LABELS[cat], fontSize: 10, color: sel ? "#FFF" : C.txt, key: "scct" + cat })
+        ));
+        if (sci < 4) catRow1.push(chip); else catRow2.push(chip);
+      })(SCHEDULE_CATEGORIES[sci]);
+    }
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 4, key: "scr1" }, catRow1));
+    c.push(UI.Spacer({ height: 4, key: "as1d" }));
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 4, key: "scr2" }, catRow2));
     c.push(UI.Spacer({ height: 8, key: "as2" }));
 
     // 日期
@@ -1489,6 +1716,263 @@ function Screen(ctx) {
         UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "ascbt" })
     )));
     return overlayWrap(c, "asc");
+  }
+
+  // ---- 课表管理弹窗 ----
+  function popCourseList() {
+    if (popup !== "courseList") return null;
+    var c = [];
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "clth" }, [
+      UI.Text({ text: "我的课表", fontSize: 18, fontWeight: "bold", color: C.txt, key: "cltt" }),
+      closeBtn("clx")
+    ]));
+    c.push(UI.Spacer({ height: 12, key: "cl1" }));
+
+    // 学期开始
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 10, verticalAlignment: "center", key: "clsr" }, [
+      UI.Text({ text: "学期开始", fontSize: 13, fontWeight: "bold", color: C.txt, key: "clsl" }),
+      UI.Card({
+        containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+        elevation: 0, key: "clsfc"
+      }, UI.Box({ width: 140, key: "clsfw" },
+        UI.TextField({
+          value: semStart, onValueChange: function(v) { setSemStart(v); },
+          placeholder: "YYYY-MM-DD", singleLine: true, key: "clstf"
+        })
+      )),
+      UI.Box({
+        key: "clssv", contentAlignment: "center",
+        modifier: Modifier.background(C.priL, { type: "pill" }).clickable(saveSemesterStart)
+      }, UI.Box({ padding: { start: 10, end: 10, top: 6, bottom: 6 }, key: "clssi" },
+        UI.Text({ text: "保存", fontSize: 11, color: C.pri, key: "clsst" })
+      ))
+    ]));
+    c.push(UI.Spacer({ height: 12, key: "cl2" }));
+
+    // 课程列表
+    if (courseData.courses.length === 0) {
+      c.push(UI.Text({ text: "还没有添加课程", fontSize: 13, color: C.light, key: "clne" }));
+    } else {
+      var dayLabels = ["", "一", "二", "三", "四", "五", "六", "日"];
+      var wtLabels = { all: "每周", odd: "单周", even: "双周" };
+      for (var cli = 0; cli < courseData.courses.length; cli++) {
+        (function(cr, idx) {
+          c.push(UI.Card({
+            containerColor: C.priL, shape: { type: "rounded", cornerRadius: 10 },
+            elevation: 0, fillMaxWidth: true, padding: 10, key: "crci" + idx
+          }, UI.Row({ fillMaxWidth: true, spacing: 8, verticalAlignment: "center", key: "crcr" + idx }, [
+            UI.Column({ modifier: Modifier.weight(1), key: "crcc" + idx }, [
+              UI.Text({ text: cr.name, fontSize: 13, fontWeight: "bold", color: C.txt, key: "crcn" + idx }),
+              UI.Text({
+                text: "星期" + dayLabels[cr.day] + " 第" + cr.start_period + "-" + cr.end_period + "节 " + wtLabels[cr.week_type || "all"] + " 第" + cr.week_start + "-" + cr.week_end + "周",
+                fontSize: 11, color: C.sec, key: "crci2" + idx
+              }),
+              (cr.location || cr.teacher) ? UI.Text({
+                text: (cr.location || "") + (cr.teacher ? " · " + cr.teacher : ""),
+                fontSize: 11, color: C.sec, key: "crcl" + idx
+              }) : UI.Spacer({ height: 0, key: "crcls" + idx })
+            ]),
+            UI.Box({
+              key: "crcd" + idx, width: 24, height: 24, contentAlignment: "center",
+              modifier: Modifier.background("#FFEBEE", { type: "circle" }).clickable(function() { deleteCourseById(cr.id); })
+            }, UI.Text({ text: "x", fontSize: 11, color: "#FF4444", key: "crcdt" + idx }))
+          ])));
+        })(courseData.courses[cli], cli);
+        if (cli < courseData.courses.length - 1) c.push(UI.Spacer({ height: 6, key: "crsp" + cli }));
+      }
+    }
+
+    c.push(UI.Spacer({ height: 12, key: "cl3" }));
+    c.push(UI.Box({
+      fillMaxWidth: true, contentAlignment: "center", key: "clac",
+      modifier: Modifier.background(C.pri, { type: "pill" }).clickable(function() { setPopup("addCourse"); })
+    }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "claci" },
+      UI.Text({ text: "+ 添加课程", fontSize: 14, fontWeight: "bold", color: C.white, key: "clact" })
+    )));
+    c.push(UI.Spacer({ height: 6, key: "cl4" }));
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "clcb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "clcbi" },
+        UI.Text({ text: "关闭", fontSize: 13, color: C.sec, key: "clcbt" })
+    )));
+    return overlayWrap(c, "cl");
+  }
+
+  // ---- 添加课程弹窗 ----
+  function popAddCourse() {
+    if (popup !== "addCourse") return null;
+    var c = [];
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "acth" }, [
+      UI.Text({ text: "添加课程", fontSize: 18, fontWeight: "bold", color: C.txt, key: "actt" }),
+      closeBtn("acx")
+    ]));
+    c.push(UI.Spacer({ height: 12, key: "ac1" }));
+
+    // 课程名称
+    c.push(UI.Text({ text: "课程名称", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acnl" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "acnfc"
+    }, UI.TextField({
+      value: crName, onValueChange: function(v) { setCrName(v); },
+      placeholder: "例：数据新闻与信息可视化", singleLine: true, fillMaxWidth: true, key: "acntf"
+    })));
+    c.push(UI.Spacer({ height: 8, key: "ac2" }));
+
+    // 星期选择
+    c.push(UI.Text({ text: "星期", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acdl" }));
+    c.push(UI.Spacer({ height: 4, key: "ac2b" }));
+    var dayChips = [];
+    var dayNames = ["一", "二", "三", "四", "五", "六", "日"];
+    for (var di = 0; di < 7; di++) {
+      (function(dayIdx) {
+        var sel = crDay === (dayIdx + 1);
+        dayChips.push(UI.Box({
+          key: "acd" + dayIdx, width: 38, height: 38, contentAlignment: "center",
+          modifier: Modifier.background(sel ? C.pri : "#F5F0EE", { type: "circle" })
+            .clickable(function() { setCrDay(dayIdx + 1); })
+        }, UI.Text({ text: dayNames[dayIdx], fontSize: 12, color: sel ? "#FFF" : C.txt, key: "acdt" + dayIdx })));
+      })(di);
+    }
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 4, horizontalArrangement: "center", key: "acdr" }, dayChips));
+    c.push(UI.Spacer({ height: 8, key: "ac3" }));
+
+    // 节次
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "acpr" }, [
+      UI.Column({ modifier: Modifier.weight(1), key: "acspc" }, [
+        UI.Text({ text: "节次", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acspl" }),
+        UI.Row({ spacing: 6, verticalAlignment: "center", key: "acspr" }, [
+          UI.Card({
+            containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+            elevation: 0, key: "acspfc"
+          }, UI.Box({ width: 50, key: "acspfw" },
+            UI.TextField({ value: crSp, onValueChange: function(v) { setCrSp(v); }, placeholder: "起", singleLine: true, key: "acsptf" })
+          )),
+          UI.Card({
+            containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+            elevation: 0, key: "acepfc"
+          }, UI.Box({ width: 50, key: "acepfw" },
+            UI.TextField({ value: crEp, onValueChange: function(v) { setCrEp(v); }, placeholder: "止", singleLine: true, key: "aceptf" })
+          ))
+        ])
+      ])
+    ]));
+    c.push(UI.Spacer({ height: 8, key: "ac4" }));
+
+    // 周数
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "acwr" }, [
+      UI.Column({ modifier: Modifier.weight(1), key: "acwsc" }, [
+        UI.Text({ text: "周数起", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acwsl" }),
+        UI.Card({
+          containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+          elevation: 0, fillMaxWidth: true, key: "acwsfc"
+        }, UI.TextField({ value: crWs, onValueChange: function(v) { setCrWs(v); }, singleLine: true, fillMaxWidth: true, key: "acwstf" }))
+      ]),
+      UI.Column({ modifier: Modifier.weight(1), key: "acwec" }, [
+        UI.Text({ text: "周数止", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acwel" }),
+        UI.Card({
+          containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+          elevation: 0, fillMaxWidth: true, key: "acwefc"
+        }, UI.TextField({ value: crWe, onValueChange: function(v) { setCrWe(v); }, singleLine: true, fillMaxWidth: true, key: "acwetf" }))
+      ])
+    ]));
+    c.push(UI.Spacer({ height: 8, key: "ac5" }));
+
+    // 周类型（每周/单周/双周）
+    var wtChips = [];
+    var wtOpts = [["all", "每周"], ["odd", "单周"], ["even", "双周"]];
+    for (var wti = 0; wti < wtOpts.length; wti++) {
+      (function(wk, wl) {
+        var sel = crWt === wk;
+        wtChips.push(UI.Box({
+          key: "acwt" + wk, contentAlignment: "center",
+          modifier: Modifier.weight(1).background(sel ? C.pri : "#F5F0EE", { type: "pill" })
+            .clickable(function() { setCrWt(wk); })
+        }, UI.Box({ padding: { top: 6, bottom: 6 }, key: "acwti" + wk },
+          UI.Text({ text: wl, fontSize: 12, color: sel ? "#FFF" : C.txt, key: "acwtt" + wk })
+        )));
+      })(wtOpts[wti][0], wtOpts[wti][1]);
+    }
+    c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "acwtr" }, wtChips));
+    c.push(UI.Spacer({ height: 8, key: "ac6" }));
+
+    // 教室/地点
+    c.push(UI.Text({ text: "教室/地点", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acll" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "aclfc"
+    }, UI.TextField({
+      value: crLoc, onValueChange: function(v) { setCrLoc(v); },
+      placeholder: "例：文渊楼411", singleLine: true, fillMaxWidth: true, key: "acltf"
+    })));
+    c.push(UI.Spacer({ height: 8, key: "ac7" }));
+
+    // 教师
+    c.push(UI.Text({ text: "教师", fontSize: 13, fontWeight: "bold", color: C.txt, key: "actl" }));
+    c.push(UI.Card({
+      containerColor: "#FAFAFA", shape: { type: "rounded", cornerRadius: 10 },
+      elevation: 0, fillMaxWidth: true, border: { width: 1, color: C.brd }, key: "actfc"
+    }, UI.TextField({
+      value: crTch, onValueChange: function(v) { setCrTch(v); },
+      placeholder: "选填", singleLine: true, fillMaxWidth: true, key: "acttf"
+    })));
+    c.push(UI.Spacer({ height: 12, key: "ac8" }));
+
+    c.push(UI.Box({
+      fillMaxWidth: true, contentAlignment: "center", key: "acsb",
+      modifier: Modifier.background(crName && crName.trim() ? C.pri : C.light, { type: "pill" }).clickable(saveCourse)
+    }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "acsbi" },
+      UI.Text({ text: "保存课程", fontSize: 14, fontWeight: "bold", color: C.white, key: "acsbt" })
+    )));
+    c.push(UI.Spacer({ height: 6, key: "ac9" }));
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "accb", modifier: Modifier.clickable(function() { setPopup("courseList"); }) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "accbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "accbt" })
+    )));
+    return overlayWrap(c, "ac");
+  }
+
+  // ---- 取色器弹窗 ----
+  function popColorPicker() {
+    if (popup !== "colorPicker" || !cpTarget) return null;
+    var c = [];
+    c.push(UI.Row({ fillMaxWidth: true, horizontalArrangement: "spaceBetween", verticalAlignment: "center", key: "cpth" }, [
+      UI.Text({ text: "选择颜色", fontSize: 18, fontWeight: "bold", color: C.txt, key: "cptt" }),
+      closeBtn("cpx")
+    ]));
+    c.push(UI.Spacer({ height: 12, key: "cp1" }));
+
+    // 颜色网格 6x6
+    for (var crow = 0; crow < 6; crow++) {
+      var rowItems = [];
+      for (var ccol = 0; ccol < 6; ccol++) {
+        var cidx = crow * 6 + ccol;
+        if (cidx < COLOR_PALETTE.length) {
+          (function(hex) {
+            rowItems.push(UI.Box({
+              key: "cpc" + cidx, width: 40, height: 40, contentAlignment: "center",
+              modifier: Modifier.background(hex, { type: "rounded", cornerRadius: 8 })
+                .border(1, "#E0E0E0", { type: "rounded", cornerRadius: 8 })
+                .clickable(function() {
+                  if (cpTarget === "ctbg") setCtBg(hex);
+                  else if (cpTarget === "ctpr") setCtPri(hex);
+                  else if (cpTarget === "ctsc") setCtSec(hex);
+                  else if (cpTarget === "ctac") setCtAcc(hex);
+                  setCpTarget(""); setPopup("");
+                })
+            }));
+          })(COLOR_PALETTE[cidx]);
+        }
+      }
+      c.push(UI.Row({ fillMaxWidth: true, spacing: 6, horizontalArrangement: "center", key: "cpr" + crow }, rowItems));
+      if (crow < 5) c.push(UI.Spacer({ height: 4, key: "cprs" + crow }));
+    }
+
+    c.push(UI.Spacer({ height: 8, key: "cp2" }));
+    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "cpcb", modifier: Modifier.clickable(close) },
+      UI.Box({ padding: { top: 8, bottom: 8 }, key: "cpcbi" },
+        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "cpcbt" })
+    )));
+    return overlayWrap(c, "cp");
   }
 
   // ---- 年月选择弹窗 ----
@@ -1604,13 +2088,11 @@ function Screen(ctx) {
   // ==================== 组装 ====================
   var mainItems = [tabBar];
 
-  // 设置 tab 不需要日历
   if (tab < 3) {
     mainItems.push(buildCalendarCard());
     mainItems.push(buildLegend());
   }
 
-  // 各 tab 专属内容
   mainItems.push(buildRecordBtn());
   mainItems.push(buildStats());
   mainItems.push(buildPeriodInfo());
@@ -1623,7 +2105,9 @@ function Screen(ctx) {
     onLoad: async function() { if (!dataLoaded) await loadAllData(); }
   }, mainItems);
 
-  var activePopup = popDetail() || popRecord() || popRecordSick() || popPeriodDetail() || popAddSchedule() || popPicker() || popSettings();
+  var activePopup = popDetail() || popRecord() || popRecordSick() || popPeriodDetail()
+    || popAddSchedule() || popCourseList() || popAddCourse() || popColorPicker()
+    || popPicker() || popSettings();
   if (activePopup) {
     return UI.Box({ fillMaxSize: true, key: "root" }, [mainContent, activePopup]);
   }
