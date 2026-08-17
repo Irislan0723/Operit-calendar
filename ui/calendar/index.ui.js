@@ -1089,17 +1089,24 @@ function Screen(ctx) {
   }
 
   // ==================== 弹窗系统 ====================
-  function overlayWrap(content, key) {
+  function overlayWrap(content, key, scrollable) {
+    var inner;
+    if (scrollable) {
+      inner = UI.LazyColumn({ spacing: 6, fillMaxWidth: true, fillMaxSize: true, key: key + "_sc" }, content);
+    } else {
+      inner = UI.Column({ spacing: 8, fillMaxWidth: true }, content);
+    }
     return UI.Box({
       fillMaxSize: true, contentAlignment: "bottomCenter", key: key + "_ov",
       modifier: Modifier.background(C.overlay).clickable(close)
     }, UI.Box({
-      fillMaxWidth: true, padding: { start: 12, end: 12, bottom: 12 }, key: key + "_pw"
+      fillMaxWidth: true, padding: { start: 12, end: 12, bottom: 12 }, key: key + "_pw",
+      modifier: scrollable ? Modifier.fillMaxHeight(0.88) : Modifier
     }, UI.Card({
       containerColor: C.card, shape: { type: "rounded", cornerRadius: 24 },
-      elevation: 8, fillMaxWidth: true, padding: 24, key: key + "_c",
-      modifier: Modifier.clickable(function() {})
-    }, UI.Column({ spacing: 8, fillMaxWidth: true }, content))));
+      elevation: 8, fillMaxWidth: true, padding: scrollable ? 20 : 24, key: key + "_c",
+      modifier: scrollable ? Modifier.fillMaxSize(1).clickable(function() {}) : Modifier.clickable(function() {})
+    }, inner)));
   }
 
   function closeBtn(k) {
@@ -1596,12 +1603,7 @@ function Screen(ctx) {
         UI.Text({ text: "删除记录", fontSize: 14, fontWeight: "bold", color: "#FF4444", key: "pddelbt" })
       ))
     ]));
-    c.push(UI.Spacer({ height: 6, key: "pd12" }));
-    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "pdcb", modifier: Modifier.clickable(close) },
-      UI.Box({ padding: { top: 8, bottom: 8 }, key: "pdcbi" },
-        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "pdcbt" })
-    )));
-    return overlayWrap(c, "pdl");
+    return overlayWrap(c, "pdl", true);
   }
 
   // ---- 添加日程弹窗（含分类）----
@@ -1710,12 +1712,7 @@ function Screen(ctx) {
     }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "assbi" },
       UI.Text({ text: "保存日程", fontSize: 14, fontWeight: "bold", color: C.white, key: "assbt" })
     )));
-    c.push(UI.Spacer({ height: 6, key: "as7" }));
-    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "ascb", modifier: Modifier.clickable(close) },
-      UI.Box({ padding: { top: 8, bottom: 8 }, key: "ascbi" },
-        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "ascbt" })
-    )));
-    return overlayWrap(c, "asc");
+    return overlayWrap(c, "asc", true);
   }
 
   // ---- 课表管理弹窗 ----
@@ -1816,11 +1813,10 @@ function Screen(ctx) {
       value: crName, onValueChange: function(v) { setCrName(v); },
       placeholder: "例：数据新闻与信息可视化", singleLine: true, fillMaxWidth: true, key: "acntf"
     })));
-    c.push(UI.Spacer({ height: 8, key: "ac2" }));
+    c.push(UI.Spacer({ height: 6, key: "ac2" }));
 
     // 星期选择
     c.push(UI.Text({ text: "星期", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acdl" }));
-    c.push(UI.Spacer({ height: 4, key: "ac2b" }));
     var dayChips = [];
     var dayNames = ["一", "二", "三", "四", "五", "六", "日"];
     for (var di = 0; di < 7; di++) {
@@ -1834,7 +1830,7 @@ function Screen(ctx) {
       })(di);
     }
     c.push(UI.Row({ fillMaxWidth: true, spacing: 4, horizontalArrangement: "center", key: "acdr" }, dayChips));
-    c.push(UI.Spacer({ height: 8, key: "ac3" }));
+    c.push(UI.Spacer({ height: 6, key: "ac3" }));
 
     // 节次
     c.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "acpr" }, [
@@ -1856,7 +1852,7 @@ function Screen(ctx) {
         ])
       ])
     ]));
-    c.push(UI.Spacer({ height: 8, key: "ac4" }));
+    c.push(UI.Spacer({ height: 6, key: "ac4" }));
 
     // 周数
     c.push(UI.Row({ fillMaxWidth: true, spacing: 10, key: "acwr" }, [
@@ -1875,7 +1871,7 @@ function Screen(ctx) {
         }, UI.TextField({ value: crWe, onValueChange: function(v) { setCrWe(v); }, singleLine: true, fillMaxWidth: true, key: "acwetf" }))
       ])
     ]));
-    c.push(UI.Spacer({ height: 8, key: "ac5" }));
+    c.push(UI.Spacer({ height: 6, key: "ac5" }));
 
     // 周类型（每周/单周/双周）
     var wtChips = [];
@@ -1893,7 +1889,7 @@ function Screen(ctx) {
       })(wtOpts[wti][0], wtOpts[wti][1]);
     }
     c.push(UI.Row({ fillMaxWidth: true, spacing: 6, key: "acwtr" }, wtChips));
-    c.push(UI.Spacer({ height: 8, key: "ac6" }));
+    c.push(UI.Spacer({ height: 6, key: "ac6" }));
 
     // 教室/地点
     c.push(UI.Text({ text: "教室/地点", fontSize: 13, fontWeight: "bold", color: C.txt, key: "acll" }));
@@ -1904,7 +1900,7 @@ function Screen(ctx) {
       value: crLoc, onValueChange: function(v) { setCrLoc(v); },
       placeholder: "例：文渊楼411", singleLine: true, fillMaxWidth: true, key: "acltf"
     })));
-    c.push(UI.Spacer({ height: 8, key: "ac7" }));
+    c.push(UI.Spacer({ height: 6, key: "ac7" }));
 
     // 教师
     c.push(UI.Text({ text: "教师", fontSize: 13, fontWeight: "bold", color: C.txt, key: "actl" }));
@@ -1915,7 +1911,7 @@ function Screen(ctx) {
       value: crTch, onValueChange: function(v) { setCrTch(v); },
       placeholder: "选填", singleLine: true, fillMaxWidth: true, key: "acttf"
     })));
-    c.push(UI.Spacer({ height: 12, key: "ac8" }));
+    c.push(UI.Spacer({ height: 10, key: "ac8" }));
 
     c.push(UI.Box({
       fillMaxWidth: true, contentAlignment: "center", key: "acsb",
@@ -1923,12 +1919,7 @@ function Screen(ctx) {
     }, UI.Box({ padding: { top: 12, bottom: 12 }, key: "acsbi" },
       UI.Text({ text: "保存课程", fontSize: 14, fontWeight: "bold", color: C.white, key: "acsbt" })
     )));
-    c.push(UI.Spacer({ height: 6, key: "ac9" }));
-    c.push(UI.Box({ fillMaxWidth: true, contentAlignment: "center", key: "accb", modifier: Modifier.clickable(function() { setPopup("courseList"); }) },
-      UI.Box({ padding: { top: 8, bottom: 8 }, key: "accbi" },
-        UI.Text({ text: "取消", fontSize: 13, color: C.sec, key: "accbt" })
-    )));
-    return overlayWrap(c, "ac");
+    return overlayWrap(c, "ac", true);
   }
 
   // ---- 取色器弹窗 ----
